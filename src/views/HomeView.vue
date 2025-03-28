@@ -4,6 +4,7 @@ import TheWelcome from '../components/TheWelcome.vue'
 
 <template>
   <main>
+    <CodeBlock lang="javascript">console.log('Hello, World!')</CodeBlock>
     <TheWelcome />
   </main>
 </template>
