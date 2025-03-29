@@ -1,0 +1,50 @@
+code[lang="overpy"] {
+
+    color: #D4D4D4;
+
+    .keyword {
+        color: #C586C0;
+    }
+    .operator {
+        color: #569cd6;
+    }
+    .variable {
+        color: #9CDCFE;
+    }
+    .annotation {
+        color: #d16969;
+    }
+    .annotationArg {
+        color: #6796e6;
+    }
+    .number {
+        color: #b5cea8;
+    }
+    .label {
+        color: #4EC9B0;
+    }
+    .string {
+        color: #ce9178;
+    }
+    .escape {
+        color: #d7ba7d;
+    }
+    .comment {
+        color: #6A9955;
+    }
+    .macro {
+        color: #569cd6;
+    }
+    .enum {
+        color: #4FC1FF;
+    }
+    .function {
+        color: #DCDCAA;
+    }
+    .class {
+        color: #d7ba7d;
+    }
+    .stringModifier {
+        color: #9CDCFE;
+    }
+}
