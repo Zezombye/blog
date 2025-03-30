@@ -1,6 +1,6 @@
-<template>
-    <pre><CodeLine v-bind="$attrs"><slot></slot></CodeLine></pre>
-</template>
+<!-- Code Block -->
+
+<template><pre><c v-bind="$attrs"><slot></slot></c></pre></template>
 
 <style scoped>
 pre {

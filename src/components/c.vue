@@ -1,13 +1,12 @@
+<!-- Code (inline or block) -->
+
 <template>
-    <div ref="slotContainer" v-show="false">
-        <slot></slot>
-    </div>
-    <code v-html="renderedCode" v-bind="$attrs" :lang="props.lang"></code>
+    <code v-html="renderedCode" v-bind="$attrs" :lang="language"></code>
 </template>
 
 <script setup>
 
-import { useSlots, ref, onMounted, computed } from 'vue'
+import { useSlots, ref, onMounted, computed, inject } from 'vue'
 
 const props = defineProps({
     lang: {
@@ -15,6 +14,8 @@ const props = defineProps({
         default: 'javascript',
     },
 })
+
+const language = inject("codeLang", props.lang)
 
 const slots = useSlots()
 
@@ -30,7 +31,7 @@ const renderedCode = computed(() => {
     content = content.trim()
     console.log(content)
 
-    return Prism.highlight(content, Prism.languages[props.lang], props.lang)
+    return Prism.highlight(content, Prism.languages[language], language)
 })
 
 </script>

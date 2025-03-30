@@ -6,18 +6,23 @@ import router from "./router";
 import Prism from "prismjs";
 import "prismjs/themes/prism-twilight.css";
 
+const components = import.meta.glob("./components/*.vue", { eager: true });
+
 const app = createApp(App);
+app.config.globalProperties.Prism = Prism;
 
 app.use(router);
 
 app.mount("#app");
 
-app.config.globalProperties.Prism = Prism;
-
-import CodeBlock from "./components/CodeBlock.vue";
-app.component("CodeBlock", CodeBlock);
-import CodeLine from "./components/CodeLine.vue";
-app.component("CodeLine", CodeLine);
+// Register all components globally
+Object.entries(components).forEach(([path, component]) => {
+    const componentName = path
+        .split("/")
+        .pop()
+        .replace(/\.\w+$/, "");
+    app.component(componentName, component.default);
+});
 
 Prism.languages.overpy = {
     comment: [
@@ -92,7 +97,7 @@ Prism.languages.overpy = {
             label: {
                 pattern: /[A-Za-z\d_]+/,
             },
-        }
+        },
     },
     variable: {
         pattern:
@@ -103,10 +108,9 @@ Prism.languages.overpy = {
         pattern: /(@(Event|Team|Slot|Hero))(\s+)(\w+)?/,
         greedy: true,
         inside: {
-
-    annotation: {
-        pattern: /@\w+/,
-    },
+            annotation: {
+                pattern: /@\w+/,
+            },
             annotationArg: {
                 pattern: /\b\w+$/,
             },
