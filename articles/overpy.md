@@ -2,7 +2,9 @@
 defaultHighlightLang: overpy
 ---
 
-# The birth of a programming language:<br>How I made the Overwatch Workshop usable
+# The birth of a programming language: <br>Making the Overwatch Workshop usable
+
+![](overpy/hero.png)
 
 ## The Overwatch Workshop
 
@@ -266,7 +268,7 @@ I also fixed what I consider to be Python’s shortcomings:
 
 There were some cases where I made confusing changes to the Workshop syntax:
 
-- `Workshop Setting Real(...)` became `createWorkshopSetting(float[min:max], …)`. I wanted to coalesce all `Workshop Setting` functions into one single `createWorkshopSetting` function taking a type as the first argument. But the type syntax isn’t used anywhere else in OverPy and it was useless, so I changed it to just `createWorkshopSettingFloat()`.
+- `Workshop Setting Real(...)` became `createWorkshopSetting(float[min:max], ...)`. I wanted to coalesce all `Workshop Setting` functions into one single `createWorkshopSetting` function taking a type as the first argument. But the type syntax isn’t used anywhere else in OverPy and it was useless, so I changed it to just `createWorkshopSettingFloat()`.
 - The `Last Of(array)` function became `array[-1]`, like in Python. But it was very misleading: it implied you could use negative indexes (and so do `A[B]`  where B is -1, or do `A[-2]`, etc). If you tried that, it failed silently and returned null, as there are no exceptions in the Workshop. I eventually changed it to `.last()`.
 
 The mistake was approaching it as if the user was already familiar with other programming languages but not the Workshop (as was the case for me). But the vast majority of users were familiar with the Workshop, but not programming languages. Deviating from the Workshop syntax had to only be done when truly necessary (such as operators, which match Python syntax).
@@ -644,7 +646,7 @@ The lessons in this?
 - Don't create a custom variant of CSV that can't handle arbitrary data (such as the delimiter itself, or a newline).
 - If your JSON/YAML file can take conditions, it is likely a sign to migrate it to an actual scripting language.
 - Don't create configuration languages from scratch. Use JSON, YAML or TOML.
-- And if you create a programming language from scratch - please learn from the mistakes of earlier languages and use an actually good syntax. :)
+- And if you create a programming language from scratch - please learn from the mistakes of earlier languages and use an actually good syntax. :\)
 
 ## Conclusion
 
@@ -676,4 +678,4 @@ Big thanks to everyone who contributed over the years, especially [CactusPuppy](
 
 If you're interested, you can check out the code at https://github.com/Zezombye/overpy.
 
-I hope you learned something, and feel free to share your thoughts on [Reddit] or [Hacker News] :)
+I hope you learned something, and feel free to share your thoughts :\)

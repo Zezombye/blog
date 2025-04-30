@@ -135,6 +135,13 @@
     --docsearch-primary-color: var(--vp-c-brand-1) !important;
 }
 
+
+.dark {
+    --vp-c-gutter: #070707;
+}
+
+
+
 .vp-doc figure {
     display: flex;
     flex-direction: column;
@@ -174,6 +181,10 @@
     margin-right: -5px;
 }
 
+.vp-doc h1 {
+    text-align: center;
+    letter-spacing: normal;
+}
 
 body, .vp-doc p {
     line-height: 23px;
@@ -186,6 +197,106 @@ body, .vp-doc p {
     }
 }
 
-.VPFooter .container {
-    max-width: 784px;
+@media (max-width: 640px) {
+    .vp-doc h1 br {
+        display: none;
+    }
+}
+
+
+@media (min-width: 960px) {
+    #VPContent > div.VPDoc > div.container {
+        width: fit-content;
+        max-width: unset;
+    }
+    body {
+        background-color: var(--vp-sidebar-bg-color);
+    }
+}
+
+@media (min-width: 960px) {
+    #VPContent > div.VPDoc > div.container {
+        width: fit-content;
+        max-width: unset;
+    }
+}
+
+@media (min-width: 1280px) {
+    #VPContent > div.VPDoc > div.container {
+        width: 100%;
+        max-width: 1104px;
+    }
+
+    .VPDoc:not(.has-sidebar) > div.container > .content {
+        max-width: 784px !important;
+        padding-left: 0;
+        /*> .content-container {
+            margin-left: 0;
+        }*/
+    }
+}
+
+
+#VPContent > div.VPDoc {
+    padding-top: 0;
+    > div.container {
+        padding-top: 32px;
+        background-color: var(--vp-c-bg);
+    }
+}
+
+@media (min-width: 768px) {
+    #VPContent > div.VPDoc > div.container {
+        padding-top: 48px;
+    }
+}
+
+button.copy[title="Copy Code"] {
+    display: none;
+}
+
+#doc-outline-aria-label {
+    display: none;
+}
+
+.VPDocAside .outline-marker {
+    margin-top: -32px;
+    display: none;
+}
+
+.VPDocAside .outline-link.active:not(:hover) {
+    color: var(--vp-c-text-2);
+}
+
+.vp-doc h1 {
+    font-size: 36px;
+    line-height: 44px;
+    letter-spacing: normal;
+}
+
+.vp-doc h2 {
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: normal;
+}
+
+.vp-doc h3 {
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: normal;
+}
+
+@media (max-width: 640px) {
+    .vp-doc h1 {
+        font-size: 28px;
+        line-height: 36px;
+    }
+    .vp-doc h2 {
+        font-size: 28px;
+        line-height: 36px;
+    }
+    .vp-doc h3 {
+        font-size: 20px;
+        line-height: 28px;
+    }
 }

@@ -16,7 +16,7 @@ hero:
 
 features:
   - title: "<a href='/overpy'>OverPy</a>"
-    details: "<a href='/overpy'>The birth of a programming language: How I made the Overwatch Workshop usable</a>"
+    details: "<a href='/overpy'>The birth of a programming language: Making the Overwatch Workshop usable</a>"
   - title: "Coming Soon™"
     details: ""
   - title: "Coming Soon™"

@@ -39,22 +39,22 @@ export default defineConfig({
             { text: 'Home', link: '/' },
             { text: 'Examples', link: '/markdown-examples' }
         ],*/
-        outline: false,
-        /*outline: {
+        //outline: false,
+        outline: {
             level: [2, 3],
             label: "",
-        },*/
-
-        aside: false,
+        },
 
         footer: {
-            message: `
+            //message: "[VitePress is goat](https://vitepress.dev) | [Source](https://github.com/Zezombye/blog/) | © 2025 Zezombye",
+            message: `<a href="https://vitepress.dev">VitePress is goat</a> | <a href="https://github.com/Zezombye/blog/">Source</a> | © 2025 Zezombye`,
+            /*message: `
             <div style="display: flex;">
                 <span style="flex:1; text-align:left;"><a href="https://vitepress.dev">VitePress is goat</a></span>
                 <span>Copyright © 2025 Zezombye</span>
                 <span style="flex:1; text-align: right;"><a href="https://github.com/Zezombye/blog/">Source</a></span>
             </div>
-            `,
+            `,*/
         },
 
         /*sidebar: [
