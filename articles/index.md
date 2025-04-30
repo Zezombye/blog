@@ -4,22 +4,25 @@ layout: home
 
 hero:
   name: "Zezombye's Blog"
-  text: "Programming, self-improvement, and various stuff"
-  tagline: My great project tagline
-  actions:
-    - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
-    - theme: alt
-      text: API Examples
-      link: /api-examples
+  #text: ""
+  tagline: "Programming, self-improvement, and various stuff"
+  #actions:
+  #  - theme: brand
+  #    text: OverPy
+  #    link: /overpy
+  #  - theme: alt
+  #    text: API Examples
+  #    link: /api-examples
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: "<a href='/overpy'>OverPy</a>"
+    details: "<a href='/overpy'>The birth of a programming language: How I made the Overwatch Workshop usable</a>"
+  - title: "Coming Soon™"
+    details: ""
+  - title: "Coming Soon™"
+    details: ""
 ---
 
+|                              |                               | |
+|------------------------------|-------------------------------| -- |
+| ![](/under_construction.gif) | ![](/under_construction2.gif) | ![](/under_construction3.gif) |
