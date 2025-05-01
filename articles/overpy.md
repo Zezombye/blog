@@ -669,4 +669,4 @@ Big thanks to everyone who contributed over the years, especially [CactusPuppy](
 
 If you're interested, you can check out the code at https://github.com/Zezombye/overpy.
 
-I hope you learned something, and feel free to share your thoughts :)
+I hope you learned something, and feel free to share your thoughts on [Reddit](https://www.reddit.com/r/programming/comments/1kccugy/the_birth_of_a_programming_language_making_the) :)
