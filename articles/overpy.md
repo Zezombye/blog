@@ -634,7 +634,7 @@ You likely saw some YAML configuration languages which allow expressing more com
 The lessons in this?
 - Every time you parse a JSON structure or a form, then convert it to another format, you are creating a compiler. OverPy isn't much more complex than that; you already know the principle. I wrote the first version of the compiler in two days.
 - You will invent plenty of languages in your career, and so it is best to not reinvent the wheel.
-- Don't create a custom variant of CSV that can't handle arbitrary data (such as the delimiter itself, or a newline).
+- Don't create a custom variant of CSV that can't handle arbitrary data (such as the delimiter itself, or a newline). Use CSV.
 - If your JSON/YAML file can take conditions, it is likely a sign to migrate it to an actual scripting language.
 - Don't create configuration languages from scratch. Use JSON, YAML or TOML.
 - And if you create a programming language from scratch - please learn from the mistakes of earlier languages and use an actually good syntax. :)
