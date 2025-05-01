@@ -2,7 +2,7 @@
 defaultHighlightLang: overpy
 ---
 
-# The birth of a programming language: <br>Making the Overwatch Workshop usable
+# The birth of a programming language: <br>How I made the Overwatch Workshop usable
 
 ![](overpy/hero.svg)
 
@@ -255,7 +255,7 @@ rule "player finished entering base":
     eventPlayer.setInvisibility(Invis.ALL)
 ```
 
-This is much more readable as each rule is now its own block (meaning you can easily collapse and visually distinguish them), and all rule metadata is prefixed by `@`. Python has no `rule` keyword, but it doesn't matter: OverPy is made for the workshop, and only has to follow Python as a starting point.
+This is much more readable as each rule is now its own block (meaning you can easily collapse and visually distinguish them), and all rule metadata is prefixed by `@`. Python has no `rule` keyword, but it doesn't matter: OverPy is made for the Workshop, and only has to follow Python as a starting point.
 
 I also fixed what I consider to be Python’s shortcomings:
 - Replacing True/False/None by true/false/null for consistency with other languages.
@@ -423,9 +423,7 @@ I thought of expanding the preprocessor to be more powerful, but then I thought:
 
 The easiest way is to include code generation as a first-party tool, and the solution is simple: JS macros.
 
-```
-#!define generateAlphabetMappings(mappings) __script__("generateAlphabetMappings.js")
-```
+`#!define generateAlphabetMappings(mappings) __script__("generateAlphabetMappings.js")`
 
 The content of `generateAlphabetMappings.js` is JavaScript code which returns a string of OverPy code:
 
@@ -510,9 +508,7 @@ A string only takes up 5 elements, and can contain up to 128 characters before h
 
 For this example, we will use numbers, but vectors work the same way. A very basic implementation of string compression would be:
 
-```
-[int(n) for n in "12.34|5.1|53.65|43.67|106.3".split("|")]
-```
+`[int(n) for n in "12.34|5.1|53.65|43.67|106.3".split("|")]`
 
 We concatenate all numbers in a CSV-like format with `|` as a separator, then we split the string on that separator to get each number.
 
@@ -574,17 +570,13 @@ There is no native `getPlayerLanguage()` function, but casting a constant to str
 
 The easiest way to translate a string is thus:
 
-```
-["A string", "Une chaîne"][max(0, ["White", "Blanc"].index("{}".format(Color.WHITE)))]
-```
+`["A string", "Une chaîne"][max(0, ["White", "Blanc"].index("{}".format(Color.WHITE)))]`
 
 We simply define the expected translations (here, just English and French) to get the language index (0 = English, 1 = French). If the player is not using either of those languages, the index will be -1, so we use `max(0, index)` to define English as the default language.
 
 The problem is that the cast to string has to be done client-side. This is the case in HUDs, but not in variables. Therefore, this will not work:
 
-```
-eventPlayer.language = ["White", "Blanc"].index("{}".format(Color.WHITE))
-```
+`eventPlayer.language = ["White", "Blanc"].index("{}".format(Color.WHITE))`
 
 This code is evaluated server-side, and the language will be the same for everyone, defeating the whole point of translations. This forces the whole language calculation to be repeated at every string. But is there really no way to get the language from a client and store it in a variable?
 
