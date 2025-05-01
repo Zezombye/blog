@@ -27,10 +27,11 @@ export default defineConfig({
                 className: 'image-figures'
             });
             md.use(inlineHighlightPlugin);
-        }
-    },
-    emoji: {
-        enabled: false,
+        },
+        emoji: {
+            enabled: false,
+            shortcuts: {},
+        },
     },
     themeConfig: {
 

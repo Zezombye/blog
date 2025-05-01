@@ -2,7 +2,7 @@
 defaultHighlightLang: overpy
 ---
 
-# The birth of a programming language: <br>Making the Overwatch Workshop usable
+# The birth of a programming language: Making the Overwatch Workshop usable
 
 ![](overpy/hero.svg)
 
@@ -637,7 +637,7 @@ The lessons in this?
 - Don't create a custom variant of CSV that can't handle arbitrary data (such as the delimiter itself, or a newline).
 - If your JSON/YAML file can take conditions, it is likely a sign to migrate it to an actual scripting language.
 - Don't create configuration languages from scratch. Use JSON, YAML or TOML.
-- And if you create a programming language from scratch - please learn from the mistakes of earlier languages and use an actually good syntax. :\)
+- And if you create a programming language from scratch - please learn from the mistakes of earlier languages and use an actually good syntax. :)
 
 ## Conclusion
 
@@ -669,4 +669,4 @@ Big thanks to everyone who contributed over the years, especially [CactusPuppy](
 
 If you're interested, you can check out the code at https://github.com/Zezombye/overpy.
 
-I hope you learned something, and feel free to share your thoughts :\)
+I hope you learned something, and feel free to share your thoughts :)
