@@ -2,7 +2,7 @@
 defaultHighlightLang: overpy
 ---
 
-# The birth of a programming language: <br>How I made the Overwatch Workshop usable
+# The birth of a programming language: <br>Making the Overwatch Workshop usable
 
 ![](overpy/hero.svg)
 
@@ -10,7 +10,7 @@ defaultHighlightLang: overpy
 
 On April 24, 2019, Blizzard introduced the Overwatch Workshop: a scripting platform allowing players to create their own gamemodes in Overwatch (a TF2-like game).
 
-Unlike traditional programming languages, it is an event-driven system where there is no clear “linear” execution path of the code. This is necessary to accommodate the nature of the game: the Workshop is not a general programming language like C or Java, but a domain-specific language made solely for Overwatch custom games.
+Unlike traditional programming languages, it is an event-driven system where there is no clear "linear" execution path of the code. This is necessary to accommodate the nature of the game: the Workshop is not a general programming language like C or Java, but a domain-specific language made solely for Overwatch custom games.
 
 Workshop scripts are made of rules, where each rule has one or multiple conditions. When all conditions are true, the actions (instructions) run.
 
@@ -30,7 +30,7 @@ However, when the Workshop was released, it had several limitations:
 
 - **No variable names, and only 26 variables (A to Z).** This forced the use of a reference sheet for big programs to keep track of what `K` is used for, as well as directly coding constants in the program rather than put them in a variable. This is a bad programming practice, as if you have to update a constant, you have to update it in every spot it is used.
 
-- **No comments.** As you can see in the screenshot, you can put names in rules, but that’s about it. If a rule has 100 actions (common in complex gamemodes), good luck remembering what each action is used for.
+- **No comments.** As you can see in the screenshot, you can put names in rules, but that's about it. If a rule has 100 actions (common in complex gamemodes), good luck remembering what each action is used for.
 
 - **No user-defined functions.** If you had to repeat a piece of code multiple times, you had no choice but to copy-paste it. Meaning, if you had to modify it, you had to make sure to also modify every other instance.
 
@@ -66,7 +66,7 @@ main:
     ret
 ```
 
-What does “push rbp” mean ? Fuck if I know, I just asked gpt to generate an example of assembly code. This is basically unreadable (even with comments).
+What does "push rbp" mean ? Fuck if I know, I just asked gpt to generate an example of assembly code. This is basically unreadable (even with comments).
 
 Assembly is very primitive with simple instructions (add a variable to another, set a variable to a value, call a function, etc). This makes it very repetitive and error-prone, but also very flexible. The fact that instructions are simple makes it possible to optimize processors to be fast for everything.
 
@@ -81,9 +81,9 @@ int main() {
 }
 ```
 
-This is much more understandable and we can finally figure out what this program does: A is 5, B is 3, sum is A+B, it prints “Sum = ” followed by the sum.
+This is much more understandable and we can finally figure out what this program does: A is 5, B is 3, sum is A+B, it prints "Sum = " followed by the sum.
 
-Because processors can only run assembly, a program called the “compiler” translates C to assembly. The further a language is from assembly, the “higher” level it is. Hence, high-level languages are easier to work with than low-level languages, as they contain more abstraction layers to make it easier for the programmer.
+Because processors can only run assembly, a program called the "compiler" translates C to assembly. The further a language is from assembly, the "higher" level it is. Hence, high-level languages are easier to work with than low-level languages, as they contain more abstraction layers to make it easier for the programmer.
 
 The C language, although still quite primitive, already has a lot of advantages over assembly:
 
@@ -95,8 +95,7 @@ The C language, although still quite primitive, already has a lot of advantages 
 
 - **Automatic handling of boring stuff.** The reason we set `eax` to zero before calling `printf` is because the calling convention specifies it. In C, the compiler handles that for us.
 
-
-However, there is a disadvantage: you no longer control your entire code. With today’s super-fast processors, as well as modern compilers, this no longer matters. But back in the day, it was common to mix assembly and C, with critical performance-sensitive parts written in assembly to take advantage of tricks the compiler wouldn’t do (like the xor trick).
+However, there is a disadvantage: you no longer control your entire code. With today's super-fast processors, as well as modern compilers, this no longer matters. But back in the day, it was common to mix assembly and C, with critical performance-sensitive parts written in assembly to take advantage of tricks the compiler wouldn't do (like the xor trick).
 
 This leads to the following tradeoff:
 
@@ -105,15 +104,15 @@ This leads to the following tradeoff:
 
 The vast majority of programs did not require *that* much speed, and another programming language was eventually developed: Java.
 
-Java introduced even more abstractions to simplify the programmer’s life, such as:
+Java introduced even more abstractions to simplify the programmer's life, such as:
 
 - **Memory management.** In C, you need to manually manage the memory (RAM) that your program will use. Java automatically requests and frees memory. This leads to more secure code, as programmers would often forget to free the memory, or not request enough memory.
-- **Exceptions (errors).** When an error occurs, a “stack trace” is given with a precise location of the error and the path taken by the code. In C, you need to manually handle errors.
+- **Exceptions (errors).** When an error occurs, a "stack trace" is given with a precise location of the error and the path taken by the code. In C, you need to manually handle errors.
 - **Safety checks while the program runs.** In C, there is no check that an array isn't accessed out of bounds, which is a security issue. In Java, the program automatically does boundary checks when accessing arrays.
 
 This made it even easier to write big programs, but made it slower than C due to the additional abstractions and runtime checks.
 
-Therefore, Java was used for programs such as enterprise management systems, where performance wasn’t so much of an issue. However, C was used for operating systems (Windows, Linux) and video games, where speed is crucial.
+Therefore, Java was used for programs such as enterprise management systems, where performance wasn't so much of an issue. However, C was used for operating systems (Windows, Linux) and video games, where speed is crucial.
 
 The same tradeoff of ergonomy vs performance applies in the Workshop.
 
@@ -125,13 +124,13 @@ The Workshop has a lot of limitations, including processing power; it feels like
 
 I therefore decided to limit the layers of abstraction and build the equivalent of C: a light layer of abstraction over assembly. I decided to use a Python-like syntax, and because my creativity is limited to Minecraft server names, I called it OverPy.
 
-The philosophy of OverPy is that you should be able to do the compilation “in your head”, as the Workshop is so complex and tricky that you need to know exactly what the compiler is doing and what Workshop code it will generate.
+The philosophy of OverPy is that you should be able to do the compilation "in your head", as the Workshop is so complex and tricky that you need to know exactly what the compiler is doing and what Workshop code it will generate.
 
 Another programmer, Deltin, had the same idea but a different execution.
 
 Deltin decided to build OSTW, the equivalent of Java: making the language as ergonomic as possible, at the cost of performance and less control over the abstractions. Because of that, he could add features such as classes and functions.
 
-Note that there is no “best” language here. It is a tradeoff: you can use OSTW for easier management of big projects, or OverPy if you want more control over the abstraction and performance.
+Note that there is no "best" language here. It is a tradeoff: you can use OSTW for easier management of big projects, or OverPy if you want more control over the abstraction and performance.
 
 In practice, the community used both in an approximate 50/50 split, with some moving from OverPy to OSTW to take advantage of the additional features, and some coming from OSTW to OverPy to get closer to the Workshop language. The Workshop itself also evolved and improved upon its original interface, meaning high-level languages are now less needed (although still very useful).
 
@@ -225,7 +224,7 @@ As OverPy was the first full-fledged programming language I made, I unfortunatel
 
 When creating a language, it is best to take the syntax from an existing popular one. This removes a huge burden from you as you can just copy what works. Most languages that tried to create a completely new syntax ended up being hard to read or write (e.g. AutoHotKey). I decided to go with Python, as I was working a lot with it at that time.
 
-However, keep in mind that **the syntax does not define a language**. I could’ve created OverC and followed a C-like syntax, but all that would’ve changed is the addition of braces and semicolons, rather than an indent-based hierarchy.
+However, keep in mind that **the syntax does not define a language**. I could've created OverC and followed a C-like syntax, but all that would've changed is the addition of braces and semicolons, rather than an indent-based hierarchy.
 
 Python has its own philosophies, and OverPy is not a general programming language; it has to adapt and create its own philosophies when it comes to the Workshop. The mistake I made was staying too close to Python.
 
@@ -257,7 +256,7 @@ rule "player finished entering base":
 
 This is much more readable as each rule is now its own block (meaning you can easily collapse and visually distinguish them), and all rule metadata is prefixed by `@`. Python has no `rule` keyword, but it doesn't matter: OverPy is made for the Workshop, and only has to follow Python as a starting point.
 
-I also fixed what I consider to be Python’s shortcomings:
+I also fixed what I consider to be Python's shortcomings:
 - Replacing True/False/None by true/false/null for consistency with other languages.
 - Adding multiline comments with /* */.
 - The tabs vs spaces debate is solved by considering tabs as being 4 spaces. In the six years since OverPy was made, I have never seen a complaint about that (who uses anything other than 4 spaces anyway?)
@@ -268,7 +267,7 @@ I also fixed what I consider to be Python’s shortcomings:
 
 There were some cases where I made confusing changes to the Workshop syntax:
 
-- `Workshop Setting Real(...)` became `createWorkshopSetting(float[min:max], ...)`. I wanted to coalesce all `Workshop Setting` functions into one single `createWorkshopSetting` function taking a type as the first argument. But the type syntax isn’t used anywhere else in OverPy and it was useless, so I changed it to just `createWorkshopSettingFloat()`.
+- `Workshop Setting Real(...)` became `createWorkshopSetting(float[min:max], ...)`. I wanted to coalesce all `Workshop Setting` functions into one single `createWorkshopSetting` function taking a type as the first argument. But the type syntax isn't used anywhere else in OverPy and it was useless, so I changed it to just `createWorkshopSettingFloat()`.
 - The `Last Of(array)` function became `array[-1]`, like in Python. But it was very misleading: it implied you could use negative indexes (and so do `A[B]`  where B is -1, or do `A[-2]`, etc). If you tried that, it failed silently and returned null, as there are no exceptions in the Workshop. I eventually changed it to `.last()`.
 
 The mistake was approaching it as if the user was already familiar with other programming languages but not the Workshop (as was the case for me). But the vast majority of users were familiar with the Workshop, but not programming languages. Deviating from the Workshop syntax had to only be done when truly necessary (such as operators, which match Python syntax).
@@ -285,7 +284,7 @@ Although I find TypeScript to be overkill for websites, I definitely recommend i
 
 ### 4. Doing C-like preprocessing
 
-Just like C, I made a “preprocessing” step involving macros. For example:
+Just like C, I made a "preprocessing" step involving macros. For example:
 
 ```
 #!define kbMult 1.3
@@ -300,9 +299,9 @@ rule "apply knockback on damage":
     kbStrength = eventDamage*((1.3*(1-0.2))+(1.3*0.2)*getNumberOfPlayers())
 ```
 
-This is consistent with doing the compilation “in your head”: because the user creates the macros, there is no question that they are replaced at compile time rather than at runtime.
+This is consistent with doing the compilation "in your head": because the user creates the macros, there is no question that they are replaced at compile time rather than at runtime.
 
-The big mistake, however, was following in C’s mistake and doing verbatim macro replacements. This leads to problems like these:
+The big mistake, however, was following in C's mistake and doing verbatim macro replacements. This leads to problems like these:
 
 ```
 #!define add(a,b) a+b
@@ -311,7 +310,7 @@ result = add(a,b)*3 #will actually yield a+b*3 which is a+(b*3), not (a+b)*3
 
 This requires wrapping all macro definitions as well as all parameters with parentheses, and unfortunately I never got around to fixing that.
 
-What I should’ve done is use AST-based macros: replacing the AST directly rather than the text. There was pretty much no use at all for text-based macros anyway.
+What I should've done is use AST-based macros: replacing the AST directly rather than the text. There was pretty much no use at all for text-based macros anyway.
 
 ## The features
 
@@ -349,7 +348,7 @@ switch eventPlayer.team:
 
 This is functionally the same as the if/elif/else chain, but only calculates `eventPlayer.team` once. But the Workshop has no `switch` statement; as such, I had to implement it manually.
 
-The way a switch is implemented is through a “jump table”: simply a dictionary with the offsets of each `case` statement. Without the `switch` instruction, this is how you would do the above code in an efficient manner:
+The way a switch is implemented is through a "jump table": simply a dictionary with the offsets of each `case` statement. Without the `switch` instruction, this is how you would do the above code in an efficient manner:
 
 ```
 goto loc+{
@@ -410,7 +409,7 @@ As such, `"This is lowercase text."` gets compiled to the three strings:
 ```
 
 ### Bug fixing
-Another one of OverPy’s jobs is to fix Workshop bugs whenever possible. For example, the `continue` statement behaves abnormally inside `if` blocks: OverPy thus compiles `continue` not as the Workshop's own `continue` statement, but as a `goto`.
+Another one of OverPy's jobs is to fix Workshop bugs whenever possible. For example, the `continue` statement behaves abnormally inside `if` blocks: OverPy thus compiles `continue` not as the Workshop's own `continue` statement, but as a `goto`.
 
 I also displayed warnings when using code that could break. The Workshop's own documentation states that `wait(9999)` is to be used for an infinite wait; however, 9999 seconds is 2h46mn, whereas custom games can last up to 4h30mn. (Good luck debugging that.)
 

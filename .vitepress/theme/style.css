@@ -159,11 +159,18 @@
     }
 }
 
-.vp-doc span.inline-code-highlight code {
-    border-radius: 4px;
-    padding: 1px 2px;
-    white-space: normal;
-    font-size: var(--vp-code-font-size);
+.vp-doc span.inline-code-highlight {
+
+    &.inline-block {
+        display: inline-block;
+    }
+
+    code {
+        border-radius: 4px;
+        padding: 1px 2px;
+        white-space: normal;
+        font-size: var(--vp-code-font-size);
+    }
 }
 
 .vp-doc div[class*="language-"], .vp-doc span.inline-code-highlight > code {

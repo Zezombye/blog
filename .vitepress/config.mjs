@@ -42,7 +42,7 @@ export default defineConfig({
         //outline: false,
         outline: {
             level: [2, 3],
-            label: "",
+            label: "Table of contents",
         },
 
         footer: {
@@ -70,5 +70,16 @@ export default defineConfig({
         socialLinks: [
             { icon: 'github', link: 'https://github.com/Zezombye' }
         ]
-    }
+    },
+    /*async transformHtml(code, id, context) {
+        //Doesn't work if loading the page from another page
+        return code.replace(/[\u2018\u2019]/g, "'").replace(/[\u201c\u201d\u2032]/g, '"').replace(/[\u2012\u2013]/g, "-").replaceAll("\u2014", "--").replaceAll("\u2026", "...");
+    },*/
+    /*async transformPageData(pageData, { siteConfig }) {
+        if (pageData?.frontmatter?.defaultHighlightLang) {
+            siteConfig.markdown.defaultHighlightLang = pageData.frontmatter.defaultHighlightLang;
+        }
+        console.log("Page data:", pageData);
+        console.log("Site config:", siteConfig);
+    }*/
 })
