@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 import imageFiguresPlugin from './markdown-it-image-figures.js';
 import { inlineHighlightPlugin } from './inline-highlight.js';
 import overpyLanguage from './overpy-highlight.json';
+import { typographicReplacerPlugin } from './typographicReplacer.js';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -27,6 +28,8 @@ export default defineConfig({
                 className: 'image-figures'
             });
             md.use(inlineHighlightPlugin);
+            md.use(typographicReplacerPlugin);
+            md.set({ breaks: true });
         },
         emoji: {
             enabled: false,
@@ -74,7 +77,7 @@ export default defineConfig({
     },
     /*async transformHtml(code, id, context) {
         //Doesn't work if loading the page from another page
-        return code.replace(/[\u2018\u2019]/g, "'").replace(/[\u201c\u201d\u2032]/g, '"').replace(/[\u2012\u2013]/g, "-").replaceAll("\u2014", "--").replaceAll("\u2026", "...");
+        return code
     },*/
     /*async transformPageData(pageData, { siteConfig }) {
         if (pageData?.frontmatter?.defaultHighlightLang) {
