@@ -372,8 +372,8 @@ const PrintMini = (x, y, text, type) => {
     }
 }
 const locate = (x, y) => {
-    displayCursorX.value = max(1, min(x, 21));
-    displayCursorY.value = max(1, min(y, 8));
+    displayCursorX.value = Math.max(1, Math.min(x, 21));
+    displayCursorY.value = Math.max(1, Math.min(y, 8));
     console.log(`Cursor moved to (${x}, ${y})`);
 };
 const Print = (text) => {
