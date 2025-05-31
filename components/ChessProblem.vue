@@ -59,17 +59,17 @@ figcaption {
 </style>
 <style>
 cg-board square.move-dest {
-    background: radial-gradient(rgba(20, 85, 30, .5) 22%, rgba(20, 85, 30, 0) calc(22% + 1px));
+    background: radial-gradient(rgba(20, 85, 30, .5) calc(19% - 0.5px), rgba(20, 85, 30, 0) calc(19% + 0.5px));
 }
 cg-board square.oc.move-dest {
-    background: radial-gradient(transparent 0%,rgba(20,85,0,0) calc(80% - 1px),rgba(20,85,0,.3) 80%);
+    background: radial-gradient(transparent 0%,rgba(20,85,0,0) calc(80% - 0.5px),rgba(20,85,0,.3) calc(80% + 0.5px));
 }
 cg-container .cg-custom-svgs svg {
     overflow: visible;
 }
 cg-board {
     /* background-image: url("https://lichess1.org/assets/hashed/metal.d475ecaa.jpg"); */
-    background-image: url("/public/chessboard_blue.jpg");
+    background-image: url("/chessboard_blue.jpg");
 }
 </style>
 
@@ -115,14 +115,6 @@ const boardConfig = {
     coordinates: false,
     animation: {
         duration: 300,
-    },
-    drawable: {
-        enabled: true,
-        visible: true,
-        shapes: [
-            {orig: "a1", dest: "a2", customSvg: {html: goodMoveShape, center: "dest"}},
-            {orig: "a1", dest: "a3", customSvg: {html: badMoveShape, center: "dest"}}
-        ],
     },
 }
 
