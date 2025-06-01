@@ -4,15 +4,8 @@ defaultHighlightLang: overpy
 
 <script setup>
 import ChessProblem from "../components/ChessProblem.vue"
-import CalcEmulator from "../components/CalcEmulator.vue"
-import sokoban from "../sokoban.js"
-import chariotwars from "../chariotwars.js"
-
-
 
 </script>
-
-<CalcEmulator :program="sokoban"/>
 
 <ChessProblem fen="3r1r2/p4nkp/2p3p1/2n1p3/2B1P3/P1N5/6PP/3R1RK1 w - - 2 25" moves="Rxf7 Rxf7 Rxd8" caption="White to win in %moves%"/>
 
