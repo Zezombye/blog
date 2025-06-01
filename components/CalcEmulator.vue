@@ -3,40 +3,27 @@
         <canvas ref="emulatorCanvas" :width="canvasWidth" :height="canvasHeight" class="calculator-screen"></canvas>
         <div class="controls">
             <div class="control-row">
-                <button @mousedown="buttonDown(KEY_CTRL_UP_CONST)" @mouseup="buttonUp(KEY_CTRL_UP_CONST)"
-                    @mouseleave="buttonUp(KEY_CTRL_UP_CONST)">▲</button>
+                <button :keycode="KEY_CTRL_UP_CONST">▲</button>
             </div>
             <div class="control-row">
-                <button @mousedown="buttonDown(KEY_CTRL_LEFT_CONST)" @mouseup="buttonUp(KEY_CTRL_LEFT_CONST)"
-                    @mouseleave="buttonUp(KEY_CTRL_LEFT_CONST)">◄</button>
-                <button @mousedown="buttonDown(KEY_CTRL_EXE_CONST)" @mouseup="buttonUp(KEY_CTRL_EXE_CONST)"
-                    @mouseleave="buttonUp(KEY_CTRL_EXE_CONST)">EXE</button>
-                <button @mousedown="buttonDown(KEY_CTRL_RIGHT_CONST)" @mouseup="buttonUp(KEY_CTRL_RIGHT_CONST)"
-                    @mouseleave="buttonUp(KEY_CTRL_RIGHT_CONST)">►</button>
+                <button :keycode="KEY_CTRL_LEFT_CONST">◄</button>
+                <button :keycode="KEY_CTRL_EXE_CONST">EXE</button>
+                <button :keycode="KEY_CTRL_RIGHT_CONST">►</button>
             </div>
             <div class="control-row">
-                <button @mousedown="buttonDown(KEY_CTRL_DOWN_CONST)" @mouseup="buttonUp(KEY_CTRL_DOWN_CONST)"
-                    @mouseleave="buttonUp(KEY_CTRL_DOWN_CONST)">▼</button>
+                <button :keycode="KEY_CTRL_DOWN_CONST">▼</button>
             </div>
             <div class="control-row">
-                <button @mousedown="buttonDown(KEY_CTRL_F1_CONST)" @mouseup="buttonUp(KEY_CTRL_F1_CONST)"
-                    @mouseleave="buttonUp(KEY_CTRL_F1_CONST)">F1</button>
-                <button @mousedown="buttonDown(KEY_CTRL_F2_CONST)" @mouseup="buttonUp(KEY_CTRL_F2_CONST)"
-                    @mouseleave="buttonUp(KEY_CTRL_F2_CONST)">F2</button>
-                <button @mousedown="buttonDown(KEY_CTRL_F3_CONST)" @mouseup="buttonUp(KEY_CTRL_F3_CONST)"
-                    @mouseleave="buttonUp(KEY_CTRL_F3_CONST)">F3</button>
-                <button @mousedown="buttonDown(KEY_CTRL_F4_CONST)" @mouseup="buttonUp(KEY_CTRL_F4_CONST)"
-                    @mouseleave="buttonUp(KEY_CTRL_F4_CONST)">F4</button>
-                <button @mousedown="buttonDown(KEY_CTRL_F5_CONST)" @mouseup="buttonUp(KEY_CTRL_F5_CONST)"
-                    @mouseleave="buttonUp(KEY_CTRL_F5_CONST)">F5</button>
-                <button @mousedown="buttonDown(KEY_CTRL_F6_CONST)" @mouseup="buttonUp(KEY_CTRL_F6_CONST)"
-                    @mouseleave="buttonUp(KEY_CTRL_F6_CONST)">F6</button>
+                <button :keycode="KEY_CTRL_F1_CONST">F1</button>
+                <button :keycode="KEY_CTRL_F2_CONST">F2</button>
+                <button :keycode="KEY_CTRL_F3_CONST">F3</button>
+                <button :keycode="KEY_CTRL_F4_CONST">F4</button>
+                <button :keycode="KEY_CTRL_F5_CONST">F5</button>
+                <button :keycode="KEY_CTRL_F6_CONST">F6</button>
             </div>
             <div class="control-row">
-                <button @mousedown="buttonDown(KEY_CTRL_SHIFT_CONST)" @mouseup="buttonUp(KEY_CTRL_SHIFT_CONST)"
-                    @mouseleave="buttonUp(KEY_CTRL_SHIFT_CONST)">Shift</button>
-                <button @mousedown="buttonDown(KEY_CTRL_EXIT_CONST)" @mouseup="buttonUp(KEY_CTRL_EXIT_CONST)"
-                    @mouseleave="buttonUp(KEY_CTRL_EXIT_CONST)">Exit</button>
+                <button :keycode="KEY_CTRL_SHIFT_CONST">Shift</button>
+                <button :keycode="KEY_CTRL_EXIT_CONST">Exit</button>
             </div>
         </div>
         <div class="scale-control">
@@ -250,9 +237,10 @@ const ML_clear_vram = () => {
 };
 
 const ML_pixel = (x, y, color) => { // color = 1 for ON, 0 for OFF
-    if (typeof color !== 'number' || (color !== 0 && color !== 1 && color !== 2)) {
-        throw new Error("ML_pixel: color must be 0, 1, or 2, got " + JSON.stringify(color));
+    if (typeof color !== 'number' || (color !== -1 && color !== 0 && color !== 1 && color !== 2)) {
+        throw new Error("ML_pixel: color must be -1, 0, 1, or 2, got " + JSON.stringify(color));
     }
+    if (color === ML_TRANSPARENT) return; // Do nothing for transparent color
     if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT) {
         vram.value[y * SCREEN_WIDTH + x] = color === 2 ? 1 - vram.value[y * SCREEN_WIDTH + x] : color;
     }
@@ -365,9 +353,96 @@ const ML_rectangle = (x1, y1, x2, y2, border_width, border_color, fill_color) =>
     }
 }
 
+const ML_point = (x, y, width, color) => {
+    if (width < 1) return;
+    if (width == 1) {
+        ML_pixel(x, y, color);
+    } else {
+        let padding = Math.floor(width / 2);
+        let pair = !(width & 1) ? 1 : 0; // Check if width is even
+        ML_rectangle(x - padding + pair, y - padding + pair, x + padding, y + padding, 0, 0, color);
+    }
+};
+
+const ML_filled_circle = (x, y, radius, color) => {
+    let plot_x, plot_y, d;
+
+    if (radius < 0) return;
+    plot_x = 0;
+    plot_y = radius;
+    d = 1 - radius;
+
+    ML_horizontal_line(y, x - plot_y, x + plot_y, color);
+    while (plot_y > plot_x) {
+        if (d < 0) {
+            d += 2 * plot_x + 3;
+        } else {
+            d += 2 * (plot_x - plot_y) + 5;
+            plot_y--;
+            ML_horizontal_line(y + plot_y + 1, x - plot_x, x + plot_x, color);
+            ML_horizontal_line(y - plot_y - 1, x - plot_x, x + plot_x, color);
+        }
+        plot_x++;
+        if (plot_y >= plot_x) {
+            ML_horizontal_line(y + plot_x, x - plot_y, x + plot_y, color);
+            ML_horizontal_line(y - plot_x, x - plot_y, x + plot_y, color);
+        }
+    }
+};
+
+const ML_circle = (x, y, radius, color) => {
+	let plot_x, plot_y, d;
+
+	if(radius < 0) return;
+	plot_x = 0;
+	plot_y = radius;
+	d = 1 - radius;
+
+	ML_pixel(x, y+plot_y, color);
+	if(radius)
+	{
+		ML_pixel(x, y-plot_y, color);
+		ML_pixel(x+plot_y, y, color);
+		ML_pixel(x-plot_y, y, color);
+	}
+	while(plot_y > plot_x)
+	{
+		if(d < 0)
+			d += 2*plot_x+3;
+		else
+		{
+			d += 2*(plot_x-plot_y)+5;
+			plot_y--;
+		}
+		plot_x++;
+		if(plot_y >= plot_x)
+		{
+			ML_pixel(x+plot_x, y+plot_y, color);
+			ML_pixel(x-plot_x, y+plot_y, color);
+			ML_pixel(x+plot_x, y-plot_y, color);
+			ML_pixel(x-plot_x, y-plot_y, color);
+		}
+		if(plot_y > plot_x)
+		{
+			ML_pixel(x+plot_y, y+plot_x, color);
+			ML_pixel(x-plot_y, y+plot_x, color);
+			ML_pixel(x+plot_y, y-plot_x, color);
+			ML_pixel(x-plot_y, y-plot_x, color);
+		}
+	}
+}
+
 const ML_bmp_or = (bmp, x, y, width, height) => {
     if (!bmp || x < 0 || x > 128 - width || y < 1 - height || y > 63 || width < 1 || height < 1) return;
     ML_bmp_or_cl(bmp, x, y, width, height);
+}
+
+const ML_bmp_8_or = (bmp, x, y) => {
+    return ML_bmp_or(bmp, x, y, 8, 8);
+}
+
+const ML_bmp_16_or = (bmp, x, y) => {
+    return ML_bmp_or(bmp, x, y, 16, 16);
 }
 
 const ML_bmp_or_cl = (bmp, x, y, width, height) => {
@@ -968,7 +1043,7 @@ const Bdisp_AreaReverseVRAM = (left, top, right, bottom) => {
 
 const PopUpWin = (nbLines) => {
     let x1 = 9;
-    let y1 = 20 - Math.floor(nbLines / 2) * 8;
+    let y1 = Math.max(3, 20 - Math.floor(nbLines / 2) * 8);
     let x2 = x1 + 108;
     let y2 = y1 + nbLines * 8 + 7;
     ML_rectangle(x1, y1, x2, y2, 1, ML_BLACK, ML_WHITE);
@@ -984,6 +1059,29 @@ const Sleep = (ms) => {
 const g_currentOpenFileKey = ref(-1); // Stores the localStorage key string for the currently "open" file
 const g_currentFilePointer = ref(0);   // Current position for seek/write operations
 const BFILE_PREFIX = "BFILE_FS_"; // Prefix to avoid collisions in localStorage
+
+function Bfile_CloseFile(handle) {
+    //do nothing
+}
+
+function Bfile_DeleteFile(filename) {
+    if (typeof filename !== "string") {
+        throw new Error("Bfile_DeleteFile: filename must be a string, got " + JSON.stringify(filename));
+    }
+    const key = BFILE_PREFIX + filename;
+
+    if (typeof localStorage === 'undefined') {
+        throw new Error("localStorage is not available.");
+    }
+
+    if (localStorage.getItem(key) !== null) {
+        localStorage.removeItem(key);
+        g_currentOpenFileKey.value = -1; // Reset current open file key
+        g_currentFilePointer.value = 0; // Reset file pointer
+        return 1; // Success
+    }
+    return -1; // File not found
+}
 
 /**
  * Opens a file.
@@ -1231,8 +1329,13 @@ const startProgram = async () => {
         ML_horizontal_line,
         ML_vertical_line,
         ML_line,
+        ML_point,
         ML_rectangle,
+        ML_circle,
+        ML_filled_circle,
         ML_bmp_or,
+        ML_bmp_8_or,
+        ML_bmp_16_or,
         ML_bmp_or_cl,
         clearArea,
         Bdisp_AreaClr_VRAM,
@@ -1248,6 +1351,8 @@ const startProgram = async () => {
         Bfile_ReadFile,
         Bfile_SeekFile,
         Bfile_WriteFile,
+        Bfile_CloseFile,
+        Bfile_DeleteFile,
         PrintXY,
         PrintMini,
         dispStr,
@@ -1323,7 +1428,6 @@ onMounted(() => {
         canvasCtx.value = emulatorCanvas.value.getContext('2d');
     } else {
         throw new Error("Canvas element not found");
-        return;
     }
 
     ML_clear_vram();
@@ -1335,6 +1439,15 @@ onMounted(() => {
     if (props.program) {
         startProgram();
     }
+
+    //Add listeners to buttons
+    document.querySelectorAll('button[keycode]').forEach(button => {
+        button.addEventListener('mousedown', () => buttonDown(button.getAttribute('keycode')));
+        button.addEventListener('mouseup', () => buttonUp(button.getAttribute('keycode')));
+        button.addEventListener('mouseleave', () => buttonUp(button.getAttribute('keycode')));
+        button.addEventListener('touchstart', () => buttonDown(button.getAttribute('keycode')));
+        button.addEventListener('touchend', () => buttonUp(button.getAttribute('keycode')));
+    });
 });
 
 onBeforeUnmount(() => {
