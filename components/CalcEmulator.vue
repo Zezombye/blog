@@ -221,15 +221,50 @@ const isProgramRunning = ref(false);
 const displayCursorX = ref(0);
 const displayCursorY = ref(0);
 const errorMessage = ref('');
+const savedDisplays = ref({});
 const ML_TRANSPARENT = -1;
 const ML_WHITE = 0;
 const ML_BLACK = 1;
 const ML_XOR = 2;
 const ML_CHECKER = 3;
+
+const IMB_WRITEMODIFY_NORMAL = 0x01;
+const IMB_WRITEMODIFY_REVERCE = 0x02;
+const IMB_WRITEMODIFY_MESH = 0x03;
+const IMB_AREAKIND_OVER = 0x01;
+const IMB_AREAKIND_MESH = 0x02;
+const IMB_AREAKIND_CLR = 0x03;
+const IMB_AREAKIND_REVERSE = 0x04;
+const IMB_WRITEKIND_OVER = 0x01;
+const IMB_WRITEKIND_OR = 0x02;
+const IMB_WRITEKIND_AND = 0x03;
+const IMB_WRITEKIND_XOR = 0x04;
+const MINI_OVER = 0x10;
+const MINI_OR = 0x11;
+const MINI_REV = 0x12;
+const MINI_REVOR = 0x13;
+
 let programInstance = null;
 
 const canvasWidth = computed(() => SCREEN_WIDTH * currentScale.value);
 const canvasHeight = computed(() => SCREEN_HEIGHT * currentScale.value);
+
+function SaveDisp(id) {
+    if (id === undefined || id === null) {
+        id = 0;
+    }
+    savedDisplays.value[id] = vram.value.slice();
+}
+function RestoreDisp(id) {
+    if (id === undefined || id === null) {
+        id = 0;
+    }
+    if (savedDisplays.value[id]) {
+        vram.value.set(savedDisplays.value[id]);
+    } else {
+        console.warn(`No saved display found for ID: ${id}`);
+    }
+}
 
 // --- VRAM and Display API ---
 const ML_clear_vram = () => {
@@ -240,11 +275,26 @@ const ML_pixel = (x, y, color) => { // color = 1 for ON, 0 for OFF
     if (typeof color !== 'number' || (color !== -1 && color !== 0 && color !== 1 && color !== 2)) {
         throw new Error("ML_pixel: color must be -1, 0, 1, or 2, got " + JSON.stringify(color));
     }
+    x = Math.floor(x);
+    y = Math.floor(y);
     if (color === ML_TRANSPARENT) return; // Do nothing for transparent color
     if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT) {
         vram.value[y * SCREEN_WIDTH + x] = color === 2 ? 1 - vram.value[y * SCREEN_WIDTH + x] : color;
     }
 };
+
+function Bdisp_SetPoint_VRAM(x, y, color) {
+    ML_pixel(x, y, color);
+}
+
+function ML_pixel_test(x, y) {
+    x = Math.floor(x);
+    y = Math.floor(y);
+    if (x < 0 || x >= SCREEN_WIDTH || y < 0 || y >= SCREEN_HEIGHT) {
+        return ML_TRANSPARENT; // Out of bounds
+    }
+    return vram.value[y * SCREEN_WIDTH + x] === 1 ? ML_BLACK : ML_WHITE;
+}
 
 const ML_horizontal_line = (y, x1, x2, color) => {
     // Make sure y is within bounds
@@ -252,10 +302,6 @@ const ML_horizontal_line = (y, x1, x2, color) => {
 
     // Ensure x1 <= x2
     if (x1 > x2) [x1, x2] = [x2, x1];
-
-    // Clamp x values to screen bounds
-    x1 = Math.max(0, Math.min(x1, SCREEN_WIDTH - 1));
-    x2 = Math.max(0, Math.min(x2, SCREEN_WIDTH - 1));
 
     // Draw the horizontal line
     for (let x = x1; x <= x2; x++) {
@@ -270,10 +316,6 @@ const ML_vertical_line = (x, y1, y2, color) => {
     // Ensure y1 <= y2
     if (y1 > y2) [y1, y2] = [y2, y1];
 
-    // Clamp y values to screen bounds
-    y1 = Math.max(0, Math.min(y1, SCREEN_HEIGHT - 1));
-    y2 = Math.max(0, Math.min(y2, SCREEN_HEIGHT - 1));
-
     // Draw the vertical line
     for (let y = y1; y <= y2; y++) {
         ML_pixel(x, y, color);
@@ -282,49 +324,67 @@ const ML_vertical_line = (x, y1, y2, color) => {
 
 const ML_line = (x1, y1, x2, y2, color) => {
     // Input validation and clipping could be added here
+    x1 = Math.floor(x1);
+    y1 = Math.floor(y1);
+    x2 = Math.floor(x2);
+    y2 = Math.floor(y2);
 
-    // If it's a horizontal line, use the optimized function
-    if (y1 === y2) {
-        ML_horizontal_line(y1, x1, x2, color);
-        return;
-    }
-
-    // If it's a vertical line, use the optimized function
-    if (x1 === x2) {
-        ML_vertical_line(x1, y1, y2, color);
-        return;
-    }
-
-    // Bresenham algorithm for all other cases
-    const dx = Math.abs(x2 - x1);
-    const dy = Math.abs(y2 - y1);
-    const sx = x1 < x2 ? 1 : -1;
-    const sy = y1 < y2 ? 1 : -1;
-
-    let err = dx - dy;
-
-    while (true) {
-        // Plot the point if it's within bounds
-        ML_pixel(x1, y1, color);
-
-        // Check if we've reached the end point
-        if (x1 === x2 && y1 === y2) break;
-
-        // Calculate the next point
-        const e2 = 2 * err;
-        if (e2 > -dy) {
-            err -= dy;
-            x1 += sx;
-        }
-        if (e2 < dx) {
-            err += dx;
-            y1 += sy;
-        }
-    }
+    let cumul = 0;
+    let i = 0;
+    let x = x1;
+    let y = y1;
+	let dx = x2 - x1;
+	let dy = y2 - y1;
+	let sx = dx < 0 ? -1 : 1;
+	let sy = dy < 0 ? -1 : 1;
+	dx = Math.abs(dx);
+	dy = Math.abs(dy);
+	ML_pixel(x, y, color);
+	if(dx > dy)
+	{
+		cumul = Math.floor(dx / 2);
+		for(i=1 ; i<dx ; i++)
+		{
+			x += sx;
+			cumul += dy;
+			if(cumul > dx)
+			{
+				cumul -= dx;
+				y += sy;
+			}
+			ML_pixel(x, y, color);
+		}
+	}
+	else
+	{
+		cumul = Math.floor(dy / 2);
+		for(i=1 ; i<dy ; i++)
+		{
+			y += sy;
+			cumul += dx;
+			if(cumul > dy)
+			{
+				cumul -= dy;
+				x += sx;
+			}
+			ML_pixel(x, y, color);
+		}
+	}
 };
+
+function Bdisp_DrawLineVRAM(x1, y1, x2, y2) {
+    ML_line(x1, y1, x2, y2, ML_BLACK);
+}
 
 const ML_rectangle = (x1, y1, x2, y2, border_width, border_color, fill_color) => {
     let i;
+    x1 = Math.floor(x1);
+    y1 = Math.floor(y1);
+    x2 = Math.floor(x2);
+    y2 = Math.floor(y2);
+
+    //console.log(`ML_rectangle: x1=${x1}, y1=${y1}, x2=${x2}, y2=${y2}, border_width=${border_width}, border_color=${border_color}, fill_color=${fill_color}`);
+
     if (x1 > x2) {
         i = x1;
         x1 = x2;
@@ -348,12 +408,15 @@ const ML_rectangle = (x1, y1, x2, y2, border_width, border_color, fill_color) =>
         }
     }
     if (fill_color != ML_TRANSPARENT) {
-        for (i = y1 + border_width; i <= y2 - border_width; i++)
+        for (i = y1 + border_width; i <= y2 - border_width; i++) {
             ML_horizontal_line(i, x1 + border_width, x2 - border_width, fill_color);
+        }
     }
 }
 
 const ML_point = (x, y, width, color) => {
+    x = Math.floor(x);
+    y = Math.floor(y);
     if (width < 1) return;
     if (width == 1) {
         ML_pixel(x, y, color);
@@ -446,6 +509,19 @@ const ML_bmp_16_or = (bmp, x, y) => {
 }
 
 const ML_bmp_or_cl = (bmp, x, y, width, height) => {
+    _displayBmp(bmp, x, y, width, height, IMB_WRITEKIND_OR);
+}
+
+const ML_bmp_and = (bmp, x, y, width, height) => {
+    if (!bmp || x < 0 || x > 128 - width || y < 1 - height || y > 63 || width < 1 || height < 1) return;
+    ML_bmp_and_cl(bmp, x, y, width, height);
+}
+
+const ML_bmp_and_cl = (bmp, x, y, width, height) => {
+    _displayBmp(bmp, x, y, width, height, IMB_WRITEKIND_AND);
+}
+
+function _displayBmp(bmp, x, y, width, height, mode) {
     //console.log(bmp);
     for (let i = 0; i < height; i++) {
         if (y + i < 0 || y + i >= SCREEN_HEIGHT) continue; // Skip rows outside the screen
@@ -455,8 +531,28 @@ const ML_bmp_or_cl = (bmp, x, y, width, height) => {
             if (x + j < 0 || x + j >= SCREEN_WIDTH) continue; // Skip columns outside the screen
             let byte = bytes[Math.floor(j / 8)];
             let bit = j % 8;
-            if (byte & (1 << (7 - bit))) { // Check if the bit is set
-                ML_pixel(x + j, y + i, 1); // Set pixel ON
+
+            let pixel = byte & (1 << (7 - bit));
+            let existingPixel = vram.value[(y + i) * SCREEN_WIDTH + (x + j)];
+            if (mode === IMB_WRITEKIND_OVER) {
+                //overwrite
+                ML_pixel(x + j, y + i, pixel ? 1 : 0); // Set pixel ON or OFF
+            } else if (mode === IMB_WRITEKIND_OR) {
+                if (pixel) {
+                    ML_pixel(x + j, y + i, 1); // Set pixel ON
+                }
+            } else if (mode === IMB_WRITEKIND_AND) {
+                if (pixel && existingPixel) {
+                    ML_pixel(x + j, y + i, 1); // Set pixel ON
+                } else {
+                    ML_pixel(x + j, y + i, 0); // Set pixel OFF
+                }
+            } else if (mode === IMB_WRITEKIND_XOR) {
+                if (pixel) {
+                    ML_pixel(x + j, y + i, existingPixel ? 0 : 1); // Toggle pixel
+                }
+            } else {
+                throw new Error("Unsupported mode: " + mode);
             }
         }
     }
@@ -560,9 +656,6 @@ const Print = (text) => {
     }
     PrintXY((displayCursorX.value - 1) * 6 + 1, (displayCursorY.value - 1) * 8, text, 0);
 }
-
-// Mock for ML_pixel if not already defined (assuming it's from a context that provides it)
-// function ML_pixel(x, y, color) { /* console.log(`ML_pixel(${x}, ${y}, ${color})`); */ }
 
 // Definition of the Font class (equivalent to struct Font)
 class Font {
@@ -1001,6 +1094,10 @@ const ML_display_vram = () => {
     _renderVRAMToCanvas();
 };
 
+function Bdisp_PutDisp_DD() {
+    ML_display_vram();
+}
+
 // --- Area Clear Function ---
 const Bdisp_AreaClr_VRAM = ({ left, right, top, bottom }) => {
     // Ensure coordinates are within bounds
@@ -1041,6 +1138,45 @@ const Bdisp_AreaReverseVRAM = (left, top, right, bottom) => {
     }
 };
 
+function Bdisp_ReadArea_VRAM(area) {
+    // Ensure coordinates are within bounds
+    const left = Math.max(0, Math.min(area.left, SCREEN_WIDTH - 1));
+    const right = Math.max(0, Math.min(area.right, SCREEN_WIDTH - 1));
+    const top = Math.max(0, Math.min(area.top, SCREEN_HEIGHT - 1));
+    const bottom = Math.max(0, Math.min(area.bottom, SCREEN_HEIGHT - 1));
+
+    // Make sure left <= right and top <= bottom
+    if (left > right) [left, right] = [right, left];
+    if (top > bottom) [top, bottom] = [bottom, top];
+
+    // Read the specified area into a new array
+    const result = [];
+    for (let y = top; y <= bottom; y++) {
+        for (let x = left; x <= right; x++) {
+            result.push(vram.value[y * SCREEN_WIDTH + x]);
+        }
+    }
+    return result;
+}
+
+function Bdisp_WriteGraph_VRAM(area) {
+    let width = area.width, height = area.height;
+    let x = area.GraphData.x, y = area.GraphData.y;
+    let writeModify = area.GraphData.WriteModify;
+    let bitmap = area.GraphData.pBitmap;
+    let writeKind = area.GraphData.WriteKind || IMB_WRITEKIND_OVER;
+    if (writeKind !== IMB_WRITEKIND_OVER) {
+        throw new Error("Bdisp_WriteGraph_VRAM: Unsupported WriteKind: " + writeKind);
+    }
+    ML_bmp_
+
+}
+
+function Bdisp_AllClr_DDVRAM() {
+    ML_clear_vram();
+    ML_display_vram();
+}
+
 const PopUpWin = (nbLines) => {
     let x1 = 9;
     let y1 = Math.max(3, 20 - Math.floor(nbLines / 2) * 8);
@@ -1061,7 +1197,11 @@ const g_currentFilePointer = ref(0);   // Current position for seek/write operat
 const BFILE_PREFIX = "BFILE_FS_"; // Prefix to avoid collisions in localStorage
 
 function Bfile_CloseFile(handle) {
-    //do nothing
+    if (handle < 0 || !g_currentOpenFileKey.value) {
+        throw new Error("Bfile_CloseFile: Invalid handle or no file open.");
+    }
+    handle = -1; // Reset handle to indicate no file is open
+    g_currentOpenFileKey.value = -1; // Reset current open file key
 }
 
 function Bfile_DeleteFile(filename) {
@@ -1103,6 +1243,7 @@ function Bfile_OpenFile(path, mode) {
     if (localStorage.getItem(key) !== null) {
         g_currentOpenFileKey.value = key;
         g_currentFilePointer.value = 0; // Reset pointer on open
+        console.log(`Bfile_OpenFile: Opened file ${path} with key ${key}`);
         return 1; // Success dummy handle (integer)
     }
     return -1; // File not found
@@ -1148,7 +1289,6 @@ function Bfile_CreateFile(path, size) {
 function Bfile_ReadFile(handle, buffer_arr_ref, len, readpos) {
     if (handle < 0 || !g_currentOpenFileKey.value) {
         throw new Error("Bfile_ReadFile: Invalid handle or no file open.");
-        return 0;
     }
     if (typeof localStorage === 'undefined') {
         throw new Error("localStorage is not available.");
@@ -1260,7 +1400,6 @@ function Bfile_WriteFile(handle, data_arr, len) {
         return bytesWritten;
     } catch (e) {
         throw new Error("Bfile_WriteFile Error (localStorage): ", e.message);
-        return 0;
     }
 }
 
@@ -1287,6 +1426,7 @@ const GetKey = async () => {
                 while (pressedKeys.value.has(key)) {
                     await Sleep(10); // Wait a bit to avoid busy loop
                 }
+                console.log("GetKey: Key pressed:", key);
                 return key;
             }
         }
@@ -1325,6 +1465,7 @@ const startProgram = async () => {
     const api = {
         ML_clear_vram,
         ML_pixel,
+        ML_pixel_test,
         ML_display_vram,
         ML_horizontal_line,
         ML_vertical_line,
@@ -1337,9 +1478,17 @@ const startProgram = async () => {
         ML_bmp_8_or,
         ML_bmp_16_or,
         ML_bmp_or_cl,
+        ML_bmp_and,
+        ML_bmp_and_cl,
         clearArea,
         Bdisp_AreaClr_VRAM,
+        Bdisp_ReadArea_VRAM,
         Bdisp_AreaReverseVRAM,
+        Bdisp_SetPoint_VRAM,
+        Bdisp_DrawLineVRAM,
+        Bdisp_AllClr_DDVRAM,
+        Bdisp_PutDisp_DD,
+        Bdisp_WriteGraph_VRAM,
         PopUpWin,
         IsKeyDown,
         IsAnyKeyDown,
@@ -1359,6 +1508,8 @@ const startProgram = async () => {
         locate,
         Print,
         rand,
+        SaveDisp,
+        RestoreDisp,
         // Pass key constants to the program
         KEY_CTRL_UP: KEY_CTRL_UP_CONST,
         KEY_CTRL_DOWN: KEY_CTRL_DOWN_CONST,
@@ -1380,6 +1531,19 @@ const startProgram = async () => {
         ML_BLACK,
         ML_XOR,
         ML_CHECKER,
+
+        IMB_WRITEMODIFY_NORMAL,
+        IMB_WRITEMODIFY_REVERCE,
+        IMB_WRITEMODIFY_MESH,
+        IMB_AREAKIND_OVER,
+        IMB_AREAKIND_MESH,
+        IMB_AREAKIND_CLR,
+        IMB_AREAKIND_REVERSE,
+
+        MINI_OR,
+        MINI_REV,
+        MINI_REVOR,
+        MINI_OVER,
     };
 
     try {
