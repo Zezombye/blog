@@ -97,8 +97,8 @@ function dispSprite(spriteId, x, y) { // C: function dispSprite(spriteId, x, y) 
 			ML_horizontal_line(y+4, x+2, x+4, 1);
 			ML_pixel(x+2, y+3, 1);
 			ML_pixel(x+4, y+3, 1);*/
-			ML_line(x+1, y+1, x+5, y+5, 1);
-			ML_line(x+1, y+5, x+5, y+1, 1);
+			ML_line(x+1, y+1, x+6, y+6, 1);
+			ML_line(x+1, y+5, x+6, y, 1);
 			break;
 
 		case 5: //crate on emplacement
