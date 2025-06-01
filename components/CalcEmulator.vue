@@ -1,4 +1,3 @@
-
 <template>
     <div class="calc-emulator-container">
         <canvas ref="emulatorCanvas" :width="canvasWidth" :height="canvasHeight" class="calculator-screen"></canvas>
@@ -45,6 +44,9 @@
             <input id="scale-input" type="number" v-model.number="currentScale" min="1" max="10"
                 @change="updateScale" />
         </div>
+        <div class="error-message" v-if="errorMessage">
+            <p>{{ errorMessage }}</p>
+        </div>
     </div>
 </template>
 
@@ -77,6 +79,7 @@ const KEY_CTRL_F3_CONST = "F3";
 const KEY_CTRL_F4_CONST = "F4";
 const KEY_CTRL_F5_CONST = "F5";
 const KEY_CTRL_F6_CONST = "F6";
+const KEY_CTRL_SPACE_CONST = "Space";
 
 const keys = [
     KEY_CTRL_UP_CONST,
@@ -91,115 +94,122 @@ const keys = [
     KEY_CTRL_F3_CONST,
     KEY_CTRL_F4_CONST,
     KEY_CTRL_F5_CONST,
-    KEY_CTRL_F6_CONST
+    KEY_CTRL_F6_CONST,
+    KEY_CTRL_SPACE_CONST,
 ];
 
 const font_5x8 = [
     //Normal characters
-    0,0,0,0,0,                            // Space
-    0x0,0x6F,0x6F,0x0,0x0,                // !
-    5,3,0,5,3,                            // "
-    0x14,0x3E,0x14,0x3E,0x14,             // #
-    0x2E,0x2A,0x7F,0x2A,0x3A,             // $
-    0x43,0x33,0x8,0x66,0x61,              // %
-    0x36,0x49,0x55,0x22,0x58,             // &
-    0x0,0x5,0x3,0x0,0x0,                  // '
-    0x0,0x3C,0x42,0x81,0x0,               // (
-    0x0,0x81,0x42,0x3C,0x0,               // )
-    0x28,0x10,0x7C,0x10,0x28,             // *
-    0x08,0x08,0x3E,0x08,0x08,             // +
-    0x0,0xA0,0x60,0x0,0x0,                // ,
-    0x08,0x08,0x08,0x08,0x08,             // -
-    0x0,0x60,0x60,0x0,0x0,                // .
-    0xC0,0x30,0xC,0x3,0x0,                // /
-    0x3E,0x51,0x49,0x45,0x3E,             // 0
-    0x44,0x42,0x7F,0x40,0x40,             // 1
-    0x42,0x61,0x51,0x49,0x46,             // 2
-    0x22,0x41,0x49,0x49,0x36,             // 3
-    0xF,0x8,0x8,0x8,0x7F,                 // 4
-    0x27,0x45,0x45,0x45,0x39,             // 5
-    0x3E,0x49,0x49,0x49,0x32,             // 6
-    0x1,0x1,0x61,0x19,0x7,                // 7
-    0x36,0x49,0x49,0x49,0x36,             // 8
-    0x26,0x49,0x49,0x49,0x3E,             // 9
-    0x0,0x36,0x36,0x0,0x0,                // :
-    0x0,0x56,0x36,0x0,0x0,                // ;
-    0x8,0x14,0x22,0x41,0x0,               // <
-    0x14,0x14,0x14,0x14,0x14,             // =
-    0x41,0x22,0x14,0x8,0x0,               // >
-    0x2,0x1,0x51,0x9,0x6,                 // ?
-    0x3C,0x42,0x5A,0x52,0x4C,             // @
-    0x7E,0x9,0x9,0x9,0x7E,                // A
-    0x7F,0x49,0x49,0x49,0x36,             // B
-    0x3E,0x41,0x41,0x41,0x22,             // C
-    0x7F,0x41,0x41,0x22,0x1C,             // D
-    0x7F,0x49,0x49,0x49,0x49,             // E
-    0x7F,0x9,0x9,0x9,0x9,                 // F
-    0x3E,0x41,0x49,0x49,0x3A,             // G
-    0x7F,0x8,0x8,0x8,0x7F,                // H
-    0x41,0x41,0x7F,0x41,0x41,             // I
-    0x31,0x41,0x41,0x3F,0x1,              // J
-    0x7F,0x8,0x14,0x22,0x41,              // K
-    0x7F,0x40,0x40,0x40,0x40,             // L
-    0x7F,0x2,0x4,0x2,0x7F,                // M
-    0x7F,0x2,0x4,0x8,0x7F,                // N
-    0x3E,0x41,0x41,0x41,0x3E,             // O
-    0x7F,0x9,0x9,0x9,0x6,                 // P
-    0x3E,0x41,0x51,0x21,0x5E,             // Q
-    0x7F,0x9,0x19,0x29,0x46,              // R
-    0x26,0x49,0x49,0x49,0x32,             // S
-    0x1,0x1,0x7F,0x1,0x1,                 // T
-    0x3F,0x40,0x40,0x40,0x3F,             // U
-    0xF,0x30,0x40,0x30,0xF,               // V
-    0x1F,0x60,0x1C,0x60,0x1F,             // W
-    0x63,0x14,0x8,0x14,0x63,              // X
-    0x3,0x4,0x78,0x4,0x3,                 // Y
-    0x61,0x51,0x49,0x45,0x43,             // Z
-    0x0,0xFF,0x81,0x81,0x0,               // [
-    0x3,0xC,0x30,0xC0,0x0,                // back slash
-    0x0,0x81,0x81,0xFF,0x0,               // ]
-    0x4,0x2,0x1,0x2,0x4,                  // ^
-    0x40,0x40,0x40,0x40,0x40,             // _
-    0x0,0x1,0x2,0x4,0x0,                  // `
-    0x38,0x44,0x44,0x24,0x78,             // a
-    0x7F,0x48,0x44,0x44,0x38,             // b
-    0x38,0x44,0x44,0x44,0x44,             // c
-    0x38,0x44,0x44,0x48,0x7F,             // d
-    0x38,0x54,0x54,0x54,0x18,             // e
-    0x8,0x8,0x7E,0x9,0x9,                 // f
-    0x18,0xA4,0xA4,0xA4,0x78,             // g
-    0x7F,0x8,0x4,0x4,0x78,                // h
-    0x0,0x44,0x7D,0x40,0x0,               // i
-    0x40,0x80,0x80,0x7D,0x0,              // j
-    0x7F,0x10,0x28,0x44,0x0,              // k
-    0x0,0x41,0x7F,0x40,0x0,               // l
-    0x7C,0x4,0x78,0x4,0x78,               // m
-    0x7C,0x8,0x4,0x4,0x78,                // n
-    0x38,0x44,0x44,0x44,0x38,             // o
-    0xFC,0x24,0x24,0x24,0x18,             // p
-    0x18,0x24,0x24,0x24,0xF8,             // q
-    0x7C,0x8,0x4,0x4,0x8,                 // r
-    0x48,0x54,0x54,0x54,0x24,             // s
-    0x4,0x4,0x3E,0x44,0x44,               // t
-    0x3C,0x40,0x40,0x20,0x7C,             // u
-    0x1C,0x20,0x40,0x20,0x1C,             // v
-    0x1C,0x60,0x1C,0x60,0x1C,             // w
-    0x44,0x28,0x10,0x28,0x44,             // x
-    0x1C,0xA0,0xA0,0xA0,0x7C,             // y
-    0x44,0x64,0x54,0x4C,0x44,             // z
-    0x0,0x8,0x76,0x81,0x0,                // {
-    0x0,0x0,0xFF,0x0,0x0,                 // |
-    0x0,0x81,0x76,0x8,0x0,                // }
-    0x8,0x4,0x8,0x10,0x8,                 // ~
+    0, 0, 0, 0, 0,                            // Space
+    0x0, 0x6F, 0x6F, 0x0, 0x0,                // !
+    5, 3, 0, 5, 3,                            // "
+    0x14, 0x3E, 0x14, 0x3E, 0x14,             // #
+    0x2E, 0x2A, 0x7F, 0x2A, 0x3A,             // $
+    0x43, 0x33, 0x8, 0x66, 0x61,              // %
+    0x36, 0x49, 0x55, 0x22, 0x58,             // &
+    0x0, 0x5, 0x3, 0x0, 0x0,                  // '
+    0x0, 0x3C, 0x42, 0x81, 0x0,               // (
+    0x0, 0x81, 0x42, 0x3C, 0x0,               // )
+    0x28, 0x10, 0x7C, 0x10, 0x28,             // *
+    0x08, 0x08, 0x3E, 0x08, 0x08,             // +
+    0x0, 0xA0, 0x60, 0x0, 0x0,                // ,
+    0x08, 0x08, 0x08, 0x08, 0x08,             // -
+    0x0, 0x60, 0x60, 0x0, 0x0,                // .
+    0xC0, 0x30, 0xC, 0x3, 0x0,                // /
+    0x3E, 0x51, 0x49, 0x45, 0x3E,             // 0
+    0x44, 0x42, 0x7F, 0x40, 0x40,             // 1
+    0x42, 0x61, 0x51, 0x49, 0x46,             // 2
+    0x22, 0x41, 0x49, 0x49, 0x36,             // 3
+    0xF, 0x8, 0x8, 0x8, 0x7F,                 // 4
+    0x27, 0x45, 0x45, 0x45, 0x39,             // 5
+    0x3E, 0x49, 0x49, 0x49, 0x32,             // 6
+    0x1, 0x1, 0x61, 0x19, 0x7,                // 7
+    0x36, 0x49, 0x49, 0x49, 0x36,             // 8
+    0x26, 0x49, 0x49, 0x49, 0x3E,             // 9
+    0x0, 0x36, 0x36, 0x0, 0x0,                // :
+    0x0, 0x56, 0x36, 0x0, 0x0,                // ;
+    0x8, 0x14, 0x22, 0x41, 0x0,               // <
+    0x14, 0x14, 0x14, 0x14, 0x14,             // =
+    0x41, 0x22, 0x14, 0x8, 0x0,               // >
+    0x2, 0x1, 0x51, 0x9, 0x6,                 // ?
+    0x3C, 0x42, 0x5A, 0x52, 0x4C,             // @
+    0x7E, 0x9, 0x9, 0x9, 0x7E,                // A
+    0x7F, 0x49, 0x49, 0x49, 0x36,             // B
+    0x3E, 0x41, 0x41, 0x41, 0x22,             // C
+    0x7F, 0x41, 0x41, 0x22, 0x1C,             // D
+    0x7F, 0x49, 0x49, 0x49, 0x49,             // E
+    0x7F, 0x9, 0x9, 0x9, 0x9,                 // F
+    0x3E, 0x41, 0x49, 0x49, 0x3A,             // G
+    0x7F, 0x8, 0x8, 0x8, 0x7F,                // H
+    0x41, 0x41, 0x7F, 0x41, 0x41,             // I
+    0x31, 0x41, 0x41, 0x3F, 0x1,              // J
+    0x7F, 0x8, 0x14, 0x22, 0x41,              // K
+    0x7F, 0x40, 0x40, 0x40, 0x40,             // L
+    0x7F, 0x2, 0x4, 0x2, 0x7F,                // M
+    0x7F, 0x2, 0x4, 0x8, 0x7F,                // N
+    0x3E, 0x41, 0x41, 0x41, 0x3E,             // O
+    0x7F, 0x9, 0x9, 0x9, 0x6,                 // P
+    0x3E, 0x41, 0x51, 0x21, 0x5E,             // Q
+    0x7F, 0x9, 0x19, 0x29, 0x46,              // R
+    0x26, 0x49, 0x49, 0x49, 0x32,             // S
+    0x1, 0x1, 0x7F, 0x1, 0x1,                 // T
+    0x3F, 0x40, 0x40, 0x40, 0x3F,             // U
+    0xF, 0x30, 0x40, 0x30, 0xF,               // V
+    0x1F, 0x60, 0x1C, 0x60, 0x1F,             // W
+    0x63, 0x14, 0x8, 0x14, 0x63,              // X
+    0x3, 0x4, 0x78, 0x4, 0x3,                 // Y
+    0x61, 0x51, 0x49, 0x45, 0x43,             // Z
+    0x0, 0xFF, 0x81, 0x81, 0x0,               // [
+    0x3, 0xC, 0x30, 0xC0, 0x0,                // back slash
+    0x0, 0x81, 0x81, 0xFF, 0x0,               // ]
+    0x4, 0x2, 0x1, 0x2, 0x4,                  // ^
+    0x40, 0x40, 0x40, 0x40, 0x40,             // _
+    0x0, 0x1, 0x2, 0x4, 0x0,                  // `
+    0x38, 0x44, 0x44, 0x24, 0x78,             // a
+    0x7F, 0x48, 0x44, 0x44, 0x38,             // b
+    0x38, 0x44, 0x44, 0x44, 0x44,             // c
+    0x38, 0x44, 0x44, 0x48, 0x7F,             // d
+    0x38, 0x54, 0x54, 0x54, 0x18,             // e
+    0x8, 0x8, 0x7E, 0x9, 0x9,                 // f
+    0x18, 0xA4, 0xA4, 0xA4, 0x78,             // g
+    0x7F, 0x8, 0x4, 0x4, 0x78,                // h
+    0x0, 0x44, 0x7D, 0x40, 0x0,               // i
+    0x40, 0x80, 0x80, 0x7D, 0x0,              // j
+    0x7F, 0x10, 0x28, 0x44, 0x0,              // k
+    0x0, 0x41, 0x7F, 0x40, 0x0,               // l
+    0x7C, 0x4, 0x78, 0x4, 0x78,               // m
+    0x7C, 0x8, 0x4, 0x4, 0x78,                // n
+    0x38, 0x44, 0x44, 0x44, 0x38,             // o
+    0xFC, 0x24, 0x24, 0x24, 0x18,             // p
+    0x18, 0x24, 0x24, 0x24, 0xF8,             // q
+    0x7C, 0x8, 0x4, 0x4, 0x8,                 // r
+    0x48, 0x54, 0x54, 0x54, 0x24,             // s
+    0x4, 0x4, 0x3E, 0x44, 0x44,               // t
+    0x3C, 0x40, 0x40, 0x20, 0x7C,             // u
+    0x1C, 0x20, 0x40, 0x20, 0x1C,             // v
+    0x1C, 0x60, 0x1C, 0x60, 0x1C,             // w
+    0x44, 0x28, 0x10, 0x28, 0x44,             // x
+    0x1C, 0xA0, 0xA0, 0xA0, 0x7C,             // y
+    0x44, 0x64, 0x54, 0x4C, 0x44,             // z
+    0x0, 0x8, 0x76, 0x81, 0x0,                // {
+    0x0, 0x0, 0xFF, 0x0, 0x0,                 // |
+    0x0, 0x81, 0x76, 0x8, 0x0,                // }
+    0x8, 0x4, 0x8, 0x10, 0x8,                 // ~
 
     //Custom characters
-    0x10,0x20,0x40,0x7E,0x2,              // Root symbol
-    8,8,0x3E,0x1C,8,                      // Right arrow symbol from keypad
-    0xFF,0xFF,0xFF,0xFF,0xFF,             // Solid block cursor
+    0x10, 0x20, 0x40, 0x7E, 0x2,              // Root symbol
+    8, 8, 0x3E, 0x1C, 8,                      // Right arrow symbol from keypad
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF,             // Solid block cursor
     //0x30,0x4E,0x49,0x39,0x6,              // Theta
-    0x30,0x4C,0x2A,0x19,0x6,              // Theta
-    0,5,2,5,0                             // Superscript X
+    0x30, 0x4C, 0x2A, 0x19, 0x6,              // Theta
+    0, 5, 2, 5, 0                             // Superscript X
 ];
+const font_5x8_special_chars = {
+    0xE60A: [0b00011100, 0b00101010, 0b01101010, 0b10101010, 0b00011000], //é
+    0xE6A6: [0b01111100, 0b01111100, 0b01111100, 0b01111100, 0b01111100], //full square
+    0xE6A5: [0b01111100, 0b01000100, 0b01000100, 0b01000100, 0b01111100], //empty square
+
+}
 
 const font_4x6 = [
     0b111110, 0b100010, 0b111110, 0, //0
@@ -223,6 +233,12 @@ const pressedKeys = ref(new Set());
 const isProgramRunning = ref(false);
 const displayCursorX = ref(0);
 const displayCursorY = ref(0);
+const errorMessage = ref('');
+const ML_TRANSPARENT = -1;
+const ML_WHITE = 0;
+const ML_BLACK = 1;
+const ML_XOR = 2;
+const ML_CHECKER = 3;
 let programInstance = null;
 
 const canvasWidth = computed(() => SCREEN_WIDTH * currentScale.value);
@@ -235,7 +251,7 @@ const ML_clear_vram = () => {
 
 const ML_pixel = (x, y, color) => { // color = 1 for ON, 0 for OFF
     if (typeof color !== 'number' || (color !== 0 && color !== 1 && color !== 2)) {
-        throw new Error("ML_pixel: color must be 0, 1, or 2, got "+JSON.stringify(color));
+        throw new Error("ML_pixel: color must be 0, 1, or 2, got " + JSON.stringify(color));
     }
     if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT) {
         vram.value[y * SCREEN_WIDTH + x] = color === 2 ? 1 - vram.value[y * SCREEN_WIDTH + x] : color;
@@ -319,22 +335,109 @@ const ML_line = (x1, y1, x2, y2, color) => {
     }
 };
 
+const ML_rectangle = (x1, y1, x2, y2, border_width, border_color, fill_color) => {
+    let i;
+    if (x1 > x2) {
+        i = x1;
+        x1 = x2;
+        x2 = i;
+    }
+    if (y1 > y2) {
+        i = y1;
+        y1 = y2;
+        y2 = i;
+    }
+    if (border_width > Math.floor((x2 - x1) / 2 + 1)) border_width = Math.floor((x2 - x1) / 2 + 1);
+    if (border_width > Math.floor((y2 - y1) / 2 + 1)) border_width = Math.floor((y2 - y1) / 2 + 1);
+    if (border_color != ML_TRANSPARENT && border_width > 0) {
+        for (i = 0; i < border_width; i++) {
+            ML_horizontal_line(y1 + i, x1, x2, border_color);
+            ML_horizontal_line(y2 - i, x1, x2, border_color);
+        }
+        for (i = y1 + border_width; i <= y2 - border_width; i++) {
+            ML_horizontal_line(i, x1, x1 + border_width - 1, border_color);
+            ML_horizontal_line(i, x2 - border_width + 1, x2, border_color);
+        }
+    }
+    if (fill_color != ML_TRANSPARENT) {
+        for (i = y1 + border_width; i <= y2 - border_width; i++)
+            ML_horizontal_line(i, x1 + border_width, x2 - border_width, fill_color);
+    }
+}
+
+const ML_bmp_or = (bmp, x, y, width, height) => {
+    if (!bmp || x < 0 || x > 128 - width || y < 1 - height || y > 63 || width < 1 || height < 1) return;
+    ML_bmp_or_cl(bmp, x, y, width, height);
+}
+
+const ML_bmp_or_cl = (bmp, x, y, width, height) => {
+    //console.log(bmp);
+    for (let i = 0; i < height; i++) {
+        if (y + i < 0 || y + i >= SCREEN_HEIGHT) continue; // Skip rows outside the screen
+        let bytes = bmp.slice(i * Math.ceil(width / 8), (i + 1) * Math.ceil(width / 8));
+        //console.log(`Row ${i}:`, bytes);
+        for (let j = 0; j < width; j++) {
+            if (x + j < 0 || x + j >= SCREEN_WIDTH) continue; // Skip columns outside the screen
+            let byte = bytes[Math.floor(j / 8)];
+            let bit = j % 8;
+            if (byte & (1 << (7 - bit))) { // Check if the bit is set
+                ML_pixel(x + j, y + i, 1); // Set pixel ON
+            }
+        }
+    }
+}
+
+const clearArea = (x1, y1, x2, y2) => {
+    if (x1 > x2) [x1, x2] = [x2, x1];
+    if (y1 > y2) [y1, y2] = [y2, y1];
+    for (let y = y1; y <= y2; y++) {
+        for (let x = x1; x <= x2; x++) {
+            ML_pixel(x, y, 0); // Set pixel OFF
+        }
+    }
+};
+
+const srand = (seed) => {
+    //Do nothing, it is impossible to seed math.random
+    throw new Error("srand: seeding is not supported in this environment.");
+};
+
+const rand = () => {
+    // Return a pseudo-random number between 0 and 32767
+    return Math.floor(Math.random() * 32768);
+};
+
 const PrintXY = (x, y, text, type) => {
     if (typeof text !== 'string') {
-        throw new Error("PrintXY: text must be a string, got "+JSON.stringify(text));
+        throw new Error("PrintXY: text must be a string, got " + JSON.stringify(text));
     }
     //type: 0 = normal, 1 = reversed
-    console.log(`Print at (${x}, ${y}): ${text} [Type: ${type}]`);
-    for (let char of text) {
-        let charCode = char.charCodeAt(0) - 32;
-        if (charCode < 0 || charCode >= font_5x8.length / 5) {
-            charCode = "?".charCodeAt(0) - 32; // Default to '?' if out of bounds
+    //console.log(`Print at (${x}, ${y}): ${text} [Type: ${type}]`);
+    for (let i = 0; i < text.length; i++) {
+        let char = text[i];
+        let bytes = [];
+        let isGlyphUpsideDown = false;
+        if (char.charCodeAt(0) === 0xE6) {
+            //Handle multibyte character
+            let multiByteChar = (text.charCodeAt(i) << 8) | text.charCodeAt(i + 1);
+            if (font_5x8_special_chars[multiByteChar]) {
+                bytes = font_5x8_special_chars[multiByteChar];
+                i++; // Skip the next character since it's part of the multibyte character
+            } else {
+                throw new Error(`PrintXY: Unsupported multibyte character ${multiByteChar.toString(16)} at index ${i}`);
+            }
+            isGlyphUpsideDown = true; // Set flag for upside-down glyph
+        } else {
+            let charCode = char.charCodeAt(0) - 32;
+            if (charCode < 0 || charCode >= font_5x8.length / 5) {
+                charCode = "?".charCodeAt(0) - 32; // Default to '?' if out of bounds
+            }
+            bytes = font_5x8.slice(charCode * 5, charCode * 5 + 5);
         }
-        const bytes = font_5x8.slice(charCode * 5, charCode * 5 + 5);
         for (let i = 0; i < 5; i++) {
             const byte = bytes[i];
             for (let bit = 0; bit < 8; bit++) {
-                if (byte & (1 << bit)) {
+                if (byte & (1 << (isGlyphUpsideDown ? 7 - bit : bit))) {
                     ML_pixel(x + i, y + bit, type === 1 ? 0 : 1); // Reverse color if type is 1
                 } else {
                     ML_pixel(x + i, y + bit, type === 1 ? 1 : 0); // Reverse color if type is 1
@@ -346,12 +449,12 @@ const PrintXY = (x, y, text, type) => {
 }
 const PrintMini = (x, y, text, type) => {
     if (typeof text !== 'string') {
-        throw new Error("PrintMini: text must be a string, got "+JSON.stringify(text));
+        throw new Error("PrintMini: text must be a string, got " + JSON.stringify(text));
     }
     if (type !== 0) {
-        throw new Error("Unhandled PrintMini type: "+type);
+        throw new Error("Unhandled PrintMini type: " + type);
     }
-    console.log(`Print at (${x}, ${y}): ${text} [Type: ${type}]`);
+    //console.log(`Print at (${x}, ${y}): ${text} [Type: ${type}]`);
     for (let char of text) {
         let charCode = char.charCodeAt(0) - 48;
         if (charCode < 0 || charCode >= (font_4x6.length / 4 - 1)) {
@@ -361,7 +464,7 @@ const PrintMini = (x, y, text, type) => {
         for (let i = 0; i < 4; i++) {
             const byte = bytes[i];
             for (let bit = 0; bit < 6; bit++) {
-                if (byte & (1 << 5-bit)) {
+                if (byte & (1 << 5 - bit)) {
                     ML_pixel(x + i, y + bit, type === 1 ? 0 : 1); // Reverse color if type is 1
                 } else {
                     ML_pixel(x + i, y + bit, type === 1 ? 1 : 0); // Reverse color if type is 1
@@ -374,13 +477,431 @@ const PrintMini = (x, y, text, type) => {
 const locate = (x, y) => {
     displayCursorX.value = Math.max(1, Math.min(x, 21));
     displayCursorY.value = Math.max(1, Math.min(y, 8));
-    console.log(`Cursor moved to (${x}, ${y})`);
+    //console.log(`Cursor moved to (${x}, ${y})`);
 };
 const Print = (text) => {
     if (typeof text !== 'string') {
-        throw new Error("Print: text must be a string, got "+JSON.stringify(text));
+        throw new Error("Print: text must be a string, got " + JSON.stringify(text));
     }
-    PrintXY((displayCursorX.value-1)*6+1, (displayCursorY.value-1)*8, text, 0);
+    PrintXY((displayCursorX.value - 1) * 6 + 1, (displayCursorY.value - 1) * 8, text, 0);
+}
+
+// Mock for ML_pixel if not already defined (assuming it's from a context that provides it)
+// function ML_pixel(x, y, color) { /* console.log(`ML_pixel(${x}, ${y}, ${color})`); */ }
+
+// Definition of the Font class (equivalent to struct Font)
+class Font {
+    constructor() {
+        // unsigned long ltr[220][2]; //an array of longs for each character
+        this.ltr = Array(220).fill(null).map(() => [0, 0]);
+        // char length[220]; //array of chars for the length of each character
+        this.length = Array(220).fill(0);
+    }
+}
+
+/*Here is how a character is defined.
+
+Each character is 7 pixels high. The length is defined by you in the length array.
+
+Because some characters (ex: m, M) are 5 px wide, the total amount is >32 bit,
+so the character is stored in an array of 2 longs. The first long is only used if
+the character is >32 bit.
+
+For example, the character 'M', of length 3, is the following in binary:
+
+00000
+10001
+11011
+10101
+10001
+10001
+00000
+
+You must not forget the "00000" at the end, else your character will be shifted down by a pixel.
+Now just remove the newlines in the character. You should get: 00000100011101110101100011000100000
+Put that in a binary to decimal converter and you've got your number representing the character.
+
+Also, make sure to define the correct length, else it will display gibberish.
+*/
+
+// Initialize normfont (global variable)
+let normfont = new Font();
+
+// C struct initialization: struct Font normfont = { {{...ltr_values...}}, {lengths...} };
+// This means ltr_values go into normfont.ltr and lengths go into normfont.length.
+
+// Data for normfont.ltr
+// In C, {{0}, {0,58}, ...} means normfont.ltr[0] = {0,0}, normfont.ltr[1] = {0,58}, etc.
+const ltr_initial_data = [
+    [0],		//space (implicitly {0,0})
+    [0, 58], //!
+    [0, 184320], //" replaced by 0x81
+    [0, 368409920], //#
+    [0, 524752832], //$
+    [0, 136456], //%
+    [0, 6838992], //&
+    [0, 48], //'
+    [0, 1700], //(
+    [0, 2392], //)
+    [0, 174592], //*
+    [0, 11904], //+
+    [0, 3], //
+    [0, 3584], //-
+    [0, 2], //.
+    [0, 38176], ///
+    [0, 252792], //0
+    [0, 206008], //1
+    [0, 237368], //2
+    [0, 235128], //3
+    [0, 187976], //4
+    [0, 249464], //5
+    [0, 249720], //6
+    [0, 234640], //7
+    [0, 253816], //8
+    [0, 253560], //9
+    [0, 10], //:
+    [0, 11], //;
+    [0, 43144], //< replaced by 0x7F
+    [0, 29120], //=
+    [0, 139936], //> replaced by 0x80
+    [0, 201744], //?
+    [0, 488035776], //@
+    [0, 6922128], //A
+    [0, 15329760], //B
+    [0, 6916448], //C
+    [0, 15309280], //D
+    [0, 16312560], //E
+    [0, 16312448], //F
+    [0, 7911776], //G
+    [0, 10090896], //H
+    [0, 238776], //I
+    [0, 7480000], //J
+    [0, 10144400], //K
+    [0, 8947952], //L
+    [0, 599442976], //M
+    [0, 10336656], //N
+    [0, 6920544], //O
+    [0, 15310464], //P
+    [0, 6921072], //Q
+    [0, 15310480], //R
+    [0, 7889376], //S
+    [0, 238736], //T
+    [0, 10066288], //U
+    [0, 588818560], //V
+    [0, 588961088], //W
+    [0, 185704], //X
+    [0, 187024], //Y
+    [0, 15878384], //Z
+    [0, 3756], //[
+    [0, 148552], //backslash
+    [0, 3420], //]
+    [0, 86016], //^
+    [0, 7], //_
+    [0, 3648], //`
+    [0, 15192], //a
+    [0, 158576], //b
+    [0, 14616], //c
+    [0, 47960], //d
+    [0, 15256], //e
+    [0, 118048], //f
+    [0, 15310], //g
+    [0, 158568], //h
+    [0, 46], //i
+    [0, 1111], //j
+    [0, 154984], //k
+    [0, 62], //l
+    [0, 27973280], //m
+    [0, 27496], //n
+    [0, 11088], //o
+    [0, 27508], //p
+    [0, 15193], //q
+    [0, 23840], //r
+    [0, 924], //s
+    [0, 2988], //t
+    [0, 23416], //u
+    [0, 23376], //v
+    [0, 18535744], //w
+    [0, 21864], //x
+    [0, 23246], //y
+    [0, 30008], //z
+    [0, 108696], //{
+    [0, 62], //|
+    [0, 205488], //}
+    [0, 448512], //~
+    [0, 43144], //< 0x7F
+    [0, 139936], //> 0x80
+    [0, 184320], //" 0x81
+    [0, 50022784], //look of disapproval 0x82
+    [0, 496640000], //lenny face eye 0x83
+    [0, 138482222], //lenny face nose/mouth 0x84
+    [0, 4088], //sunglasses 0x85
+    [0, 3840], //*puts on sunglasses* 0x86
+    [0, 229376], //overline 0x87
+    [0, 693142620], //shrug face 0x88
+    [0, 801688], //é 0x89
+    [0, 253440], //° 0x8A
+    [0, 201744],
+    [0, 201744],
+    [0, 201744],
+    [0, 201744],
+    [0, 201744],
+    [0, 1588120], //è 0x90
+    [0, 1588056], //à 0x91
+    [0, 1596280], //ù 0x92
+    [0, 14622], //ç 0x93
+    [0, 1617408], //² 0x94
+    [0, 55501872], //€ 0x95
+    [0, 1048716256] //somme 0x96
+];
+
+for (let i = 0; i < ltr_initial_data.length; i++) {
+    normfont.ltr[i][0] = ltr_initial_data[i][0];
+    if (ltr_initial_data[i].length > 1) {
+        normfont.ltr[i][1] = ltr_initial_data[i][1];
+    } else {
+        normfont.ltr[i][1] = 0; // Explicitly set second long to 0 if not provided (e.g. for space)
+    }
+}
+// The rest of normfont.ltr (from index ltr_initial_data.length to 219) remains [0,0] due to Font constructor.
+
+// Data for normfont.length
+const length_initial_data = [ //lengths
+    3, //space
+    1, //!
+    3, //"
+    5, //#
+    5, //$
+    3, //%
+    4, //&
+    1, //'
+    2, //(
+    2, //)
+    3, //*
+    3, //+
+    1, //,
+    3, //-
+    1, //.
+    3, ///
+    3, //0
+    3, //1
+    3, //2
+    3, //3
+    3, //4
+    3, //5
+    3, //6
+    3, //7
+    3, //8
+    3, //9
+    1, //:
+    1, //;
+    3, //<
+    3, //=
+    3, //>
+    3, //?
+    5, //@
+    4, //A
+    4, //B
+    4, //C
+    4, //D
+    4, //E
+    4, //F
+    4, //G
+    4, //H
+    3, //I
+    4, //J
+    4, //K
+    4, //L
+    5, //M
+    4, //N
+    4, //O
+    4, //P
+    4, //Q
+    4, //R
+    4, //S
+    3, //T
+    4, //U
+    5, //V
+    5, //W
+    3, //X
+    3, //Y
+    4, //Z
+    2, //[
+    3, //backslash
+    2, //]
+    3, //^
+    3, //_
+    2, //`
+    3, //a
+    3, //b
+    3, //c
+    3, //d
+    3, //e
+    3, //f
+    3, //g
+    3, //h
+    1, //i
+    2, //j
+    3, //k
+    1, //l
+    5, //m
+    3, //n
+    3, //o
+    3, //p
+    3, //q
+    3, //r
+    2, //s
+    2, //t
+    3, //u
+    3, //v
+    5, //w
+    3, //x
+    3, //y
+    3, //z
+    3, //{
+    1, //|
+    3, //}
+    5, //~
+    3, //<
+    3, //>
+    3, //"
+    5, //look of disapproval
+    5, //lenny face eye
+    5, //lenny face nose/mouth
+    3, //sunglasses
+    3, //*puts on sunglasses*
+    3, //overline
+    5, //shrug face
+    3, //é
+    3, //°
+    3,
+    3,
+    3,
+    3,
+    3,
+    3, //è
+    3, //à
+    3, //ù
+    3, //ç
+    3, //²
+    4, //€
+    5, //somme
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+];
+for (let i = 0; i < length_initial_data.length; i++) {
+    normfont.length[i] = length_initial_data[i];
+}
+// The rest of normfont.length (from index length_initial_data.length to 219) remains 0.
+
+
+//displays a given string, using a given font, at the given coordinates
+//returns the height of the string
+function dispStr(str, x2, y, limit) { // unsigned char* str -> JS string
+    let k = 0;
+    let x = x2;
+    let y2 = y;
+    do { //browses through the given string
+
+        let charCode = str.charCodeAt(k);
+
+        //word wrap: if the current character isn't a space, simply display it
+        if (charCode != 32 && charCode != 0 && charCode != 10) { // ASCII: ' ', NUL, '\n'
+            let fontIdx = charCode - 32;
+            if (y >= -6 && y < 68) {
+
+                let charlength = normfont.length[fontIdx];
+                // Check if charlength is valid, C would use garbage or crash if fontIdx is out of bounds
+                // or if length is 0 from uninitialized part.
+                // JS arrays are bounds-checked or return undefined; normfont is pre-filled with 0s.
+                if (charlength > 0 && fontIdx >= 0 && fontIdx < 220) {
+                    let total_bits = 7 * charlength;
+                    let j_init_val_mod_32 = total_bits % 32;
+                    let j;
+                    if (j_init_val_mod_32 === 0) { // If total_bits is a multiple of 32 (e.g. 32, 64)
+                        // This means the bits for the "first" long segment (if used) would be 0 or 32.
+                        // If 0 (e.g. total_bits is 32), (1 << -1) is UB. j should effectively start for the second long.
+                        // If this means all bits are in normfont.ltr[fontIdx][1] (up to 32 bits),
+                        // j should start at 1 << (total_bits - 1), assuming total_bits <= 32.
+                        // Or, if total_bits > 32 and (total_bits % 32) == 0 means 32 bits in ltr[0], j starts 1<<31.
+                        // The C code `1 << (X%32 - 1)` would be `1 << -1` if `X%32 == 0`.
+                        // Let's assume charlengths are such that this specific UB is not hit,
+                        // or that `1 << -1` results in 0 and the logic handles it.
+                        // For charlengths 1-5, `total_bits % 32` is never 0.
+                        // (7*1=7, 7*2=14, 7*3=21, 7*4=28, 7*5=35).
+                        j = 1 << (total_bits - 1); // A more robust start for single-long characters
+                        // This simplified j init is for characters fitting in one long. Multi-long needs the complex one.
+                        // The original C logic for j initialization handles multi-long case.
+                        // `j = 1 << (j_init_val_mod_32 - 1)` is correct given non-zero `j_init_val_mod_32`.
+                        j = 1 << (j_init_val_mod_32 - 1);
+                    } else {
+                        j = 1 << (j_init_val_mod_32 - 1);
+                    }
+
+                    //char i; // C loop var
+
+                    for (let i_loop = 0; i_loop < total_bits; i_loop++) { //browses through the pixels of the character specified, shifting the 1 of j to the right each time, so that it makes 0b01000.., 0b001000... etc
+
+                        let bits_remaining_inclusive = total_bits - i_loop;
+                        let long_idx_selector = Math.trunc(bits_remaining_inclusive / 33); // 1 for ltr[0] (MSB part), 0 for ltr[1] (LSB part)
+                        let current_long_data = normfont.ltr[fontIdx][1 - long_idx_selector];
+
+                        if (current_long_data & j) { //checks if the bit that is a 1 in the j is also a 1 in the character
+
+                            ML_pixel(x + i_loop % (charlength), y + Math.trunc(i_loop / charlength), 1); //if so, locates the pixel at the coordinates, using modulo and division to calculate the coordinates relative to the top left of the character
+                        }
+
+                        if (j !== 1) { // Test before shift
+                            j >>>= 1; // Unsigned right shift
+                        } else { // If j was 1, it becomes MSB mask for next long segment
+                            j = 0x80000000; // (1 << 31), which is -2147483648 in JS signed 32-bit
+                        }
+
+                    }
+                } // end if charlength > 0
+            } // end if y in bounds
+
+            // If fontIdx was out of bounds or charlength was 0, what should x advance by?
+            // C would use garbage `normfont.length[str[k]-32]`.
+            // JS normfont.length defaults to 0 for uninitialized parts. So `x += 0 + 1;`
+            // This seems like a reasonable behavior for unknown chars.
+            let advance_x_by = (fontIdx >= 0 && fontIdx < 220 && normfont.length[fontIdx] > 0) ? normfont.length[fontIdx] : 0;
+            x += advance_x_by + 1; //now that the character has been fully displayed, shifts the cursor right by the length of character + 1
+        } else if (charCode == 10) { // '\n'
+            y += 8;
+            x = x2;
+        } else if (charCode == 32) { // ' '
+
+            let word_pixels = 0;
+            let j_lookahead = k + 1;
+            while (j_lookahead < str.length && str.charCodeAt(j_lookahead) != 32 && str.charCodeAt(j_lookahead) != 0 && str.charCodeAt(j_lookahead) != 10) { //as long as it doesn't encounter another space or end of string
+                let next_char_code = str.charCodeAt(j_lookahead);
+                let next_font_idx = next_char_code - 32;
+                let next_char_len = 0;
+                if (next_font_idx >= 0 && next_font_idx < 220) { // check bounds for safety
+                    next_char_len = normfont.length[next_font_idx];
+                }
+                word_pixels += next_char_len + 1;
+                j_lookahead++;
+            }
+
+            if (x + 4 + word_pixels > limit) { //the word can't be displayed, note that it is STRICTLY superior because we added an unnecessary pixel at the end
+                y += 8; //goes on next line which is 8 pixels down
+                x = x2; //puts cursor on beginning of line
+            } else {
+                x += 4; // space width
+            }
+        }
+        k++;
+    } while (k < str.length && str.charCodeAt(k) !== 0); // NUL char (0) also terminates C string
+    return y + 8 - y2;
 }
 
 const _renderVRAMToCanvas = () => {
@@ -445,6 +966,16 @@ const Bdisp_AreaReverseVRAM = (left, top, right, bottom) => {
     }
 };
 
+const PopUpWin = (nbLines) => {
+    let x1 = 9;
+    let y1 = 20 - Math.floor(nbLines / 2) * 8;
+    let x2 = x1 + 108;
+    let y2 = y1 + nbLines * 8 + 7;
+    ML_rectangle(x1, y1, x2, y2, 1, ML_BLACK, ML_WHITE);
+    ML_horizontal_line(y2+1, x1+1, x2+1, ML_BLACK);
+    ML_vertical_line(x2+1, y1+1, y2+1, ML_BLACK);
+}
+
 const Sleep = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms));
 };
@@ -463,7 +994,7 @@ const BFILE_PREFIX = "BFILE_FS_"; // Prefix to avoid collisions in localStorage
  */
 function Bfile_OpenFile(path, mode) {
     if (typeof path !== "string") {
-        throw new Error("Bfile_OpenFile: path must be a string, got "+JSON.stringify(path));
+        throw new Error("Bfile_OpenFile: path must be a string, got " + JSON.stringify(path));
     }
     const key = BFILE_PREFIX + path;
 
@@ -488,7 +1019,7 @@ function Bfile_OpenFile(path, mode) {
  */
 function Bfile_CreateFile(path, size) {
     if (typeof path !== "string") {
-        throw new Error("Bfile_CreateFile: path must be a string, got "+JSON.stringify(path));
+        throw new Error("Bfile_CreateFile: path must be a string, got " + JSON.stringify(path));
     }
     const key = BFILE_PREFIX + path;
 
@@ -497,7 +1028,7 @@ function Bfile_CreateFile(path, size) {
     }
 
     try {
-        const content = Array(size).fill(2**16); // Initialize with all 1 because Casio
+        const content = Array(size).fill(2 ** 16); // Initialize with all 1 because Casio
         localStorage.setItem(key, JSON.stringify(content));
         // Note: Unlike OpenFile, CreateFile in this shim doesn't automatically set g_currentOpenFileKey.
         // The C code pattern is CreateFile then OpenFile again, which will set it.
@@ -635,11 +1166,15 @@ function Bfile_WriteFile(handle, data_arr, len) {
     }
 }
 
-
-
 // --- Key Input API ---
 const IsKeyDown = (keyCode) => {
     return pressedKeys.value.has(keyCode);
+};
+const IsAnyKeyDown = () => {
+    return pressedKeys.value.size > 0;
+};
+const ClearKeyBuffer = () => {
+    pressedKeys.value.clear();
 };
 
 // --- Key Waiting Function ---
@@ -696,9 +1231,16 @@ const startProgram = async () => {
         ML_horizontal_line,
         ML_vertical_line,
         ML_line,
+        ML_rectangle,
+        ML_bmp_or,
+        ML_bmp_or_cl,
+        clearArea,
         Bdisp_AreaClr_VRAM,
         Bdisp_AreaReverseVRAM,
+        PopUpWin,
         IsKeyDown,
+        IsAnyKeyDown,
+        ClearKeyBuffer,
         GetKey,
         Sleep,
         Bfile_OpenFile,
@@ -708,8 +1250,10 @@ const startProgram = async () => {
         Bfile_WriteFile,
         PrintXY,
         PrintMini,
+        dispStr,
         locate,
         Print,
+        rand,
         // Pass key constants to the program
         KEY_CTRL_UP: KEY_CTRL_UP_CONST,
         KEY_CTRL_DOWN: KEY_CTRL_DOWN_CONST,
@@ -724,6 +1268,13 @@ const startProgram = async () => {
         KEY_CTRL_F4: KEY_CTRL_F4_CONST,
         KEY_CTRL_F5: KEY_CTRL_F5_CONST,
         KEY_CTRL_F6: KEY_CTRL_F6_CONST,
+        KEY_CTRL_SPACE: KEY_CTRL_SPACE_CONST,
+
+        ML_TRANSPARENT,
+        ML_WHITE,
+        ML_BLACK,
+        ML_XOR,
+        ML_CHECKER,
     };
 
     try {
@@ -741,6 +1292,7 @@ const startProgram = async () => {
         }
     } catch (error) {
         console.error("Error executing program:", error);
+        errorMessage.value = "Error executing program: " + error.message;
     } finally {
         isProgramRunning.value = false; // Should ideally be set if AddIn_main returns/exits
     }
@@ -816,6 +1368,12 @@ onBeforeUnmount(() => {
     /* Ensures sharp pixels when scaled */
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
+}
+
+.error-message {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 
 .controls {

@@ -6,6 +6,7 @@ defaultHighlightLang: overpy
 import ChessProblem from "../components/ChessProblem.vue"
 import CalcEmulator from "../components/CalcEmulator.vue"
 import sokoban from "../sokoban.js"
+import chariotwars from "../chariotwars.js"
 
 
 

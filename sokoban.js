@@ -1356,11 +1356,11 @@ async function sokobanMenu() { // C: void sokobanMenu()
 		if (hasWon) {
 			let writeData = 0; // C: char writeData = 0;
 			ML_clear_vram();
-			locate(3,4);Print("Vous avez gagn\xE6\n!"); // C: "Vous avez gagn""\xE6\x0A""!" -> "Vous avez gagn\xE6\x0A!"
+			locate(3,4);Print("Vous avez gagn\xE6\x0A!"); // C: "Vous avez gagn""\xE6\x0A""!" -> "Vous avez gagn\xE6\x0A!"
 			ML_display_vram();
 			Bfile_SeekFile(fileHandle, 2*(Math.floor((posX+8)/9)+14*(Math.floor((posY-9)/9))-1)); // C: integer division
 			Bfile_WriteFile(fileHandle, [writeData], 1); // C: &writeData. Pass as array for JS shim.
-			await Sleep(500);
+			await Sleep(1000);
 		}
 	}
 }
