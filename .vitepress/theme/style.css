@@ -70,6 +70,7 @@
     --vp-c-danger-soft: var(--vp-c-red-soft);
 
     --vp-paragraph-gap: 23px;
+    --vp-code-line-height: 1.5;
 }
 
 /**
@@ -189,6 +190,7 @@
 
             /* I have no idea how it works, but it does */
             display: inline-flex;
+
         }
 
         /* Wrap comments in code blocks */
@@ -345,6 +347,10 @@ button.copy[title="Copy Code"] {
     .vp-doc {
         ul, ol {
             padding-left: 2rem;
+        }
+
+        code .indent.indent-start {
+            letter-spacing: -0.5ch;
         }
     }
 

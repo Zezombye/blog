@@ -34,19 +34,37 @@ export default defineConfig({
                     line.children[0].children[0].value = line.children[0].children[0].value.replace(/^ */, "");
 
                     if (indent) { //putting an empty span element breaks the line height for some reason
-                        line.children.unshift({
-                            type: 'element',
-                            tagName: 'span',
-                            properties: {
-                                class: "indent",
-                            },
-                            children: [
-                                {
-                                    "type": "text",
-                                    "value": indent,
-                                }
-                            ],
-                        });
+                        //We put two indent spans; the first one will get displayed as 2 spaces for mobile, the second one is additional indent (eg for a comment) and should be kept.
+                        let indentStart = indent.slice(0, Math.floor(indent.length/4)*4);
+                        let additionalIndent = indent.slice(Math.floor(indent.length/4)*4);
+                        if (additionalIndent) {
+                            line.children.unshift({
+                                type: 'element',
+                                tagName: 'span',
+                                properties: {
+                                    class: "indent",
+                                },
+                                children: [{
+                                    type: "text",
+                                    value: additionalIndent,
+                                }],
+                            });
+                        }
+                        if (indentStart) {
+                            line.children.unshift({
+                                type: 'element',
+                                tagName: 'span',
+                                properties: {
+                                    class: "indent indent-start",
+                                },
+                                children: [
+                                    {
+                                        "type": "text",
+                                        "value": indentStart,
+                                    }
+                                ],
+                            });
+                        }
                     }
                     for (let child of line.children) {
                         //Unfortunately I did not find how to properly add includeExplanation to the shiki highlight, so this has to be changed if the theme changes.
