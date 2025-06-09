@@ -306,6 +306,7 @@ button.copy[title="Copy Code"] {
     letter-spacing: normal;
 }
 
+/* Mobile devices */
 @media (max-width: 640px) {
     .vp-doc h1 {
         font-size: 28px;
@@ -318,5 +319,16 @@ button.copy[title="Copy Code"] {
     .vp-doc h3 {
         font-size: 20px;
         line-height: 28px;
+    }
+
+    body {
+        font-size: 15px;
+        line-height: 21px;
+    }
+
+    :root {
+        --vp-code-line-height: 1.4;
+        --vp-code-font-size: 13px;
+        --vp-paragraph-gap: 21px;
     }
 }
