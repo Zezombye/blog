@@ -39,16 +39,36 @@ export default defineConfig({
                     if (line.children.length === 0) {
                         return;
                     }
-                    //console.log("Code transformer line:", JSON.stringify(line, null, 4), lineNb);
+                    console.log("Code transformer line:", JSON.stringify(line, null, 4), lineNb);
                     let indentLevel = line.children[0].children[0].value.match(/^\s*/)[0].length;
                     //Remove indent level, we will set it in css
                     line.children[0].children[0].value = line.children[0].children[0].value.trimStart();
-                    if (indentLevel % 4 !== 0) {
-                        console.log("Code transformer line:", JSON.stringify(line, null, 4), lineNb);
-                        throw new Error(`Indentation error: line starts with ${indentLevel} spaces, expected a multiple of 4 spaces.`);
-                    }
-                    indentLevel /= 4;
                     line.properties.class += " indent-level-" + indentLevel;
+                    for (let child of line.children) {
+                        if (child.properties.style === "--shiki-light:#6A737D;--shiki-dark:#6A737D") {
+                            child.properties.class = "comment";
+
+                            if (child.children[0].value.startsWith("// ")) {
+                                child.children[0].value = child.children[0].value.slice("// ".length);
+                                child.properties.class += " double-slash-space-comment";
+                            } else if (child.children[0].value.startsWith("//")) {
+                                child.children[0].value = child.children[0].value.slice("//".length);
+                                child.properties.class += " double-slash-comment";
+                            } else if (child.children[0].value.startsWith("# ")) {
+                                child.children[0].value = child.children[0].value.slice("# ".length);
+                                child.properties.class += " hash-space-comment";
+                            } else if (child.children[0].value.startsWith("#")) {
+                                child.children[0].value = child.children[0].value.slice("#".length);
+                                child.properties.class += " hash-comment";
+                            } else if (child.children[0].value.startsWith("/* ")) {
+                                child.children[0].value = child.children[0].value.slice("/* ".length);
+                                child.properties.class += " slash-star-space-comment";
+                            } else if (child.children[0].value.startsWith("/*")) {
+                                child.children[0].value = child.children[0].value.slice("/*".length);
+                                child.properties.class += " slash-star-comment";
+                            }
+                        }
+                    }
                     /*line.children.unshift({
                         type: 'element',
                         tagName: 'div',
