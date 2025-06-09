@@ -23,66 +23,53 @@ export default defineConfig({
         defaultHighlightLang: 'overpy',
         codeTransformers: [
             {
-                /*span(node, line, col, lineElement, token) {
-                    console.log("Code transformer span:", node, line, col, lineElement, token);
-                }*/
-                /*tokens(tokens) {
-                        console.log("Code transformer tokens:", tokens.map(x => JSON.stringify(x)));
-                }*/
-                /*preprocess(code, options) {
-                    console.log("Code transformer preprocess:", code, options);
-                }*/
-                /*code(hast) {
-                    console.log("Code transformer code:", JSON.stringify(hast, null, 4));
-                }*/
                 line(line, lineNb) {
                     if (line.children.length === 0) {
                         return;
                     }
-                    console.log("Code transformer line:", JSON.stringify(line, null, 4), lineNb);
-                    let indentLevel = line.children[0].children[0].value.match(/^\s*/)[0].length;
-                    //Remove indent level, we will set it in css
-                    line.children[0].children[0].value = line.children[0].children[0].value.trimStart();
-                    line.properties.class += " indent-level-" + indentLevel;
-                    for (let child of line.children) {
-                        if (child.properties.style === "--shiki-light:#6A737D;--shiki-dark:#6A737D") {
-                            child.properties.class = "comment";
+                    //Add indent as a separate span to allow for comment wrapping
+                    //console.log("Code transformer line:", JSON.stringify(line, null, 4), lineNb);
+                    let indent = line.children[0].children[0].value.match(/^ */)[0];
 
-                            if (child.children[0].value.startsWith("// ")) {
-                                child.children[0].value = child.children[0].value.slice("// ".length);
-                                child.properties.class += " double-slash-space-comment";
-                            } else if (child.children[0].value.startsWith("//")) {
-                                child.children[0].value = child.children[0].value.slice("//".length);
-                                child.properties.class += " double-slash-comment";
-                            } else if (child.children[0].value.startsWith("# ")) {
-                                child.children[0].value = child.children[0].value.slice("# ".length);
-                                child.properties.class += " hash-space-comment";
-                            } else if (child.children[0].value.startsWith("#")) {
-                                child.children[0].value = child.children[0].value.slice("#".length);
-                                child.properties.class += " hash-comment";
-                            } else if (child.children[0].value.startsWith("/* ")) {
-                                child.children[0].value = child.children[0].value.slice("/* ".length);
-                                child.properties.class += " slash-star-space-comment";
-                            } else if (child.children[0].value.startsWith("/*")) {
-                                child.children[0].value = child.children[0].value.slice("/*".length);
-                                child.properties.class += " slash-star-comment";
-                            }
-                        }
-                    }
-                    /*line.children.unshift({
+                    line.children[0].children[0].value = line.children[0].children[0].value.replace(/^ */, "");
+
+                    line.children.unshift({
                         type: 'element',
-                        tagName: 'div',
+                        tagName: 'span',
                         properties: {
-                            class: "indent-level-" + indentLevel,
+                            class: "indent",
                         },
                         children: [
                             {
                                 "type": "text",
-                                "value": "",
+                                "value": indent,
                             }
                         ],
-                    });*/
+                    });
+                    for (let child of line.children) {
+                        //Unfortunately I did not find how to properly add includeExplanation to the shiki highlight, so this has to be changed if the theme changes.
+                        if (child.properties.style === "--shiki-light:#6A737D;--shiki-dark:#6A737D") {
+                            child.properties.class = "comment";
 
+                            //Add a span with the comment start to allow for even neater wrapping
+                            let commentStart = child.children[0].value.match(/^((\/\/|#|\/\*)\s*)/);
+                            if (!commentStart) {
+                                continue; //could be a continuation of a multiline comment
+                            }
+                            child.children[0].value = child.children[0].value.slice(commentStart[0].length);
+                            child.children.unshift({
+                                type: "element",
+                                tagName: "span",
+                                properties: {
+                                    class: "comment-start",
+                                },
+                                children: [{
+                                    type: "text",
+                                    value: commentStart[0],
+                                }],
+                            })
+                        }
+                    }
                 }
             }
         ],

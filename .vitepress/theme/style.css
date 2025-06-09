@@ -187,60 +187,17 @@
         span.line {
             padding-right: 12px;
 
-            &.indent-level-1 {&::before {content: " ";}}
-            &.indent-level-2 {&::before {content: "  ";}}
-            &.indent-level-3 {&::before {content: "   ";}}
-            &.indent-level-4 {&::before {content: "    ";}}
-            &.indent-level-5 {&::before {content: "     ";}}
-            &.indent-level-6 {&::before {content: "      ";}}
-            &.indent-level-7 {&::before {content: "       ";}}
-            &.indent-level-8 {&::before {content: "        ";}}
-            &.indent-level-9 {&::before {content: "         ";}}
-            &.indent-level-10 {&::before {content: "          ";}}
-            &.indent-level-11 {&::before {content: "           ";}}
-            &.indent-level-12 {&::before {content: "            ";}}
-            &.indent-level-13 {&::before {content: "             ";}}
-            &.indent-level-14 {&::before {content: "              ";}}
-            &.indent-level-15 {&::before {content: "               ";}}
-            &.indent-level-16 {&::before {content: "                ";}}
-            &.indent-level-17 {&::before {content: "                 ";}}
-            &.indent-level-18 {&::before {content: "                  ";}}
-            &.indent-level-19 {&::before {content: "                   ";}}
-            &.indent-level-20 {&::before {content: "                    ";}}
-            /* should be enough */
-
             /* I have no idea how it works, but it does */
             display: inline-flex;
         }
 
-        /* Wrap comments in code blocks. Unfortunately I did not find how to properly add includeExplanation to the shiki highlight, so this has to be changed if the theme changes. */
+        /* Wrap comments in code blocks */
         span.comment {
             white-space: pre-wrap;
             display: inline-flex;
 
-            &.hash-space-comment::before {
-                content: "#\00A0";
-                white-space: nowrap;
-            }
-            &.hash-comment::before {
-                content: "#";
-                white-space: nowrap;
-            }
-            &.double-slash-space-comment::before {
-                content: "//\00A0";
-                white-space: nowrap;
-            }
-            &.double-slash-comment::before {
-                content: "//";
-                white-space: nowrap;
-            }
-            &.slash-star-space-comment::before {
-                content: "/*\00A0";
-                white-space: nowrap;
-            }
-            &.slash-star-comment::before {
-                content: "/*";
-                white-space: nowrap;
+            .comment-start {
+                white-space: pre;
             }
         }
     }
