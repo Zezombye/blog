@@ -343,4 +343,4 @@ And that is how, in spite of the UI limitations, the 32768 element limit, the 10
 
 <video src="./overwordle/win2.mp4" autoplay loop muted controls/>
 
-You can [check the source code here](https://github.com/Zezombye/overwordle), and discuss this post on Reddit.
+You can [check the source code here](https://github.com/Zezombye/overwordle), and [discuss this post on Reddit](https://www.reddit.com/r/programming/comments/1l7232e/making_a_multiplayer_wordle_pushing_the_overwatch/).
