@@ -360,7 +360,6 @@ button.copy[title="Copy Code"] {
     }
 
     :root {
-        --vp-code-line-height: 1.4;
         --vp-paragraph-gap: 21px;
     }
 }
