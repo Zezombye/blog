@@ -8,6 +8,7 @@ export const inlineHighlightPlugin = (md) => {
         const token = tokens[idx]
         let language = token.attrs?.[0]?.[0] || config.frontmatter.defaultHighlightLang
         if (language && options.highlight) {
+            //Do not allow breaking lines in inline code if it is less than 15 characters
             let addInlineBlock = (token.content.length < 15)
             //Add <wbr> to allow line breaks after parentheses/brackets/braces or dots (not in numbers)
             token.content = token.content.replace(/([\(\[\{]|\.(?=[A-Za-z_]))/g, "$1\uE86F")

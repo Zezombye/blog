@@ -1,11 +1,26 @@
 ---
-defaultHighlightLang: overpy
+defaultHighlightLang: js
 ---
 
 <script setup>
 import ChessProblem from "../components/ChessProblem.vue"
 
 </script>
+
+```
+# some very long commnet ijofdmsq ijofq iojqfsio jdmijfo qisdmjo fimoqsjdf mioqsjfimo qsiodfmj omsiqdjf miosqsoidj fmq
+No indent {
+    # some very long comment fdsqpoijfdsq iojpdsqf fpoidjsdfqpoi jsqpiodjf ipojdifpojq piodfpoi jdsqpidofjs fpdisoqjdsfqpio
+
+    /* multiline comments should also properly get wrapped. dfsjmqosqdfifdsqmfosdqdfismoqdfsq
+    fgdmgjfdsgsidfjgfdmjiogdf oimjsdmfgoijfdsmio sgiomjds oijfsdmoi jsdmoijgmsdfggfdsgfsdgfsdgfdgsdfgfdoijmgifoj */
+    First indent {
+        Second indent { # comments after code should also get wrapped qjomfissfidopj qsoijfd qosipdjf qsoipjfd qisopjfd qpiojsf
+            Third indent, this is a very long line of code taht should not be wrapped [jqmiofiqfjfijom zarjiopzearji proijqz jprioz]
+        }
+    }
+}
+```
 
 <ChessProblem fen="3r1r2/p4nkp/2p3p1/2n1p3/2B1P3/P1N5/6PP/3R1RK1 w - - 2 25" moves="Rxf7 Rxf7 Rxd8" caption="White to win in %moves%"/>
 

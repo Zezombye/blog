@@ -106,19 +106,14 @@ Two functions are available to us: `createInWorldText` and `createProgressBarInW
 createProgressBarInWorldText("{}{}{}{}{}{}{}{}{}".format(
     "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
     vibrationSpaces[localPlayer.vibrationLeft],
-    /*
-    Set to filled (black) square if the guess hasn't been submitted.
-    Otherwise set to whitespace, and the other texts will take care of
-    green/yellow/gray squares
-    */
+    # Set to filled (black) square if the guess hasn't been submitted. Otherwise set to whitespace, and the other texts will take care of green/yellow/gray squares
     "■" if len(localPlayer.guesses) < maxGuesses and not localPlayer.guessResults[len(localPlayer.guesses)*nbLetters+0] else "    " ,
     "■" if len(localPlayer.guesses) < maxGuesses and not localPlayer.guessResults[len(localPlayer.guesses)*nbLetters+1] else "    " ,
     "■" if len(localPlayer.guesses) < maxGuesses and not localPlayer.guessResults[len(localPlayer.guesses)*nbLetters+2] else "    " ,
     "■" if len(localPlayer.guesses) < maxGuesses and not localPlayer.guessResults[len(localPlayer.guesses)*nbLetters+3] else "    " ,
     "■" if len(localPlayer.guesses) < maxGuesses and not localPlayer.guessResults[len(localPlayer.guesses)*nbLetters+4] else "    " ,
     vibrationSpaces[localPlayer.vibrationRight],
-    # \z is a zero-width space, necessary else trailing whitespace
-    # is trimmed which messes up the alignment
+    # \z is a zero-width space, necessary else trailing whitespace is trimmed which messes up the alignment
     "\z\n\n\n\n\n\n\n\n\n\n"
 ),
 position=updateEveryFrame(localPlayer.getEyePosition() + localPlayer.getFacingDirection()  + angleToDirection(horizontalAngleOfDirection(localPlayer.getFacingDirection()), verticalAngleOfDirection(localPlayer.getFacingDirection()) + 90) * 0.095 * len(localPlayer.guesses)),
@@ -212,13 +207,10 @@ Thus, we get the player's keyboard layout with the following code:
 
 ```
 eventPlayer.startFacing(
-/*
-In addition to the language check, we also do a button check.
-The AZERTY layout uses ZQSD instead of WASD.
-This means if a key is bound to A/W, we can assume the player is using AZERTY.
-Set the angle to 30 degrees if the player is using AZERTY,
-60 degrees if QWERTZ, and 90 degrees if QWERTY (default).
-*/
+    # In addition to the language check, we also do a button check.
+    # The AZERTY layout uses ZQSD instead of WASD.
+    # This means if a key is bound to A/W, we can assume the player is using AZERTY.
+    # Set the angle to 30 degrees if the player is using AZERTY, 60 degrees if QWERTZ, and 90 degrees if QWERTY (default).
     angleToDirection(30, 0) if any([button == "A" or button == "W" for button in [
         inputBindingString(Button.ABILITY_1),
         inputBindingString(Button.ABILITY_2),
@@ -234,8 +226,7 @@ Set the angle to 30 degrees if the player is using AZERTY,
     else angleToDirection(60, 0) if "{}".format(Map.PRACTICE_RANGE) == "Trainingsbereich"
     else angleToDirection(90, 0), 999999, Relativity.TO_WORLD, FacingReeval.DIRECTION_AND_TURN_RATE)
 
-# Wait until the startFacing action applies and the player's angle
-# has been set to one of the three values.
+# Wait until the startFacing action applies and the player's angle has been set to one of the three values.
 # Because of precision errors, we round to the hundredth.
 waitUntil(round(eventPlayer.getHorizontalFacingAngle()*100)/100 in [30, 60, 90], 15)
 

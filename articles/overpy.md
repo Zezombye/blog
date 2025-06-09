@@ -595,8 +595,7 @@ rule "Welcome HUD":
     )
 
     createdBy = t"Created by Zezombye"
-    # Since createdBy is a translated string,
-    # we need to use the _() macro to get the translated version.
+    # Since createdBy is a translated string, we need to use the _() macro to get the translated version.
     hudHeader(getPlayers(), _(createdBy))
 ```
 

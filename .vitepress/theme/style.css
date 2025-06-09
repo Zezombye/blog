@@ -178,9 +178,75 @@
 
 .vp-doc div[class*="language-"] pre {
     padding: 12px 0;
-}
-.vp-doc div[class*="language-"] code {
-    padding: 0 12px;
+
+    code {
+        padding-left: 12px;
+        padding-right: 0px; /*done in the line, to not add unnecessary padding for word wrapped comments*/
+        width: auto;
+
+        span.line {
+            padding-right: 12px;
+
+            &.indent-level-1 {
+                &::before {
+                    content: "    ";
+                }
+            }
+            &.indent-level-2 {
+                &::before {
+                    content: "        ";
+                }
+            }
+            &.indent-level-3 {
+                &::before {
+                    content: "            ";
+                }
+            }
+            &.indent-level-4 {
+                &::before {
+                    content: "                ";
+                }
+            }
+            &.indent-level-5 {
+                &::before {
+                    content: "                    ";
+                }
+            }
+            &.indent-level-6 {
+                &::before {
+                    content: "                        ";
+                }
+            }
+            &.indent-level-7 {
+                &::before {
+                    content: "                            ";
+                }
+            }
+            &.indent-level-8 {
+                &::before {
+                    content: "                                ";
+                }
+            }
+            &.indent-level-9 {
+                &::before {
+                    content: "                                    ";
+                }
+            }
+            &.indent-level-10 {
+                &::before {
+                    content: "                                        ";
+                }
+            }
+
+            /* I have no idea how it works, but it does */
+            display: inline-flex;
+        }
+
+        /* Wrap comments in code blocks. Unfortuantely I did not find how to properly add includeExplanation to the shiki highlight, so this has to be changed if the theme changes. */
+        span[style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"] {
+            white-space: pre-wrap;
+        }
+    }
 }
 .vp-doc div[class*="language-"] {
     margin-left: -5px;
@@ -321,6 +387,12 @@ button.copy[title="Copy Code"] {
         line-height: 28px;
     }
 
+    .vp-doc {
+        ul, ol {
+            padding-left: 2rem;
+        }
+    }
+
     body {
         font-size: 15px;
         line-height: 21px;
@@ -328,7 +400,6 @@ button.copy[title="Copy Code"] {
 
     :root {
         --vp-code-line-height: 1.4;
-        --vp-code-font-size: 13px;
         --vp-paragraph-gap: 21px;
     }
 }
