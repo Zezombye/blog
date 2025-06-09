@@ -8,6 +8,18 @@ import ChessProblem from "../components/ChessProblem.vue"
 </script>
 
 ```
+# Wait until the startFacing action applies and the player's angle has been set to one of the three values.
+# Because of precision errors, we round to the hundredth.
+waitUntil(round(eventPlayer.getHorizontalFacingAngle()*100)/100 in [30, 60, 90], 15)
+
+if round(eventPlayer.getHorizontalFacingAngle()*100)/100 == 30:
+    eventPlayer.kbLayout = KbLayout.AZERTY
+elif round(eventPlayer.getHorizontalFacingAngle()*100)/100 == 60:
+    eventPlayer.kbLayout = KbLayout.QWERTZ
+else:
+    eventPlayer.kbLayout = KbLayout.QWERTY
+```
+```
 # some very long commnet ijofdmsq ijofq iojqfsio jdmijfo qisdmjo fimoqsjdf mioqsjfimo qsiodfmj omsiqdjf miosqsoidj fmq
 No indent {
     #some very long comment fdsqpoijfdsq iojpdsqf fpoidjsdfqpoi jsqpiodjf ipojdifpojq piodfpoi jdsqpidofjs fpdisoqjdsfqpio
