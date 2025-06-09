@@ -17,6 +17,7 @@ export default defineConfig({
         image: {
             lazyLoading: true,
         },
+        math: true,
 
         languages: [overpyLanguage],
         defaultHighlightLang: 'overpy',

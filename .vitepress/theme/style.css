@@ -201,6 +201,20 @@ body, .vp-doc p {
         margin-top: var(--vp-paragraph-gap);
         margin-bottom: var(--vp-paragraph-gap);
     }
+
+    ul, ol {
+        padding-left: 2.5rem;
+    }
+
+    li::marker {
+        padding-right: 1rem;
+    }
+
+    sup {
+        position: relative;
+        top: -2px;
+    }
+
 }
 
 @media (max-width: 640px) {
