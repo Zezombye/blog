@@ -186,13 +186,15 @@
 
         span.line {
             padding-right: 12px;
+
+            /* I have no idea how it works, but it does */
+            display: inline-flex;
         }
 
         /* Wrap comments in code blocks */
         span.comment {
             white-space: pre-wrap;
 
-            /* I have no idea how it works, but it does */
             display: inline-flex;
 
             .comment-start {

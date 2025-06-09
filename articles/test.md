@@ -12,8 +12,9 @@ import ChessProblem from "../components/ChessProblem.vue"
 # Because of precision errors, we round to the hundredth.
 waitUntil(round(eventPlayer.getHorizontalFacingAngle()*100)/100 in [30, 60, 90], 15)
 
-if round(eventPlayer.getHorizontalFacingAngle()*100)/100 == 30:
-    eventPlayer.kbLayout = KbLayout.AZERTY
+if if round(eventPlayer.getHorizontalFacingAngle()*100)/100 == 30:
+        eventPlayer.kbLayout = KbLayout.AZERTY
+        eventPlayer.kbLayout = KbLayout.AZERTY
 elif round(eventPlayer.getHorizontalFacingAngle()*100)/100 == 60:
     eventPlayer.kbLayout = KbLayout.QWERTZ
 else:

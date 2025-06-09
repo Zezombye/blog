@@ -33,19 +33,21 @@ export default defineConfig({
 
                     line.children[0].children[0].value = line.children[0].children[0].value.replace(/^ */, "");
 
-                    line.children.unshift({
-                        type: 'element',
-                        tagName: 'span',
-                        properties: {
-                            class: "indent",
-                        },
-                        children: [
-                            {
-                                "type": "text",
-                                "value": indent,
-                            }
-                        ],
-                    });
+                    if (indent) { //putting an empty span element breaks the line height for some reason
+                        line.children.unshift({
+                            type: 'element',
+                            tagName: 'span',
+                            properties: {
+                                class: "indent",
+                            },
+                            children: [
+                                {
+                                    "type": "text",
+                                    "value": indent,
+                                }
+                            ],
+                        });
+                    }
                     for (let child of line.children) {
                         //Unfortunately I did not find how to properly add includeExplanation to the shiki highlight, so this has to be changed if the theme changes.
                         if (child.properties.style === "--shiki-light:#6A737D;--shiki-dark:#6A737D") {
