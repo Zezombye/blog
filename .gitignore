@@ -31,3 +31,6 @@ coverage
 
 .vitepress/dist
 .vitepress/cache
+
+articles/public/windows-setup.ps1
+articles/public/.bashrc

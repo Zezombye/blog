@@ -3,6 +3,7 @@ import imageFiguresPlugin from './markdown-it-image-figures.js';
 import { inlineHighlightPlugin } from './inline-highlight.js';
 import overpyLanguage from './overpy-highlight.json';
 import { typographicReplacerPlugin } from './typographicReplacer.js';
+import * as fs from 'node:fs';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -160,4 +161,15 @@ export default defineConfig({
         console.log("Page data:", pageData);
         console.log("Site config:", siteConfig);
     }*/
+
+    async buildEnd(siteConfig) {
+
+        let assetsDir = siteConfig.outDir+"/"+siteConfig.assetsDir;
+
+        let scriptPath = siteConfig.root+"/windows-setup.ps1";
+        let scriptContent = fs.readFileSync(scriptPath, 'utf-8');
+        let lastModified = fs.statSync(scriptPath).mtime.toISOString();
+        scriptContent = scriptContent.replace("###DATE###", lastModified);
+        fs.writeFileSync(assetsDir+"/windows-setup.ps1", scriptContent);
+    }
 })
