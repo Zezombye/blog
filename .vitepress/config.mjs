@@ -150,15 +150,7 @@ export default defineConfig({
             { icon: 'github', link: 'https://github.com/Zezombye' }
         ]
     },
-    /*async transformHtml(code, id, context) {
-        //Doesn't work if loading the page from another page
-        return code
-    },*/
-    /*async transformPageData(pageData, { siteConfig }) {
-        if (pageData?.frontmatter?.defaultHighlightLang) {
-            siteConfig.markdown.defaultHighlightLang = pageData.frontmatter.defaultHighlightLang;
-        }
-        console.log("Page data:", pageData);
-        console.log("Site config:", siteConfig);
-    }*/
+    rewrites: {
+        "articles/public/.bashrc": ".bashrc",
+    }
 })
