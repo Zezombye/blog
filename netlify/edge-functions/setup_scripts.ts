@@ -6,7 +6,10 @@ export default async (request: Request, context: Context) => {
     }
     if (request.headers.get("user-agent")?.match(/^(Wget|curl)\b\//)) {
         // Fetch the bashrc file content
-        const bashrcUrl = new URL("/bashrc", request.url);
+        return new URL("/bashrc.sh", request.url);
+    }
+    if (request.url.endsWith("/bashrc.sh")) {
+        const bashrcUrl = new URL("/bashrc.sh", request.url);
         const bashrcResponse = await fetch(bashrcUrl);
 
         if (!bashrcResponse.ok) {

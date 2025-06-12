@@ -8,4 +8,4 @@ function processFile(file, dest) {
 }
 
 processFile("windows-setup.ps1");
-processFile("bashrc.sh", "bashrc");
+processFile("bashrc.sh");
