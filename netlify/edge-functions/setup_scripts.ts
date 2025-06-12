@@ -8,7 +8,7 @@ export default async (request: Request, context: Context) => {
         // Fetch the bashrc file content
         return new URL("/bashrc.sh", request.url);
     }
-    if (request.url.endsWith("/bashrc.sh")) {
+    /*if (request.url.endsWith("/bashrc.sh")) {
         const bashrcUrl = new URL("/bashrc.sh", request.url);
         const bashrcResponse = await fetch(bashrcUrl);
 
@@ -24,7 +24,7 @@ export default async (request: Request, context: Context) => {
                 "Content-Type": "text/plain",
             }
         });
-    }
+    }*/
     return;
 };
 export const config: Config = {
