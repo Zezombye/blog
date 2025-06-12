@@ -17,7 +17,8 @@ export default async (request: Request, context: Context) => {
         return new Response(bashrcResponse.body, {
             headers: {
                 ...Object.fromEntries(bashrcResponse.headers),
-                "Content-Disposition": "attachment; filename=\".bashrc\""
+                "Content-Disposition": "attachment; filename=\".bashrc\"",
+                "Content-Type": "text/plain",
             }
         });
     }
