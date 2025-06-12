@@ -36,13 +36,26 @@ prompt_get_git_branch() {
     echo "$_PROMPT_CURRENT_GIT_BRANCH"
 }
 
+prompt_get_mingw64() {
+    dash=$1
+    if [[ "$MSYSTEM" == "MINGW64" ]]; then
+        if [[ $dash == "true" ]]; then
+            echo " - MINGW64"
+        else
+            echo " MINGW64"
+        fi
+    else
+        echo ""
+    fi
+}
 
-PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[01;35m$(prompt_get_git_branch)\]\[\033[00m\]\$ '
+
+PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\033[35m\]$(prompt_get_mingw64)\[\033[00m\]:\[\033[01;34m\]\w\[\033[01;35m$(prompt_get_git_branch)\]\[\033[00m\]\$ '
 
 # If this is an xterm set the title to user@host:dir <branch>
 case "$TERM" in
 xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\$(prompt_get_git_branch true)\a\]$PS1"
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\$(prompt_get_git_branch true)\$(prompt_get_mingw64 true)\a\]$PS1"
     ;;
 *)
     ;;

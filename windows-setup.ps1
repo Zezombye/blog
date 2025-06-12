@@ -264,7 +264,7 @@ function prompt {
     } catch {
         $gitBranch = ""
     }
-    $host.UI.RawUI.WindowTitle = "$adminPrompt$currentPath$(if ($gitBranch) { " ($gitBranch)" } else { '' })"
+    $host.UI.RawUI.WindowTitle = "$adminPrompt$currentPath$(if ($gitBranch) { " ($gitBranch)" } else { '' }) - Powershell"
     Write-Host $adminPrompt -NoNewline -ForegroundColor Red
     Write-Host "PS " -NoNewline -ForegroundColor Green
     Write-Host "$currentPath" -NoNewline -ForegroundColor Cyan
