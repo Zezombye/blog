@@ -23,8 +23,12 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
 fi
 
 prompt_get_git_branch() {
+    parentheses=$1
     _PROMPT_CURRENT_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
-    if [[ ! -z $_PROMPT_CURRENT_GIT_BRANCH && $_PROMPT_CURRENT_GIT_BRANCH != "main" && $_PROMPT_CURRENT_GIT_BRANCH != "masterr" ]]; then
+    if [[ ! -z $_PROMPT_CURRENT_GIT_BRANCH && $_PROMPT_CURRENT_GIT_BRANCH != "main" && $_PROMPT_CURRENT_GIT_BRANCH != "master" ]]; then
+        if [[ $parentheses == "true" ]]; then
+            _PROMPT_CURRENT_GIT_BRANCH="($_PROMPT_CURRENT_GIT_BRANCH)"
+        fi
         _PROMPT_CURRENT_GIT_BRANCH=" $_PROMPT_CURRENT_GIT_BRANCH"
     else
         _PROMPT_CURRENT_GIT_BRANCH=""
@@ -38,7 +42,7 @@ PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[0
 # If this is an xterm set the title to user@host:dir <branch>
 case "$TERM" in
 xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\$(prompt_get_git_branch)\a\]$PS1"
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\$(prompt_get_git_branch true)\a\]$PS1"
     ;;
 *)
     ;;
@@ -92,7 +96,7 @@ syntax on
 "Load plugins based on file type
 filetype on
 "Display line numbers. Todo: too distracting.
-set number
+"set number
 "Inserts spaces when pressing the tab key
 set expandtab
 "Set tab width to 4 spaces
