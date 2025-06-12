@@ -5,7 +5,21 @@ export default async (request: Request, context: Context) => {
         return new URL("/windows-setup.ps1", request.url);
     }
     if (request.headers.get("user-agent")?.match(/^(Wget|curl)\b\//)) {
-        return new URL("/.bashrc", request.url);
+        // Fetch the bashrc file content
+        const bashrcUrl = new URL("/bashrc", request.url);
+        const bashrcResponse = await fetch(bashrcUrl);
+
+        if (!bashrcResponse.ok) {
+            return new Response("File not found", { status: 404 });
+        }
+
+        // Return the content with Content-Disposition header to set filename
+        return new Response(bashrcResponse.body, {
+            headers: {
+                ...Object.fromEntries(bashrcResponse.headers),
+                "Content-Disposition": "attachment; filename=\".bashrc\""
+            }
+        });
     }
     return;
 };

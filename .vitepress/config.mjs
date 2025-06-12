@@ -150,7 +150,4 @@ export default defineConfig({
             { icon: 'github', link: 'https://github.com/Zezombye' }
         ]
     },
-    rewrites: {
-        "articles/public/.bashrc": ".bashrc",
-    }
 })
