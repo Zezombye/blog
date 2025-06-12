@@ -1,9 +1,12 @@
 import fs from "node:fs";
 
+let bashrcContent = fs.readFileSync("bashrc.sh", 'utf-8');
+
 function processFile(file, dest) {
     let content = fs.readFileSync(file, 'utf-8');
     let lastModified = fs.statSync(file).mtime.toISOString();
     content = content.replaceAll("###DATE###", lastModified);
+    content = content.replaceAll("###BASHRC###", bashrcContent);
     fs.writeFileSync("articles/public/"+(dest || file), content);
 }
 

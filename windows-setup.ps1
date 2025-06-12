@@ -283,6 +283,14 @@ function prompt {
 
 Set-Content -Path $profilePath -Value $profileContent -Encoding UTF8
 
+echo "Setting .bashrc for current/future git bash"
+$bashrcPath = "$env:USERPROFILE\.bashrc"
+$bashrc = @'
+###BASHRC###
+'@
+
+Set-Content -Path $bashrcPath -Value $bashrc -Encoding UTF8
+
 #todo: set default file extensions, notably for empty extensions and also check for ps1
 
 #also display file extensions + system files
