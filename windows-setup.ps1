@@ -1,3 +1,5 @@
+# Version: ###DATE###
+
 echo ""
 echo "   _____             _          _       ___           __                      _____      __            "
 echo "  /__  /  ___  ____ ( )_____   | |     / (_)___  ____/ /___ _      _______   / ___/___  / /___  ______ "
@@ -326,53 +328,53 @@ function Set-FTA {
     #Write required Application Ids to ApplicationAssociationToasts
     #When more than one application associated with an Extension/Protocol is installed ApplicationAssociationToasts need to be updated
     function local:Write-RequiredApplicationAssociationToasts {
-    param (
-        [Parameter( Position = 0, Mandatory = $True )]
-        [String]
-        $ProgId,
+        param (
+            [Parameter( Position = 0, Mandatory = $True )]
+            [String]
+            $ProgId,
 
-        [Parameter( Position = 1, Mandatory = $True )]
-        [String]
-        $Extension
-    )
+            [Parameter( Position = 1, Mandatory = $True )]
+            [String]
+            $Extension
+        )
 
-    try {
-        $keyPath = "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\ApplicationAssociationToasts"
-        [Microsoft.Win32.Registry]::SetValue($keyPath, $ProgId + "_" + $Extension, 0x0)
-        Write-Verbose ("Write Reg ApplicationAssociationToasts OK: " + $ProgId + "_" + $Extension)
-    }
-    catch {
-        Write-Verbose ("Write Reg ApplicationAssociationToasts FAILED: " + $ProgId + "_" + $Extension)
-    }
-
-    $allApplicationAssociationToasts = Get-ChildItem -Path HKLM:\SOFTWARE\Classes\$Extension\OpenWithList\* -ErrorAction SilentlyContinue |
-    ForEach-Object {
-        "Applications\$($_.PSChildName)"
-    }
-
-    $allApplicationAssociationToasts += @(
-        ForEach ($item in (Get-ItemProperty -Path HKLM:\SOFTWARE\Classes\$Extension\OpenWithProgids -ErrorAction SilentlyContinue).PSObject.Properties ) {
-        if ([string]::IsNullOrEmpty($item.Value) -and $item -ne "(default)") {
-            $item.Name
+        try {
+            $keyPath = "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\ApplicationAssociationToasts"
+            [Microsoft.Win32.Registry]::SetValue($keyPath, $ProgId + "_" + $Extension, 0x0)
+            Write-Verbose ("Write Reg ApplicationAssociationToasts OK: " + $ProgId + "_" + $Extension)
         }
-        })
+        catch {
+            Write-Verbose ("Write Reg ApplicationAssociationToasts FAILED: " + $ProgId + "_" + $Extension)
+        }
+
+        $allApplicationAssociationToasts = Get-ChildItem -Path HKLM:\SOFTWARE\Classes\$Extension\OpenWithList\* -ErrorAction SilentlyContinue |
+        ForEach-Object {
+            "Applications\$($_.PSChildName)"
+        }
+
+        $allApplicationAssociationToasts += @(
+            ForEach ($item in (Get-ItemProperty -Path HKLM:\SOFTWARE\Classes\$Extension\OpenWithProgids -ErrorAction SilentlyContinue).PSObject.Properties ) {
+            if ([string]::IsNullOrEmpty($item.Value) -and $item -ne "(default)") {
+                $item.Name
+            }
+            })
 
 
-    $allApplicationAssociationToasts += Get-ChildItem -Path HKLM:SOFTWARE\Clients\StartMenuInternet\* , HKCU:SOFTWARE\Clients\StartMenuInternet\* -ErrorAction SilentlyContinue |
-    ForEach-Object {
-    (Get-ItemProperty ("$($_.PSPath)\Capabilities\" + (@("URLAssociations", "FileAssociations") | Select-Object -Index $Extension.Contains("."))) -ErrorAction SilentlyContinue).$Extension
-    }
+        $allApplicationAssociationToasts += Get-ChildItem -Path HKLM:SOFTWARE\Clients\StartMenuInternet\* , HKCU:SOFTWARE\Clients\StartMenuInternet\* -ErrorAction SilentlyContinue |
+        ForEach-Object {
+        (Get-ItemProperty ("$($_.PSPath)\Capabilities\" + (@("URLAssociations", "FileAssociations") | Select-Object -Index $Extension.Contains("."))) -ErrorAction SilentlyContinue).$Extension
+        }
 
-    $allApplicationAssociationToasts |
-    ForEach-Object { if ($_) {
-        if (Set-ItemProperty HKCU:\Software\Microsoft\Windows\CurrentVersion\ApplicationAssociationToasts $_"_"$Extension -Value 0 -Type DWord -ErrorAction SilentlyContinue -PassThru) {
-            Write-Verbose  ("Write Reg ApplicationAssociationToastsList OK: " + $_ + "_" + $Extension)
+        $allApplicationAssociationToasts |
+        ForEach-Object { if ($_) {
+            if (Set-ItemProperty HKCU:\Software\Microsoft\Windows\CurrentVersion\ApplicationAssociationToasts $_"_"$Extension -Value 0 -Type DWord -ErrorAction SilentlyContinue -PassThru) {
+                Write-Verbose  ("Write Reg ApplicationAssociationToastsList OK: " + $_ + "_" + $Extension)
+            }
+            else {
+                Write-Verbose  ("Write Reg ApplicationAssociationToastsList FAILED: " + $_ + "_" + $Extension)
+            }
+            }
         }
-        else {
-            Write-Verbose  ("Write Reg ApplicationAssociationToastsList FAILED: " + $_ + "_" + $Extension)
-        }
-        }
-    }
 
     }
 
@@ -794,13 +796,17 @@ if (-not (Test-Path -Path $notepadplusplusPath)) {
 
     $extensions = @(
         ".bat",
+        ".bashrc",
+        ".bash_profile",
         ".c",
         ".cfg",
+        ".cgi",
         ".cjs",
         ".conf",
         ".cpp",
         ".css",
         ".editorconfig",
+        ".env",
         ".gitattributes",
         ".gitconfig",
         ".gitignore",
@@ -814,15 +820,19 @@ if (-not (Test-Path -Path $notepadplusplusPath)) {
         ".md",
         ".mjs",
         ".mts",
+        ".pl",
         ".ps1",
         ".py",
         ".scss",
         ".sh",
         ".sql",
+        ".toml",
         ".ts",
         ".tsx",
         ".txt",
+        ".vbs",
         ".vue",
+        ".wsf",
         ".xml",
         ".yaml",
         ".yml"

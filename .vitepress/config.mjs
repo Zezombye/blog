@@ -161,15 +161,4 @@ export default defineConfig({
         console.log("Page data:", pageData);
         console.log("Site config:", siteConfig);
     }*/
-
-    async buildEnd(siteConfig) {
-
-        let assetsDir = siteConfig.outDir+"/"+siteConfig.assetsDir;
-
-        let scriptPath = siteConfig.root+"/windows-setup.ps1";
-        let scriptContent = fs.readFileSync(scriptPath, 'utf-8');
-        let lastModified = fs.statSync(scriptPath).mtime.toISOString();
-        scriptContent = scriptContent.replace("###DATE###", lastModified);
-        fs.writeFileSync(assetsDir+"/windows-setup.ps1", scriptContent);
-    }
 })
