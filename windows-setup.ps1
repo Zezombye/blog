@@ -1,4 +1,5 @@
 # Version: ###DATE###
+# irm zez.dev | iex
 
 echo ""
 echo "   _____             _          _       ___           __                      _____      __            "
@@ -855,5 +856,4 @@ if (-not (Test-Path -Path $notepadplusplusPath)) {
 
 }
 
-echo ""
-read-host -Prompt "Done! Press Enter to continue..."
+echo "Done"

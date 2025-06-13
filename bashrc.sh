@@ -1,4 +1,6 @@
 # .bashrc version ###DATE###
+# curl zez.dev -Lo .bashrc
+# wget zez.dev -O .bashrc
 
 # If not running interactively, don't do anything
 case $- in
@@ -95,14 +97,13 @@ export PYTHONDONTWRITEBYTECODE=1
 
 #Automatically display column names in sqlite cli
 cat << EOF > ~/.sqliterc
---Note: this is automatically generated and overwitten by .bashrc
+--Note: this is automatically generated and overwritten by .bashrc
 .headers ON
 .mode columns
-.changes on
 EOF
 
 cat << EOF > ~/.vimrc
-"Note: this is automatically generated and overwitten by .bashrc
+"Note: this is automatically generated and overwritten by .bashrc
 
 "Syntax coloration
 syntax on

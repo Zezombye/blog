@@ -1,6 +1,8 @@
 import fs from "node:fs";
 
 let bashrcContent = fs.readFileSync("bashrc.sh", 'utf-8');
+let lastModifiedBashrc = fs.statSync("bashrc.sh").mtime.toISOString();
+bashrcContent = bashrcContent.replaceAll("###DATE###", lastModifiedBashrc);
 
 function processFile(file, dest) {
     let content = fs.readFileSync(file, 'utf-8');
