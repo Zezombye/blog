@@ -6,7 +6,7 @@
 
                 <div style="position: relative;">
 
-                    <button class="up" :class="{'active': pressedKeys.has(KEY_CTRL_UP_CONST)}" :keycode="KEY_CTRL_UP_CONST"></button>
+                    <button class="up" ontouchstart="" :class="{'active': pressedKeys.has(KEY_CTRL_UP_CONST)}" :keycode="KEY_CTRL_UP_CONST"></button>
                     <button class="down" :class="{'active': pressedKeys.has(KEY_CTRL_DOWN_CONST)}" :keycode="KEY_CTRL_DOWN_CONST"></button>
                     <button class="left" :class="{'active': pressedKeys.has(KEY_CTRL_LEFT_CONST)}" :keycode="KEY_CTRL_LEFT_CONST"></button>
                     <button class="right" :class="{'active': pressedKeys.has(KEY_CTRL_RIGHT_CONST)}" :keycode="KEY_CTRL_RIGHT_CONST"></button>
@@ -1205,8 +1205,21 @@ onMounted(() => {
         button.addEventListener('mousedown', () => buttonDown(button.getAttribute('keycode')));
         button.addEventListener('mouseup', () => buttonUp(button.getAttribute('keycode')));
         button.addEventListener('mouseleave', () => buttonUp(button.getAttribute('keycode')));
+        button.addEventListener("mouseenter", (e) => {
+            if (e.buttons === 1) {
+                buttonDown(button.getAttribute('keycode')); // Simulate button down if mouse is still pressed
+            }
+        });
         button.addEventListener('touchstart', () => buttonDown(button.getAttribute('keycode')));
         button.addEventListener('touchend', () => buttonUp(button.getAttribute('keycode')));
+        button.addEventListener('touchcancel', () => buttonUp(button.getAttribute('keycode')));
+        button.addEventListener('touchmove', (event) => {
+            // Prevent scrolling on touch move
+            event.preventDefault();
+        });
+        button.addEventListener('contextmenu', (event) => {
+            event.preventDefault(); // Prevent right-click context menu
+        });
     });
 });
 
@@ -1236,6 +1249,7 @@ onBeforeUnmount(() => {
     align-items: center;
     font-family: sans-serif;
     width: 325px;
+    min-width: 325px;
     height: 415px;
     background-image: url("/calc-2.png");
     background-size: contain;
@@ -1273,6 +1287,31 @@ onBeforeUnmount(() => {
     button {
         position: absolute;
 
+        &:hover {
+            &::after {
+                content: '';
+                position: absolute;
+                width: 104px;
+                height: 104px;
+                border-radius: 50%;
+                pointer-events: none;
+            }
+            &.active::after {
+                background: conic-gradient(
+                    rgba(0, 63, 78, 0) 30deg,
+                    rgba(0, 63, 78, 0.5) 90deg,
+                    rgba(0, 63, 78, 0) 150deg
+                );
+            }
+            &:not(.active)::after {
+                background: conic-gradient(
+                    rgba(0, 63, 78, 0) 45deg,
+                    rgba(0, 63, 78, 0.2) 90deg,
+                    rgba(0, 63, 78, 0) 135deg
+                );
+            }
+        }
+
         &.up {
             top: 9px;
             left: 28px;
@@ -1280,37 +1319,10 @@ onBeforeUnmount(() => {
             height: 60px;
             clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
 
-            &:active::after {
-                content: '';
-                position: absolute;
+            &:active::after, &:hover:not(:active)::after {
                 left: 50%;
                 bottom: 0;
                 transform: translate(-50%, 50%) rotate(-90deg);
-                width: 104px;
-                height: 104px;
-                border-radius: 50%;
-                background: conic-gradient(
-                    rgba(0, 63, 78, 0) 30deg,
-                    rgba(0, 63, 78, 0.5) 90deg,
-                    rgba(0, 63, 78, 0) 150deg
-                );
-                pointer-events: none;
-            }
-            &:hover:not(:active)::after {
-                content: '';
-                position: absolute;
-                left: 50%;
-                bottom: 0;
-                transform: translate(-50%, 50%) rotate(-90deg);
-                width: 104px;
-                height: 104px;
-                border-radius: 50%;
-                background: conic-gradient(
-                    rgba(0, 63, 78, 0) 45deg,
-                    rgba(0, 63, 78, 0.2) 90deg,
-                    rgba(0, 63, 78, 0) 135deg
-                );
-                pointer-events: none;
             }
 
         }
@@ -1321,37 +1333,10 @@ onBeforeUnmount(() => {
             height: 60px;
             clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 
-            &:active::after {
-                content: '';
-                position: absolute;
+            &:active::after, &:hover:not(:active)::after {
                 left: 50%;
                 top: 0;
                 transform: translate(-50%, -50%) rotate(90deg);
-                width: 104px;
-                height: 104px;
-                border-radius: 50%;
-                background: conic-gradient(
-                    rgba(0, 63, 78, 0) 30deg,
-                    rgba(0, 63, 78, 0.5) 90deg,
-                    rgba(0, 63, 78, 0) 150deg
-                );
-                pointer-events: none;
-            }
-            &:hover:not(:active)::after {
-                content: '';
-                position: absolute;
-                left: 50%;
-                top: 0;
-                transform: translate(-50%, -50%) rotate(90deg);
-                width: 104px;
-                height: 104px;
-                border-radius: 50%;
-                background: conic-gradient(
-                    rgba(0, 63, 78, 0) 45deg,
-                    rgba(0, 63, 78, 0.2) 90deg,
-                    rgba(0, 63, 78, 0) 135deg
-                );
-                pointer-events: none;
             }
         }
         &.left {
@@ -1360,38 +1345,10 @@ onBeforeUnmount(() => {
             width: 60px;
             height: 120px;
             clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
-            &:active::after {
-                content: '';
-                position: absolute;
+            &:active::after, &:hover:not(:active)::after {
                 right: 0;
                 top: 50%;
                 transform: translate(50%, -50%) rotate(180deg);
-                width: 104px;
-                height: 104px;
-                border-radius: 50%;
-                background: conic-gradient(
-                    rgba(0, 63, 78, 0) 30deg,
-                    rgba(0, 63, 78, 0.5) 90deg,
-                    rgba(0, 63, 78, 0) 150deg
-                );
-                pointer-events: none;
-            }
-
-            &:hover:not(:active)::after {
-                content: '';
-                position: absolute;
-                right: 0;
-                top: 50%;
-                transform: translate(50%, -50%) rotate(180deg);
-                width: 104px;
-                height: 104px;
-                border-radius: 50%;
-                background: conic-gradient(
-                    rgba(0, 63, 78, 0) 45deg,
-                    rgba(0, 63, 78, 0.2) 90deg,
-                    rgba(0, 63, 78, 0) 135deg
-                );
-                pointer-events: none;
             }
         }
         &.right {
@@ -1401,38 +1358,10 @@ onBeforeUnmount(() => {
             height: 120px;
             clip-path: polygon(100% 0%, 0% 50%, 100% 100%);
 
-            &:active::after {
-                content: '';
-                position: absolute;
+            &:active::after, &:hover:not(:active)::after {
                 left: 0;
                 top: 50%;
                 transform: translate(-50%, -50%);
-                width: 104px;
-                height: 104px;
-                border-radius: 50%;
-                background: conic-gradient(
-                    rgba(0, 63, 78, 0) 30deg,
-                    rgba(0, 63, 78, 0.5) 90deg,
-                    rgba(0, 63, 78, 0) 150deg
-                );
-                pointer-events: none;
-            }
-
-            &:hover:not(:active)::after {
-                content: '';
-                position: absolute;
-                left: 0;
-                top: 50%;
-                transform: translate(-50%, -50%);
-                width: 104px;
-                height: 104px;
-                border-radius: 50%;
-                background: conic-gradient(
-                    rgba(0, 63, 78, 0) 45deg,
-                    rgba(0, 63, 78, 0.2) 90deg,
-                    rgba(0, 63, 78, 0) 135deg
-                );
-                pointer-events: none;
             }
         }
     }
