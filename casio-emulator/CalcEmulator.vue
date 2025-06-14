@@ -1274,7 +1274,7 @@ onBeforeUnmount(() => {
     z-index: 0;
 }
 
-@media (hover: none) {
+@media (pointer: coarse) {
     .arrows button {
         &::after {
             content: '';
@@ -1299,10 +1299,21 @@ onBeforeUnmount(() => {
             );
         }
     }
+
+    .exe, .exit {
+        &.active div {
+            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5);
+            transform: translate(1px, 1px);
+            position: relative;
+            img {
+                mix-blend-mode: multiply;
+            }
+        }
+    }
 }
 
-@media (hover: hover) {
-    &:hover {
+@media (pointer: fine) {
+    .arrows button:hover {
         &::after {
             content: '';
             position: absolute;
@@ -1324,6 +1335,17 @@ onBeforeUnmount(() => {
                 rgba(0, 63, 78, 0.2) 90deg,
                 rgba(0, 63, 78, 0) 135deg
             );
+        }
+    }
+
+    .exe, .exit {
+        &.active:hover div {
+            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5);
+            transform: translate(1px, 1px);
+            position: relative;
+            img {
+                mix-blend-mode: multiply;
+            }
         }
     }
 }
@@ -1408,14 +1430,6 @@ onBeforeUnmount(() => {
         border-radius: 7px;
     }
 
-    &:active div {
-        box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5);
-        transform: translate(1px, 1px);
-        position: relative;
-        img {
-            mix-blend-mode: multiply;
-        }
-    }
 }
 
 .exit {
@@ -1428,15 +1442,6 @@ onBeforeUnmount(() => {
     div {
         box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
         border-radius: 7px;
-    }
-
-    &:active div {
-        box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5);
-        transform: translate(1px, 1px);
-        position: relative;
-        img {
-            mix-blend-mode: multiply;
-        }
     }
 
 }
