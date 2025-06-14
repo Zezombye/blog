@@ -1274,6 +1274,60 @@ onBeforeUnmount(() => {
     z-index: 0;
 }
 
+@media (hover: none) {
+    .arrows button {
+        &::after {
+            content: '';
+            position: absolute;
+            width: 104px;
+            height: 104px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        &.active::after {
+            background: conic-gradient(
+                rgba(0, 63, 78, 0) 30deg,
+                rgba(0, 63, 78, 0.5) 90deg,
+                rgba(0, 63, 78, 0) 150deg
+            );
+        }
+        &:not(.active)::after {
+            background: conic-gradient(
+                rgba(0, 63, 78, 0) 45deg,
+                rgba(0, 63, 78, 0.2) 90deg,
+                rgba(0, 63, 78, 0) 135deg
+            );
+        }
+    }
+}
+
+@media (hover: hover) {
+    &:hover {
+        &::after {
+            content: '';
+            position: absolute;
+            width: 104px;
+            height: 104px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        &.active::after {
+            background: conic-gradient(
+                rgba(0, 63, 78, 0) 30deg,
+                rgba(0, 63, 78, 0.5) 90deg,
+                rgba(0, 63, 78, 0) 150deg
+            );
+        }
+        &:not(.active)::after {
+            background: conic-gradient(
+                rgba(0, 63, 78, 0) 45deg,
+                rgba(0, 63, 78, 0.2) 90deg,
+                rgba(0, 63, 78, 0) 135deg
+            );
+        }
+    }
+}
+
 .arrows {
     width: 150px;
     height: 150px;
@@ -1287,31 +1341,6 @@ onBeforeUnmount(() => {
     button {
         position: absolute;
 
-        &:hover {
-            &::after {
-                content: '';
-                position: absolute;
-                width: 104px;
-                height: 104px;
-                border-radius: 50%;
-                pointer-events: none;
-            }
-            &.active::after {
-                background: conic-gradient(
-                    rgba(0, 63, 78, 0) 30deg,
-                    rgba(0, 63, 78, 0.5) 90deg,
-                    rgba(0, 63, 78, 0) 150deg
-                );
-            }
-            &:not(.active)::after {
-                background: conic-gradient(
-                    rgba(0, 63, 78, 0) 45deg,
-                    rgba(0, 63, 78, 0.2) 90deg,
-                    rgba(0, 63, 78, 0) 135deg
-                );
-            }
-        }
-
         &.up {
             top: 9px;
             left: 28px;
@@ -1319,7 +1348,7 @@ onBeforeUnmount(() => {
             height: 60px;
             clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
 
-            &:active::after, &:hover:not(:active)::after {
+            &::after {
                 left: 50%;
                 bottom: 0;
                 transform: translate(-50%, 50%) rotate(-90deg);
@@ -1333,7 +1362,7 @@ onBeforeUnmount(() => {
             height: 60px;
             clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 
-            &:active::after, &:hover:not(:active)::after {
+            &::after {
                 left: 50%;
                 top: 0;
                 transform: translate(-50%, -50%) rotate(90deg);
@@ -1345,7 +1374,7 @@ onBeforeUnmount(() => {
             width: 60px;
             height: 120px;
             clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
-            &:active::after, &:hover:not(:active)::after {
+            &::after {
                 right: 0;
                 top: 50%;
                 transform: translate(50%, -50%) rotate(180deg);
@@ -1358,7 +1387,7 @@ onBeforeUnmount(() => {
             height: 120px;
             clip-path: polygon(100% 0%, 0% 50%, 100% 100%);
 
-            &:active::after, &:hover:not(:active)::after {
+            &::after {
                 left: 0;
                 top: 50%;
                 transform: translate(-50%, -50%);
