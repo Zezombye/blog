@@ -128,7 +128,7 @@ let gameState;
 let playerRank = 0;
 let lvl = 0;
 let nbBots = 5;
-//int isNewGame = 1;
+let isNewGame = true;
 //int fileHandle;
 let currentMap;
 
@@ -139,29 +139,17 @@ async function AddIn_main(isAppli, OptionNum) {
 	let key; // unsigned int
 	let i;
 
-	//For some reason saving doesn't work at all. :(
-	/*
-	const filePath = ['\\','\\','f','l','s','0','\\','C','h','a','r','i','o','t','W','.','s','a','v',0]; // C null-terminated string
-	let fileHandle = Bfile_OpenFile(filePath.map(c => String.fromCharCode(c)).join('').slice(0,-1), _OPENMODE_READWRITE); // Adapt filePath for JS
+    if (typeof localStorage === 'undefined') {
+        throw new Error("localStorage is not available.");
+    }
 
-	if (fileHandle < 0) {
-		let clearFile = new Uint8Array(4).fill(0); // char clearFile[4] = {0};
-		Bfile_CreateFile(filePath.map(c => String.fromCharCode(c)).join('').slice(0,-1), 4);
-		// isNewGame = 0; // This variable seems unused, but was in C
-		fileHandle = Bfile_OpenFile(filePath.map(c => String.fromCharCode(c)).join('').slice(0,-1), _OPENMODE_READWRITE);
-		Bfile_SeekFile(fileHandle, 0);
-		Bfile_WriteFile(fileHandle, clearFile, 4);
+	if (localStorage.getItem("chariotwars") === null) {
+		localStorage.setItem("chariotwars", "0");
+		isNewGame = true;
 	} else {
-		let buffer_obj = { data: new Uint8Array(4) }; // char buffer[4] = {5, 6, 7, 8};
-		// Bfile_ReadFile expects a way to return data, this is a mock convention
-		Bfile_ReadFile(fileHandle, buffer_obj, 4, 0);
-		let buffer = buffer_obj.data;
-		lvl = buffer[0];
-		if (lvl > 8) {
-			lvl = 5;
-		}
+		lvl = parseInt(localStorage.getItem("chariotwars"), 10);
+		isNewGame = false;
 	}
-	*/
 
 	//Menu loop
 	while (1) {
@@ -210,11 +198,8 @@ async function AddIn_main(isAppli, OptionNum) {
 				await dialogMenu("N'abandonnez pas si pr\x90s du but! Montrez lui que Planeta Casius triomphera quoi qu'il arrive.", true);
 				await setLvl(8, LevelState.RESTART_LVL);
 			} else {
-				//let dataToWriteToFile = new Uint16Array([lvl]); // short *dataToWriteToFile = (short*)lvl; (this C is problematic, assumes lvl fits short and takes address of value)
-				                                               // Correct C might be: short val = lvl; Bfile_WriteFile(fileHandle, &val, sizeof(short));
 				lvl++;
-				//Bfile_SeekFile(fileHandle, 0);
-				//Bfile_WriteFile(fileHandle, dataToWriteToFile.buffer, 2); // Pass ArrayBuffer for raw data
+				localStorage.setItem("chariotwars", lvl.toString());
 				await setLvl(lvl, LevelState.NEW_LVL);
 			}
 		}
@@ -245,11 +230,16 @@ async function dispMenu() {
 			}
 		}
 		ML_bmp_or(logo, 2, 2, 25, 13); // Assuming logo array is passed directly
-		dispStr("Continuer", 33, 2, 128);
+		if (isNewGame || lvl == 0) {
+			dispStr("Commencer", 30, 2, 128);
+		} else {
+			dispStr("Continuer", 33, 2, 128);
+		}
 		Bdisp_AreaReverseVRAM(29, 1, 69, 9);
 		ML_display_vram();
         //await GetKey();
-        await new Promise(resolve => requestAnimationFrame(resolve));
+        //await new Promise(resolve => requestAnimationFrame(resolve));
+		await Sleep(25);
 		ML_clear_vram();
 	} while (!isKeyDown(KEY_EXE)); // Removed &
 }
@@ -267,7 +257,7 @@ async function play() {
 		ML_display_vram();
         await new Promise(resolve => requestAnimationFrame(resolve));
         await Sleep(50);
-		if (isKeyDown(KEY_SHIFT)) { // Removed &
+		if (isKeyDown(KEY_EXE)) { // Removed &
 			if (!isShiftKeyPressed) { // Relies on NOT_PRESSED being 0 / falsey
 				isShiftKeyPressed = PRESSED;
 			} else {
@@ -302,7 +292,7 @@ async function play() {
 		if (isKeyDown(KEY_F6)) { // Removed &
 			player.posX = currentMap[0];
 		}
-		if (isKeyDown(KEY_CTRL_SPACE)) { // Removed &
+		if (isKeyDown(KEY_CTRL_EXIT)) { // Removed &
 			await setLvl(lvl, LevelState.RESTART_LVL);
 		}
 
@@ -591,14 +581,14 @@ async function setLvl(new_lvl, lvlState) { // Renamed parameter 'lvl' to 'new_lv
 	switch(new_lvl) { // Use parameter new_lvl
 		case 0:
 			if (playerRank == 0) {
-				await dialogMenu("Av\x89 soldat !\n\nComme tu le sais, tu as \x89t\x89 choisi pour repr\x89senter le camp de Planeta Casius dans les Courses Pour C\x89sar n\x8A 20. Je suis le centurion Octavius Zezombus et j'ai comme mission de te former \x91 la victoire.\n\nPour avancer, appuie sur les fl\x90ches. Pour pousser les adversaires, il va falloir de la force et appuyer sur [SHIFT]. Appuie sur [Espace] pour recommencer le niveau. Appuie sur [EXE] pour commencer \x91 t'entrainer.");
+				await dialogMenu("Av\x89 soldat !\n\nComme tu le sais, tu as \x89t\x89 choisi pour repr\x89senter le camp de Planeta Casius dans les Courses Pour C\x89sar n\x8A 20. Je suis le centurion Octavius Zezombus et j'ai comme mission de te former \x91 la victoire.\n\nPour avancer, appuie sur les fl\x90ches. Pour pousser les adversaires, il va falloir de la force et appuyer sur [EXE]. Appuie sur [Espace] pour recommencer le niveau. Appuie sur [EXE] pour commencer \x91 t'entrainer.");
 			}
 			nbBots = 2;
 			setMap(0);
 			for (i = 1; i <= nbBots; i++) {
 				bots[i-1].posX = START_POS-(4+SPRITE_WIDTH)*(Math.trunc(i/3));
 				bots[i-1].posY = (56-((SPRITE_HEIGHT+1)*3))/2 + (i%3)*(SPRITE_HEIGHT+1);
-				bots[i-1].speed = 0.5;
+				bots[i-1].speed = 0.9;
 				bots[i-1].pushForce = 1;
 			}
 			player.posX = START_POS;
@@ -610,7 +600,7 @@ async function setLvl(new_lvl, lvlState) { // Renamed parameter 'lvl' to 'new_lv
 			if (playerRank == 1 && lvlState == LevelState.NEW_LVL) {
 				await dialogMenu("Tr\x90s bien, soldat. Maintenant que tu connais les bases de la course de chariots, tu peux participer \x91 une course de plus haut niveau. Les adversaires ont des meilleurs chevaux que toi, c'est pourquoi je ne te demande que d'arriver deuxi\x90me. Finis deuxi\x90me et je pourrai t'acheter de meilleurs chevaux.");
 			} else if (playerRank == 0) {
-				await dialogMenu("Av\x89 soldat ! Continue l'entraine- ment, et sois dans les deux premiers.\n\nJe te rappelle que, pour pousser les adversaires, il faut appuyer \x91 r\x89p\x89tition sur [SHIFT].");
+				await dialogMenu("Av\x89 soldat ! Continue l'entraine- ment, et sois dans les deux premiers.\n\nJe te rappelle que, pour pousser les adversaires, il faut appuyer \x91 r\x89p\x89tition sur [EXE].");
 			}
 			nbBots = 5;
 			setMap(1);
@@ -629,7 +619,7 @@ async function setLvl(new_lvl, lvlState) { // Renamed parameter 'lvl' to 'new_lv
 			if ((playerRank == 2 || playerRank == 1) && lvlState == LevelState.NEW_LVL) {
 				await dialogMenu("Je suis fier de toi, soldat ! Je t'ai achet\x89 des chevaux de comp\x89tition. Fais en bon usage. Va, soldat, et restore la fiert\x89 de Planeta Casius.");
 			} else if (playerRank == 0) {
-				await dialogMenu("Av\x89 soldat ! Remporte la comp\x89tition, et sois le premier.\n\nJe te rappelle que, pour pousser les adversaires, il faut appuyer \x91 r\x89p\x89tition sur [SHIFT].");
+				await dialogMenu("Av\x89 soldat ! Remporte la comp\x89tition, et sois le premier.\n\nJe te rappelle que, pour pousser les adversaires, il faut appuyer \x91 r\x89p\x89tition sur [EXE].");
 			}
 			nbBots = 5;
 			setMap(1);
@@ -648,7 +638,7 @@ async function setLvl(new_lvl, lvlState) { // Renamed parameter 'lvl' to 'new_lv
 			if (playerRank == 1 && lvlState == LevelState.NEW_LVL) {
 				await dialogMenu("Soldat ! Tu as rempli ta mission et honor\x89 Planeta Casius. Tu es maintenant qualifi\x89 pour la Coupe du monde de Courses Pour C\x89sar! Montre donc au monde ce dont notre l\x89gion est capable!");
 			} else if (playerRank == 0) {
-				await dialogMenu("Av\x89 soldat ! Remporte la coupe, et fais honneur \x91 ton camp.\n\nJe te rappelle que, pour pousser les adversaires, il faut appuyer \x91 r\x89p\x89tition sur [SHIFT].");
+				await dialogMenu("Av\x89 soldat ! Remporte la coupe, et fais honneur \x91 ton camp.\n\nJe te rappelle que, pour pousser les adversaires, il faut appuyer \x91 r\x89p\x89tition sur [EXE].");
 			}
 			nbBots = 2;
 			setMap(2);
@@ -688,7 +678,7 @@ async function setLvl(new_lvl, lvlState) { // Renamed parameter 'lvl' to 'new_lv
 			if (playerRank == 1 && lvlState == LevelState.NEW_LVL) {
 				await dialogMenu("Maintenant que le monde reconnait notre camp, les courses seront plus dures. Continue ton travail, l'affront n'est pas fini.");
 			} else if (playerRank == 0) {
-				await dialogMenu("Av\x89 soldat ! Remporte la coupe, et fais honneur \x91 ton camp.\n\nJe te rappelle que, pour pousser les adversaires, il faut appuyer \x91 r\x89p\x89tition sur [SHIFT].");
+				await dialogMenu("Av\x89 soldat ! Remporte la coupe, et fais honneur \x91 ton camp.\n\nJe te rappelle que, pour pousser les adversaires, il faut appuyer \x91 r\x89p\x89tition sur [EXE].");
 			}
 			nbBots = 2;
 			setMap(4);
@@ -708,7 +698,7 @@ async function setLvl(new_lvl, lvlState) { // Renamed parameter 'lvl' to 'new_lv
 			if (playerRank == 1 && lvlState == LevelState.NEW_LVL) {
 				await dialogMenu("C'est de la corruption, soldat ! En quart de finale, notre ennemi, Atra Ceu Tempestate, t'a fait commencer dans du sable, et en dernier. Je t'ai attel\x89 de nouveaux chevaux, montre leur que rien ne nous arretera!");
 			} else if (playerRank == 0) {
-				await dialogMenu("Av\x89 soldat ! Remporte la coupe, et fais honneur \x91 ton camp.\n\nJe te rappelle que, pour pousser les adversaires, il faut appuyer \x91 r\x89p\x89tition sur [SHIFT].");
+				await dialogMenu("Av\x89 soldat ! Remporte la coupe, et fais honneur \x91 ton camp.\n\nJe te rappelle que, pour pousser les adversaires, il faut appuyer \x91 r\x89p\x89tition sur [EXE].");
 			}
 			nbBots = 3;
 			setMap(5);
@@ -728,7 +718,7 @@ async function setLvl(new_lvl, lvlState) { // Renamed parameter 'lvl' to 'new_lv
 			if (playerRank == 1 && lvlState == LevelState.NEW_LVL) {
 				await dialogMenu("Pour la demi-finale, je t'ai donn\x89 les meilleurs chevaux de Planeta Casius. N'\x89choue pas!");
 			} else if (playerRank == 0) {
-				await dialogMenu("Av\x89 soldat ! Remporte la coupe, et fais honneur \x91 ton camp.\n\nJe te rappelle que, pour pousser les adversaires, il faut appuyer \x91 r\x89p\x89tition sur [SHIFT].");
+				await dialogMenu("Av\x89 soldat ! Remporte la coupe, et fais honneur \x91 ton camp.\n\nJe te rappelle que, pour pousser les adversaires, il faut appuyer \x91 r\x89p\x89tition sur [EXE].");
 			}
 			nbBots = 3;
 			setMap(6);
@@ -768,17 +758,19 @@ async function setLvl(new_lvl, lvlState) { // Renamed parameter 'lvl' to 'new_lv
 		case 9:
 			//Level 9 doesn't really exist, it's entered when the player has beaten the boss.
 			await dialogMenu("Tu aurais pu faire bien mieux que cela, soldat. Heureuse- ment que tu as gagn\x89, mais n'oublie pas que c'est grace \x91 moi.");
-			PopUpWin(3);
-			locate(3,3); Print("Voulez-vous taper");
-			locate(7,4); Print("Zezombus?");
-			locate(4,5); Print("I: Oui, II: Non");
+			PopUpWin(5);
+			locate(3,2); Print("Voulez-vous taper");
+			locate(7,3); Print("Zezombus?");
+			locate(5,5); Print("[EXE]: Oui");
+			locate(4,6); Print("[EXIT]: Non");
 			clearKeyBuffer();
 			do {
 				key = await GetKey();
-			} while (key != KEY_CTRL_F1 && key != KEY_CTRL_F2);
+			} while (key != KEY_CTRL_EXIT && key != KEY_CTRL_EXE);
 
-			if (key == KEY_CTRL_F1) {
+			if (key == KEY_CTRL_EXE) {
 				//Punching time :D
+				localStorage.setItem("chariotwars", "0"); // Reset level
 				let fistDirection;
                 let lastFistDirection = 0;
 				ML_clear_vram();
@@ -873,6 +865,7 @@ function setMap(map) { // map parameter is an index for maps array
 	let map0 = [400, 0,
 		120, 20, 140, 35, BZ,
 		200, 1, 230, 30, SZ,
+		200, 48, 230, 54, BSZ,
 		300, 1, 390, 7, SZ,
 		300, 48, 390, 54, SZ,
 	];

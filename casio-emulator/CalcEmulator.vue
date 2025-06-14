@@ -1,35 +1,23 @@
 <template>
     <div class="calc-emulator-container">
         <canvas ref="emulatorCanvas" :width="canvasWidth" :height="canvasHeight" class="calculator-screen"></canvas>
-        <div class="controls">
-            <div class="control-row">
-                <button :keycode="KEY_CTRL_UP_CONST">▲</button>
+        <div class="calculator-case">
+            <div class="arrows">
+
+                <div style="position: relative;">
+
+                    <button class="up" :class="{'active': pressedKeys.has(KEY_CTRL_UP_CONST)}" :keycode="KEY_CTRL_UP_CONST"></button>
+                    <button class="down" :class="{'active': pressedKeys.has(KEY_CTRL_DOWN_CONST)}" :keycode="KEY_CTRL_DOWN_CONST"></button>
+                    <button class="left" :class="{'active': pressedKeys.has(KEY_CTRL_LEFT_CONST)}" :keycode="KEY_CTRL_LEFT_CONST"></button>
+                    <button class="right" :class="{'active': pressedKeys.has(KEY_CTRL_RIGHT_CONST)}" :keycode="KEY_CTRL_RIGHT_CONST"></button>
+                </div>
             </div>
-            <div class="control-row">
-                <button :keycode="KEY_CTRL_LEFT_CONST">◄</button>
-                <button :keycode="KEY_CTRL_EXE_CONST">EXE</button>
-                <button :keycode="KEY_CTRL_RIGHT_CONST">►</button>
-            </div>
-            <div class="control-row">
-                <button :keycode="KEY_CTRL_DOWN_CONST">▼</button>
-            </div>
-            <div class="control-row">
-                <button :keycode="KEY_CTRL_F1_CONST">F1</button>
-                <button :keycode="KEY_CTRL_F2_CONST">F2</button>
-                <button :keycode="KEY_CTRL_F3_CONST">F3</button>
-                <button :keycode="KEY_CTRL_F4_CONST">F4</button>
-                <button :keycode="KEY_CTRL_F5_CONST">F5</button>
-                <button :keycode="KEY_CTRL_F6_CONST">F6</button>
-            </div>
-            <div class="control-row">
-                <button :keycode="KEY_CTRL_SHIFT_CONST">Shift</button>
-                <button :keycode="KEY_CTRL_EXIT_CONST">Exit</button>
-            </div>
-        </div>
-        <div class="scale-control">
-            <label for="scale-input">Scale (1x-10x): </label>
-            <input id="scale-input" type="number" v-model.number="currentScale" min="1" max="10"
-                @change="updateScale" />
+            <button :keycode="KEY_CTRL_EXE_CONST" class="exe" :class="{'active': pressedKeys.has(KEY_CTRL_EXE_CONST)}">
+                <div><img src="/exe-2.png"/></div>
+            </button>
+            <button :keycode="KEY_CTRL_EXIT_CONST" class="exit" :class="{'active': pressedKeys.has(KEY_CTRL_EXIT_CONST)}">
+                <div><img src="/exit-2.png"/></div>
+            </button>
         </div>
         <div class="error-message" v-if="errorMessage">
             <p>{{ errorMessage }}</p>
@@ -59,7 +47,7 @@ const KEY_CTRL_UP_CONST = 'ArrowUp';
 const KEY_CTRL_DOWN_CONST = 'ArrowDown';
 const KEY_CTRL_LEFT_CONST = 'ArrowLeft';
 const KEY_CTRL_RIGHT_CONST = 'ArrowRight';
-const KEY_CTRL_EXE_CONST = 'Enter'; // Example for an EXE/Enter key
+const KEY_CTRL_EXE_CONST = 'Enter';
 const KEY_CTRL_SHIFT_CONST = "ShiftLeft";
 const KEY_CTRL_EXIT_CONST = "Escape";
 const KEY_CTRL_F1_CONST = "F1";
@@ -76,15 +64,7 @@ const keys = [
     KEY_CTRL_LEFT_CONST,
     KEY_CTRL_RIGHT_CONST,
     KEY_CTRL_EXE_CONST,
-    KEY_CTRL_SHIFT_CONST,
     KEY_CTRL_EXIT_CONST,
-    KEY_CTRL_F1_CONST,
-    KEY_CTRL_F2_CONST,
-    KEY_CTRL_F3_CONST,
-    KEY_CTRL_F4_CONST,
-    KEY_CTRL_F5_CONST,
-    KEY_CTRL_F6_CONST,
-    KEY_CTRL_SPACE_CONST,
 ];
 
 
@@ -1060,14 +1040,16 @@ const GetKey = async () => {
 // --- Keyboard Event Handlers ---
 const handleKeyDown = (event) => {
     // Prevent default browser action for keys we handle (e.g., arrow keys scrolling)
-    if ([KEY_CTRL_UP_CONST, KEY_CTRL_DOWN_CONST, KEY_CTRL_LEFT_CONST, KEY_CTRL_RIGHT_CONST, KEY_CTRL_EXE_CONST].includes(event.code)) {
+    if ([KEY_CTRL_UP_CONST, KEY_CTRL_DOWN_CONST, KEY_CTRL_LEFT_CONST, KEY_CTRL_RIGHT_CONST, KEY_CTRL_EXE_CONST, "Space"].includes(event.code)) {
         event.preventDefault();
     }
-    pressedKeys.value.add(event.code);
+    let keyCode = event.code === "ShiftLeft" ? KEY_CTRL_EXE_CONST : event.code === "Space" ? KEY_CTRL_EXIT_CONST : event.code;
+    pressedKeys.value.add(keyCode);
 };
 
 const handleKeyUp = (event) => {
-    pressedKeys.value.delete(event.code);
+    let keyCode = event.code === "ShiftLeft" ? KEY_CTRL_EXE_CONST : event.code === "Space" ? KEY_CTRL_EXIT_CONST : event.code;
+    pressedKeys.value.delete(keyCode);
 };
 
 // --- On-Screen Button Handlers ---
@@ -1138,15 +1120,7 @@ const startProgram = async () => {
         KEY_CTRL_LEFT: KEY_CTRL_LEFT_CONST,
         KEY_CTRL_RIGHT: KEY_CTRL_RIGHT_CONST,
         KEY_CTRL_EXE: KEY_CTRL_EXE_CONST,
-        KEY_CTRL_SHIFT: KEY_CTRL_SHIFT_CONST,
         KEY_CTRL_EXIT: KEY_CTRL_EXIT_CONST,
-        KEY_CTRL_F1: KEY_CTRL_F1_CONST,
-        KEY_CTRL_F2: KEY_CTRL_F2_CONST,
-        KEY_CTRL_F3: KEY_CTRL_F3_CONST,
-        KEY_CTRL_F4: KEY_CTRL_F4_CONST,
-        KEY_CTRL_F5: KEY_CTRL_F5_CONST,
-        KEY_CTRL_F6: KEY_CTRL_F6_CONST,
-        KEY_CTRL_SPACE: KEY_CTRL_SPACE_CONST,
 
         ML_TRANSPARENT,
         ML_WHITE,
@@ -1246,20 +1220,32 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .calc-emulator-container {
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+    height: 460px;
+    z-index: 1;
     display: flex;
+    justify-content: center;
+}
+
+.calculator-case {
+    display: flex;
+    margin: 20px auto;
     flex-direction: column;
     align-items: center;
     font-family: sans-serif;
-    padding: 20px;
-    background-color: #f0f0f0;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    width: fit-content;
-    margin: 20px auto;
+    width: 325px;
+    height: 415px;
+    background-image: url("/calc-2.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    filter: drop-shadow(0 4px 12px rgb(0, 0, 0, 0.15));
+    z-index: 1;
+    position: relative;
 }
 
 .calculator-screen {
-    border: 2px solid #555;
     background-color: #C8D0C0;
     /* Default background, gets overdrawn */
     margin-bottom: 15px;
@@ -1267,6 +1253,234 @@ onBeforeUnmount(() => {
     /* Ensures sharp pixels when scaled */
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
+    position: absolute;
+    top: 114px;
+    /* border: 25px solid #7f8878; */
+    border: 25px solid #C8D0C0;
+    z-index: 0;
+}
+
+.arrows {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    top: 248px;
+    right: 30px;
+    background-image: url("/arrows-2.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    button {
+        position: absolute;
+
+        &.up {
+            top: 9px;
+            left: 28px;
+            width: 120px;
+            height: 60px;
+            clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+
+            &:active::after {
+                content: '';
+                position: absolute;
+                left: 50%;
+                bottom: 0;
+                transform: translate(-50%, 50%) rotate(-90deg);
+                width: 104px;
+                height: 104px;
+                border-radius: 50%;
+                background: conic-gradient(
+                    rgba(0, 63, 78, 0) 30deg,
+                    rgba(0, 63, 78, 0.5) 90deg,
+                    rgba(0, 63, 78, 0) 150deg
+                );
+                pointer-events: none;
+            }
+            &:hover:not(:active)::after {
+                content: '';
+                position: absolute;
+                left: 50%;
+                bottom: 0;
+                transform: translate(-50%, 50%) rotate(-90deg);
+                width: 104px;
+                height: 104px;
+                border-radius: 50%;
+                background: conic-gradient(
+                    rgba(0, 63, 78, 0) 45deg,
+                    rgba(0, 63, 78, 0.2) 90deg,
+                    rgba(0, 63, 78, 0) 135deg
+                );
+                pointer-events: none;
+            }
+
+        }
+        &.down {
+            top: 69px;
+            left: 28px;
+            width: 120px;
+            height: 60px;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+
+            &:active::after {
+                content: '';
+                position: absolute;
+                left: 50%;
+                top: 0;
+                transform: translate(-50%, -50%) rotate(90deg);
+                width: 104px;
+                height: 104px;
+                border-radius: 50%;
+                background: conic-gradient(
+                    rgba(0, 63, 78, 0) 30deg,
+                    rgba(0, 63, 78, 0.5) 90deg,
+                    rgba(0, 63, 78, 0) 150deg
+                );
+                pointer-events: none;
+            }
+            &:hover:not(:active)::after {
+                content: '';
+                position: absolute;
+                left: 50%;
+                top: 0;
+                transform: translate(-50%, -50%) rotate(90deg);
+                width: 104px;
+                height: 104px;
+                border-radius: 50%;
+                background: conic-gradient(
+                    rgba(0, 63, 78, 0) 45deg,
+                    rgba(0, 63, 78, 0.2) 90deg,
+                    rgba(0, 63, 78, 0) 135deg
+                );
+                pointer-events: none;
+            }
+        }
+        &.left {
+            top: 9px;
+            left: 28px;
+            width: 60px;
+            height: 120px;
+            clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+            &:active::after {
+                content: '';
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translate(50%, -50%) rotate(180deg);
+                width: 104px;
+                height: 104px;
+                border-radius: 50%;
+                background: conic-gradient(
+                    rgba(0, 63, 78, 0) 30deg,
+                    rgba(0, 63, 78, 0.5) 90deg,
+                    rgba(0, 63, 78, 0) 150deg
+                );
+                pointer-events: none;
+            }
+
+            &:hover:not(:active)::after {
+                content: '';
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translate(50%, -50%) rotate(180deg);
+                width: 104px;
+                height: 104px;
+                border-radius: 50%;
+                background: conic-gradient(
+                    rgba(0, 63, 78, 0) 45deg,
+                    rgba(0, 63, 78, 0.2) 90deg,
+                    rgba(0, 63, 78, 0) 135deg
+                );
+                pointer-events: none;
+            }
+        }
+        &.right {
+            top: 9px;
+            left: 88px;
+            width: 60px;
+            height: 120px;
+            clip-path: polygon(100% 0%, 0% 50%, 100% 100%);
+
+            &:active::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                width: 104px;
+                height: 104px;
+                border-radius: 50%;
+                background: conic-gradient(
+                    rgba(0, 63, 78, 0) 30deg,
+                    rgba(0, 63, 78, 0.5) 90deg,
+                    rgba(0, 63, 78, 0) 150deg
+                );
+                pointer-events: none;
+            }
+
+            &:hover:not(:active)::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                width: 104px;
+                height: 104px;
+                border-radius: 50%;
+                background: conic-gradient(
+                    rgba(0, 63, 78, 0) 45deg,
+                    rgba(0, 63, 78, 0.2) 90deg,
+                    rgba(0, 63, 78, 0) 135deg
+                );
+                pointer-events: none;
+            }
+        }
+    }
+}
+
+.exe {
+    width: 70px;
+    height: 50px;
+    position: absolute;
+    top: 265px;
+    left: 35px;
+
+    div {
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        border-radius: 7px;
+    }
+
+    &:active div {
+        box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5);
+        transform: translate(1px, 1px);
+        position: relative;
+        img {
+            mix-blend-mode: multiply;
+        }
+    }
+}
+
+.exit {
+    width: 50px;
+    height: 30px;
+    position: absolute;
+    top: 335px;
+    left: 44px;
+
+    div {
+        box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
+        border-radius: 7px;
+    }
+
+    &:active div {
+        box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5);
+        transform: translate(1px, 1px);
+        position: relative;
+        img {
+            mix-blend-mode: multiply;
+        }
+    }
+
 }
 
 .error-message {

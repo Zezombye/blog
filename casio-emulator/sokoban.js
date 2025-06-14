@@ -1333,17 +1333,19 @@ async function sokobanMenu() { // C: void sokobanMenu()
 			} else if (key == KEY_CTRL_RIGHT) {
 				posX += 9;
 			}
+			if (posX < 1) {
+				posX = 118;
+				posY -= 9;
+			}
+			if (posX > 120) {
+				posX = 1;
+				posY += 9;
+			}
 			if (posY > 60) {
 				posY = 9;
 			}
 			if (posY < 8) {
 				posY = 54;
-			}
-			if (posX < 1) {
-				posX = 118;
-			}
-			if (posX > 120) {
-				posX = 1;
 			}
             await new Promise(resolve => requestAnimationFrame(resolve));
 		} while (key != KEY_CTRL_EXE);
