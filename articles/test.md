@@ -7,6 +7,8 @@ import ChessProblem from "../components/ChessProblem.vue"
 
 </script>
 
+<ChessProblem fen="4k1N1/1p6/2p1Kp2/p1B5/2n5/8/P7/8 w - - 0 57" moves="Be7 Nd6 Nxf6" caption="White to play and win"/>
+
 ```
 # Wait until the startFacing action applies and the player's angle has been set to one of the three values.
 # Because of precision errors, we round to the hundredth.

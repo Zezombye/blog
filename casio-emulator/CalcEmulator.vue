@@ -1140,6 +1140,8 @@ const startProgram = async () => {
         MINI_REV,
         MINI_REVOR,
         MINI_OVER,
+
+        language: "en",
     };
 
     try {

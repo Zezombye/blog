@@ -45,8 +45,8 @@ figcaption {
 }
 
 .main-wrap, .wrapper {
-    width: min(100%, 10cm);
-    max-width: 10cm;
+    width: min(100%, 12cm);
+    max-width: 12cm;
 }
 
 .success-icon {
@@ -122,12 +122,17 @@ function onBoardCreated(boardApi_) {
     boardApi = boardApi_;
 }
 
+function normalizeMove(move) {
+    // Normalize the move to a standard format
+    return move.replace("+", "").replace("#", "");
+}
+
 async function onMove(move) {
     // Handle the move event
     console.log('Move made:', move);
     console.log("board = ", boardApi);
     if (nbMovesMade.value % 2 === 0) {
-        if (moves[nbMovesMade.value] !== move.san.replace("+", "")) {
+        if (normalizeMove(moves[nbMovesMade.value]) !== normalizeMove(move.san)) {
             // Invalid move
             console.log("Invalid move");
             isWrongMove.value = true;

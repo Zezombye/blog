@@ -28,6 +28,7 @@ export default function sokoban({
     Bfile_WriteFile,
     Bfile_CreateFile,
     Sleep,
+	language,
 }) {
 
 let key; // unsigned int key;
@@ -1295,7 +1296,11 @@ async function sokobanMenu() { // C: void sokobanMenu()
 		ML_vertical_line(127, 8, 63, 1);
 		//ML_rectangle(0, 0, 127, 8, 1, 1, 1);
 		ML_horizontal_line(8, 0, 127, 1);
-		PrintXY(3, 0, "Choisissez un niveau", 0); // Assuming PrintXY handles JS string
+		if (language === "fr") {
+			PrintXY(4, 0, "Choisissez un niveau", 0);
+		} else {
+			PrintXY(22, 0, "Select a level", 0);
+		}
 		ML_horizontal_line(63, 0, 127, 1);
 		for (i = 0; i < 84; i++) { //displays each number
 			if (i < 9) {
@@ -1358,7 +1363,11 @@ async function sokobanMenu() { // C: void sokobanMenu()
 		if (hasWon) {
 			let writeData = 0; // C: char writeData = 0;
 			ML_clear_vram();
-			locate(3,4);Print("Vous avez gagn\xE6\x0A!"); // C: "Vous avez gagn""\xE6\x0A""!" -> "Vous avez gagn\xE6\x0A!"
+			if (language === "fr") {
+				locate(3,4);Print("Vous avez gagn\xE6\x0A!");
+			} else {
+				locate(4,4);Print("Level finished!");
+			}
 			ML_display_vram();
 			Bfile_SeekFile(fileHandle, 2*(Math.floor((posX+8)/9)+14*(Math.floor((posY-9)/9))-1)); // C: integer division
 			Bfile_WriteFile(fileHandle, [writeData], 1); // C: &writeData. Pass as array for JS shim.

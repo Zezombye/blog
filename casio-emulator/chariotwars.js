@@ -45,6 +45,7 @@ export default function chariotwars({
     Bfile_WriteFile,
     Bfile_CreateFile,
     Sleep,
+	language,
 }) {
 
 const KEY_EXE = KEY_CTRL_EXE;
@@ -171,31 +172,31 @@ async function AddIn_main(isAppli, OptionNum) {
 			await play();
 
 			if (lvl == 0 && playerRank > 1) {
-				await dialogMenu("Comment cela, soldat? Vous \x89chouez \x91 l'entraine- ment? C'est inacceptable!", true);
+				await dialogMenu(language === "fr" ? "Comment cela, soldat? Vous \x89chouez \x91 l'entraine- ment? C'est inacceptable!" : "What is this, soldier? You're failing the training? This is not acceptable!", true);
 				await setLvl(0, LevelState.RESTART_LVL);
 			} else if (lvl == 1 && playerRank > 2) {
-				await dialogMenu("Soldat, je sais que vous etes d\x89butant et que les chevaux sont ceux d'un paysan, mais je vous ai demand\x89 d'etre au moins deuxi\x90me ! Reprenez la course de ce pas !", true);
+				await dialogMenu(language === "fr" ? "Soldat, je sais que vous etes d\x89butant et que les chevaux sont ceux d'un paysan, mais je vous ai demand\x89 d'etre au moins deuxi\x90me ! Reprenez la course de ce pas !" : "Soldier, I know you're a novice and the horses are fit for a peasant, but I ordered you to place at least second! Get back in the race immediately!", true);
 				await setLvl(1, LevelState.RESTART_LVL);
 			} else if (lvl == 2 && playerRank > 1) {
-				await dialogMenu("Soldat! J'ai d\x89pens\x89 MXVII sesterces pour vous acheter des bons chevaux ! Ne faites pas faille au camp de Planeta Casius ! Gagnez cette course !", true);
+				await dialogMenu(language === "fr" ? "Soldat! J'ai d\x89pens\x89 MXVII sesterces pour vous acheter des bons chevaux ! Ne faites pas faille au camp de Planeta Casius ! Gagnez cette course !" : "Soldier! I spent MXVII sesterces to get you fine horses! Do not bring shame to the camp of Planeta Casius! Win this race!", true);
 				await setLvl(2, LevelState.RESTART_LVL);
 			} else if (lvl == 3 && playerRank > 1) {
-				await dialogMenu("Vous etes \x91 la coupe du monde, soldat! Du nerf!", true);
+				await dialogMenu(language === "fr" ? "Vous etes \x91 la coupe du monde, soldat! Du nerf!" : "You're at the World Cup, soldier! Show some spirit!", true);
 				await setLvl(3, LevelState.RESTART_LVL);
 			} else if (lvl == 4 && playerRank > 1) {
-				await dialogMenu("Vous etes la ris\x89e de notre camp, soldat. Reprenez- vous! Un paysan pourrait faire mieux que cela.", true);
+				await dialogMenu(language === "fr" ? "Vous etes la ris\x89e de notre camp, soldat. Reprenez- vous! Un paysan pourrait faire mieux que cela." : "You are the laughing stock of our camp, soldier. Get a grip! A mere peasant could do better than this.", true);
 				await setLvl(4, LevelState.RESTART_LVL);
 			} else if (lvl == 5 && playerRank > 1) {
-				await dialogMenu("Mais que faites vous, soldat?! Dois-je vous punir pour votre m\x89diocre perfor- mance?", true);
+				await dialogMenu(language === "fr" ? "Mais que faites vous, soldat?! Dois-je vous punir pour votre m\x89diocre perfor- mance?" : "What are you doing, soldier?! Must I punish you for such a poor perfor- mance?", true);
 				await setLvl(5, LevelState.RESTART_LVL);
 			} else if (lvl == 6 && playerRank > 1) {
-				await dialogMenu("Vas-tu laisser Atra Ceu Tempestate gagner la coupe du monde? Je ne tol\x90rerai pas cela!", true);
+				await dialogMenu(language === "fr" ? "Vas-tu laisser Atra Ceu Tempestate gagner la coupe du monde? Je ne tol\x90rerai pas cela!" : "Will you let Atra Ceu Tempestate win the World Cup? I will not tolerate it!", true);
 				await setLvl(6, LevelState.RESTART_LVL);
 			} else if (lvl == 7 && playerRank > 1) {
-				await dialogMenu("Perdre? En demi-finale, soldat? N'avez vous donc aucun sens de l'honneur?", true);
+				await dialogMenu(language === "fr" ? "Perdre? En demi-finale, soldat? N'avez vous donc aucun sens de l'honneur?" : "Lose? In the semi- finals, soldier? Have you no sense of honor?", true);
 				await setLvl(7, LevelState.RESTART_LVL);
 			} else if (lvl == 8 && playerRank > 1) {
-				await dialogMenu("N'abandonnez pas si pr\x90s du but! Montrez lui que Planeta Casius triomphera quoi qu'il arrive.", true);
+				await dialogMenu(language === "fr" ? "N'abandonnez pas si pr\x90s du but! Montrez lui que Planeta Casius triomphera quoi qu'il arrive." : "Do not give up so close to victory! Show them that Planeta Casius will triumph no matter what.", true);
 				await setLvl(8, LevelState.RESTART_LVL);
 			} else {
 				lvl++;
@@ -231,9 +232,17 @@ async function dispMenu() {
 		}
 		ML_bmp_or(logo, 2, 2, 25, 13); // Assuming logo array is passed directly
 		if (isNewGame || lvl == 0) {
-			dispStr("Commencer", 30, 2, 128);
+			if (language === "fr") {
+				dispStr("Commencer", 30, 2, 128);
+			} else {
+				dispStr("New game", 31, 2, 128);
+			}
 		} else {
-			dispStr("Continuer", 33, 2, 128);
+			if (language === "fr") {
+				dispStr("Continuer", 33, 2, 128);
+			} else {
+				dispStr("Continue", 34, 2, 128);
+			}
 		}
 		Bdisp_AreaReverseVRAM(29, 1, 69, 9);
 		ML_display_vram();
@@ -276,14 +285,14 @@ async function play() {
 		}
 		if (isKeyDown(KEY_UP)) { // Removed &
 			if (isShiftKeyPressed == PRESSED) {
-				locate(1,8); Print("pushing up");
+				//locate(1,8); Print("pushing up");
 				push(Direction.LEFT, player);
 			}
 			go(Direction.LEFT, player);
 		}
 		if (isKeyDown(KEY_DOWN)) { // Removed &
 			if (isShiftKeyPressed == PRESSED) {
-				locate(1,8); Print("pushing down");
+				//locate(1,8); Print("pushing down");
 				push(Direction.RIGHT, player);
 			}
 			go(Direction.RIGHT, player);
@@ -297,7 +306,11 @@ async function play() {
 		}
 
 		ML_clear_vram();
-		dispStr("Pouss\x89e:", 78, 57, 128);
+		if (language === "fr") {
+			dispStr("Pouss\x89e:", 78, 57, 128);
+		} else {
+			dispStr("Push:", 87, 57, 128);
+		}
 		locate(19, 8); PrintXY(108, 57, pressingLevel[isShiftKeyPressed], 0);
 
 		playerRank = 1;
@@ -306,8 +319,13 @@ async function play() {
 				playerRank++;
 			}
 		}
-		dispStr("Place:", 1, 57, 128);
-		dispStr(romanNumerals[playerRank-1], 24, 57, 128);
+		if (language === "fr") {
+			dispStr("Place:", 1, 57, 128);
+			dispStr(romanNumerals[playerRank-1], 24, 57, 128);
+		} else {
+			dispStr("Rank:", 1, 57, 128);
+			dispStr(romanNumerals[playerRank-1], 22, 57, 128);
+		}
 	} while (!gameFinished());
 }
 
@@ -581,7 +599,7 @@ async function setLvl(new_lvl, lvlState) { // Renamed parameter 'lvl' to 'new_lv
 	switch(new_lvl) { // Use parameter new_lvl
 		case 0:
 			if (playerRank == 0) {
-				await dialogMenu("Av\x89 soldat !\n\nComme tu le sais, tu as \x89t\x89 choisi pour repr\x89senter le camp de Planeta Casius dans les Courses Pour C\x89sar n\x8A 20. Je suis le centurion Octavius Zezombus et j'ai comme mission de te former \x91 la victoire.\n\nPour avancer, appuie sur les fl\x90ches. Pour pousser les adversaires, il va falloir de la force et appuyer sur [EXE]. Appuie sur [Espace] pour recommencer le niveau. Appuie sur [EXE] pour commencer \x91 t'entrainer.");
+				await dialogMenu(language === "fr" ? "Av\x89 soldat !\n\nComme tu le sais, tu as \x89t\x89 choisi pour repr\x89senter le camp de Planeta Casius dans les Courses Pour C\x89sar n\x8A 20. Je suis le centurion Octavius Zezombus et j'ai comme mission de te former \x91 la victoire.\n\nPour avancer, appuie sur les fl\x90ches. Pour pousser les adversaires, il va falloir de la force et appuyer sur [EXE]. Appuie sur [EXIT] pour recommencer le niveau. Appuie sur [EXE] pour commencer \x91 t'entrainer." : "Ave, soldier!\n\nAs you know, you've been chosen to represent the camp of Planeta Casius in the Races for Caesar No. 20. I am Centurion Octavius Zezombus, and my mission is to train you for victory.\n\nUse the arrow keys to move. To push opponents, you'll need strength and press [EXE]. Press [EXIT] to restart the level. Press [EXE] to begin training.");
 			}
 			nbBots = 2;
 			setMap(0);
@@ -598,9 +616,9 @@ async function setLvl(new_lvl, lvlState) { // Renamed parameter 'lvl' to 'new_lv
 			break;
 		case 1:
 			if (playerRank == 1 && lvlState == LevelState.NEW_LVL) {
-				await dialogMenu("Tr\x90s bien, soldat. Maintenant que tu connais les bases de la course de chariots, tu peux participer \x91 une course de plus haut niveau. Les adversaires ont des meilleurs chevaux que toi, c'est pourquoi je ne te demande que d'arriver deuxi\x90me. Finis deuxi\x90me et je pourrai t'acheter de meilleurs chevaux.");
+				await dialogMenu(language === "fr" ? "Tr\x90s bien, soldat. Maintenant que tu connais les bases de la course de chariots, tu peux participer \x91 une course de plus haut niveau. Les adversaires ont des meilleurs chevaux que toi, c'est pourquoi je ne te demande que d'arriver deuxi\x90me. Finis deuxi\x90me et je pourrai t'acheter de meilleurs chevaux." : "Well done, soldier. Now that you know the basics of chariot racing, you may enter a higher- level race. Your opponents have better horses, so I only ask that you finish second. Do so, and I shall provide you with better steeds.");
 			} else if (playerRank == 0) {
-				await dialogMenu("Av\x89 soldat ! Continue l'entraine- ment, et sois dans les deux premiers.\n\nJe te rappelle que, pour pousser les adversaires, il faut appuyer \x91 r\x89p\x89tition sur [EXE].");
+				await dialogMenu(language === "fr" ? "Av\x89 soldat ! Continue l'entraine- ment, et sois dans les deux premiers.\n\nJe te rappelle que, pour pousser les adversaires, il faut appuyer \x91 r\x89p\x89tition sur [EXE]." : "Ave, soldier! Continue your training and finish in the top two.\n\nRemember, to push opponents, press [EXE] repeatedly.");
 			}
 			nbBots = 5;
 			setMap(1);
@@ -617,9 +635,9 @@ async function setLvl(new_lvl, lvlState) { // Renamed parameter 'lvl' to 'new_lv
 			break;
 		case 2:
 			if ((playerRank == 2 || playerRank == 1) && lvlState == LevelState.NEW_LVL) {
-				await dialogMenu("Je suis fier de toi, soldat ! Je t'ai achet\x89 des chevaux de comp\x89tition. Fais en bon usage. Va, soldat, et restore la fiert\x89 de Planeta Casius.");
+				await dialogMenu(language === "fr" ? "Je suis fier de toi, soldat ! Je t'ai achet\x89 des chevaux de comp\x89tition. Fais en bon usage. Va, soldat, et restore la fiert\x89 de Planeta Casius." : "I am proud of you, soldier! I've acquired competition- grade horses for you. Use them wisely. Go, soldier, and restore the honor of Planeta Casius.");
 			} else if (playerRank == 0) {
-				await dialogMenu("Av\x89 soldat ! Remporte la comp\x89tition, et sois le premier.\n\nJe te rappelle que, pour pousser les adversaires, il faut appuyer \x91 r\x89p\x89tition sur [EXE].");
+				await dialogMenu(language === "fr" ? "Av\x89 soldat ! Remporte la comp\x89tition, et sois le premier.\n\nJe te rappelle que, pour pousser les adversaires, il faut appuyer \x91 r\x89p\x89tition sur [EXE]." : "Ave, soldier! Win the competition and claim first place.\n\nRemember, to push opponents, press [EXE] repeatedly.");
 			}
 			nbBots = 5;
 			setMap(1);
@@ -636,9 +654,9 @@ async function setLvl(new_lvl, lvlState) { // Renamed parameter 'lvl' to 'new_lv
 			break;
 		case 3:
 			if (playerRank == 1 && lvlState == LevelState.NEW_LVL) {
-				await dialogMenu("Soldat ! Tu as rempli ta mission et honor\x89 Planeta Casius. Tu es maintenant qualifi\x89 pour la Coupe du monde de Courses Pour C\x89sar! Montre donc au monde ce dont notre l\x89gion est capable!");
+				await dialogMenu(language === "fr" ? "Soldat ! Tu as rempli ta mission et honor\x89 Planeta Casius. Tu es maintenant qualifi\x89 pour la Coupe du monde de Courses Pour C\x89sar! Montre donc au monde ce dont notre l\x89gion est capable!" : "Soldier! You've completed your mission and brought honor to Planeta Casius. You are now qualified for the Races for Caesar World Cup! Show the world what our legion is capable of!");
 			} else if (playerRank == 0) {
-				await dialogMenu("Av\x89 soldat ! Remporte la coupe, et fais honneur \x91 ton camp.\n\nJe te rappelle que, pour pousser les adversaires, il faut appuyer \x91 r\x89p\x89tition sur [EXE].");
+				await dialogMenu(language === "fr" ? "Av\x89 soldat ! Remporte la coupe, et fais honneur \x91 ton camp.\n\nJe te rappelle que, pour pousser les adversaires, il faut appuyer \x91 r\x89p\x89tition sur [EXE]." : "Ave, soldier! Win the cup and bring honor to your camp.\n\nRemember, to push opponents, press [EXE] repeatedly.");
 			}
 			nbBots = 2;
 			setMap(2);
@@ -656,9 +674,9 @@ async function setLvl(new_lvl, lvlState) { // Renamed parameter 'lvl' to 'new_lv
 
 		case 4:
 			if (playerRank == 1 && lvlState == LevelState.NEW_LVL) {
-				await dialogMenu("Le chef du camp Tignus Ignoramus, Critorix, veut te d\x89fier en duel. Cela ne sera pas facile, il a des chevaux bien plus rapides. La seule mani\x90re pour toi de gagner est de le pousser dans le sable.");
+				await dialogMenu(language === "fr" ? "Le chef du camp Tignus Ignoramus, Critorix, veut te d\x89fier en duel. Cela ne sera pas facile, il a des chevaux bien plus rapides. La seule mani\x90re pour toi de gagner est de le pousser dans le sable." : "The leader of Camp Tignus Ignoramus, Critorix, has challenged you to a duel. It won't be easy, as his horses are much faster. Your only chance is to push him into the sand.");
 			} else if (playerRank == 0) {
-				await dialogMenu("Av\x89 soldat ! Fais honneur \x91 ton camp et vainc ce gaulois! Pousse le sur le cot\x89!");
+				await dialogMenu(language === "fr" ? "Av\x89 soldat ! Fais honneur \x91 ton camp et vainc ce gaulois! Pousse le sur le cot\x89!" : "Ave, soldier! Bring honor to your camp and defeat this Gaul! Push him off the track!");
 			}
 			nbBots = 1;
 			setMap(3);
@@ -676,9 +694,9 @@ async function setLvl(new_lvl, lvlState) { // Renamed parameter 'lvl' to 'new_lv
 
 		case 5:
 			if (playerRank == 1 && lvlState == LevelState.NEW_LVL) {
-				await dialogMenu("Maintenant que le monde reconnait notre camp, les courses seront plus dures. Continue ton travail, l'affront n'est pas fini.");
+				await dialogMenu(language === "fr" ? "Maintenant que le monde reconnait notre camp, les courses seront plus dures. Continue ton travail, l'affront n'est pas fini." : "Now that the world recognizes our camp, the races will be harder. Keep up the effort, the challenge is not over.");
 			} else if (playerRank == 0) {
-				await dialogMenu("Av\x89 soldat ! Remporte la coupe, et fais honneur \x91 ton camp.\n\nJe te rappelle que, pour pousser les adversaires, il faut appuyer \x91 r\x89p\x89tition sur [EXE].");
+				await dialogMenu(language === "fr" ? "Av\x89 soldat ! Remporte la coupe, et fais honneur \x91 ton camp.\n\nJe te rappelle que, pour pousser les adversaires, il faut appuyer \x91 r\x89p\x89tition sur [EXE]." : "Ave, soldier! Win the cup and bring honor to your camp.\n\nRemember, to push opponents, press [EXE] repeatedly.");
 			}
 			nbBots = 2;
 			setMap(4);
@@ -696,9 +714,9 @@ async function setLvl(new_lvl, lvlState) { // Renamed parameter 'lvl' to 'new_lv
 
 		case 6:
 			if (playerRank == 1 && lvlState == LevelState.NEW_LVL) {
-				await dialogMenu("C'est de la corruption, soldat ! En quart de finale, notre ennemi, Atra Ceu Tempestate, t'a fait commencer dans du sable, et en dernier. Je t'ai attel\x89 de nouveaux chevaux, montre leur que rien ne nous arretera!");
+				await dialogMenu(language === "fr" ? "C'est de la corruption, soldat ! En quart de finale, notre ennemi, Atra Ceu Tempestate, t'a fait commencer dans du sable, et en dernier. Je t'ai attel\x89 de nouveaux chevaux, montre leur que rien ne nous arretera!" : "This is corruption, soldier! In the quarter- finals, our enemy Atra Ceu Tempestate made you start in the sand and at the back. I've harnessed new horses to your chariot, show them nothing will stop us!");
 			} else if (playerRank == 0) {
-				await dialogMenu("Av\x89 soldat ! Remporte la coupe, et fais honneur \x91 ton camp.\n\nJe te rappelle que, pour pousser les adversaires, il faut appuyer \x91 r\x89p\x89tition sur [EXE].");
+				await dialogMenu(language === "fr" ? "Av\x89 soldat ! Remporte la coupe, et fais honneur \x91 ton camp.\n\nJe te rappelle que, pour pousser les adversaires, il faut appuyer \x91 r\x89p\x89tition sur [EXE]." : "Ave, soldier! Win the cup and bring honor to your camp.\n\nRemember, to push opponents, press [EXE] repeatedly.");
 			}
 			nbBots = 3;
 			setMap(5);
@@ -716,9 +734,9 @@ async function setLvl(new_lvl, lvlState) { // Renamed parameter 'lvl' to 'new_lv
 
 		case 7:
 			if (playerRank == 1 && lvlState == LevelState.NEW_LVL) {
-				await dialogMenu("Pour la demi-finale, je t'ai donn\x89 les meilleurs chevaux de Planeta Casius. N'\x89choue pas!");
+				await dialogMenu(language === "fr" ? "Pour la demi-finale, je t'ai donn\x89 les meilleurs chevaux de Planeta Casius. N'\x89choue pas!" : "For the semi- finals, I've given you the finest horses of Planeta Casius. Do not fail!");
 			} else if (playerRank == 0) {
-				await dialogMenu("Av\x89 soldat ! Remporte la coupe, et fais honneur \x91 ton camp.\n\nJe te rappelle que, pour pousser les adversaires, il faut appuyer \x91 r\x89p\x89tition sur [EXE].");
+				await dialogMenu(language === "fr" ? "Av\x89 soldat ! Remporte la coupe, et fais honneur \x91 ton camp.\n\nJe te rappelle que, pour pousser les adversaires, il faut appuyer \x91 r\x89p\x89tition sur [EXE]." : "Ave, soldier! Win the cup and bring honor to your camp.\n\nRemember, to push opponents, press [EXE] repeatedly.");
 			}
 			nbBots = 3;
 			setMap(6);
@@ -737,9 +755,9 @@ async function setLvl(new_lvl, lvlState) { // Renamed parameter 'lvl' to 'new_lv
 			break;
 		case 8:
 			if (playerRank == 1 && lvlState == LevelState.NEW_LVL) {
-				await dialogMenu("Soldat, c'est la finale! Ton adversaire est l'infame Atra Ceu Tempestate, il fera tout son possible pour gagner. La moindre erreur peut te couter la victoire!");
+				await dialogMenu(language === "fr" ? "Soldat, c'est la finale! Ton adversaire est l'infame Atra Ceu Tempestate, il fera tout son possible pour gagner. La moindre erreur peut te couter la victoire!" : "Soldier, it's the finals! Your opponent is the infamous Atra Ceu Tempestate, he will stop at nothing to win. The slightest mistake could cost you victory!");
 			} else if (playerRank == 0) {
-				await dialogMenu("Av\x89 soldat ! Remporte la finale et nous c\x89l\x90brerons tout cela rentr\x89s au camp.");
+				await dialogMenu(language === "fr" ? "Av\x89 soldat ! Remporte la finale et nous c\x89l\x90brerons tout cela rentr\x89s au camp." : "Ave, soldier! Win the finals, and we shall celebrate upon our return to camp.");
 			}
 			nbBots = 1;
 			setMap(7);
@@ -757,12 +775,19 @@ async function setLvl(new_lvl, lvlState) { // Renamed parameter 'lvl' to 'new_lv
 
 		case 9:
 			//Level 9 doesn't really exist, it's entered when the player has beaten the boss.
-			await dialogMenu("Tu aurais pu faire bien mieux que cela, soldat. Heureuse- ment que tu as gagn\x89, mais n'oublie pas que c'est grace \x91 moi.");
+			await dialogMenu(language === "fr" ? "Tu aurais pu faire bien mieux que cela, soldat. Heureuse- ment que tu as gagn\x89, mais n'oublie pas que c'est grace \x91 moi." : "You could have done much better, soldier. You still won, thankfully, but don't forget it was all thanks to me.");
 			PopUpWin(5);
-			locate(3,2); Print("Voulez-vous taper");
-			locate(7,3); Print("Zezombus?");
-			locate(5,5); Print("[EXE]: Oui");
-			locate(4,6); Print("[EXIT]: Non");
+			if (language === "fr") {
+				locate(3,2); Print("Voulez-vous taper");
+				locate(7,3); Print("Zezombus?");
+				locate(5,5); Print("[EXE]: Oui");
+				locate(4,6); Print("[EXIT]: Non");
+			} else {
+				locate(4,2); Print("Do you want to");
+				locate(4,3); Print("punch Zezombus?");
+				locate(5,5); Print("[EXE]: Yes");
+				locate(4,6); Print("[EXIT]: No");
+			}
 			clearKeyBuffer();
 			do {
 				key = await GetKey();
