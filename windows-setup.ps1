@@ -283,7 +283,7 @@ function prompt {
 }
 '@
 
-Set-Content -Path $profilePath -Value $profileContent -Encoding UTF8
+[IO.File]::WriteAllText($profilePath, $profileContent)
 
 echo "Setting .bashrc for current/future git bash"
 $bashrcPath = "$env:USERPROFILE\.bashrc"
@@ -291,7 +291,7 @@ $bashrc = @'
 ###BASHRC###
 '@
 
-Set-Content -Path $bashrcPath -Value $bashrc -Encoding UTF8
+[IO.File]::WriteAllText($bashrcPath, $bashrc)
 
 #todo: set default file extensions, notably for empty extensions and also check for ps1
 
@@ -364,10 +364,11 @@ function Set-FTA {
 
         $allApplicationAssociationToasts += @(
             ForEach ($item in (Get-ItemProperty -Path HKLM:\SOFTWARE\Classes\$Extension\OpenWithProgids -ErrorAction SilentlyContinue).PSObject.Properties ) {
-            if ([string]::IsNullOrEmpty($item.Value) -and $item -ne "(default)") {
-                $item.Name
+                if ([string]::IsNullOrEmpty($item.Value) -and $item -ne "(default)") {
+                    $item.Name
+                }
             }
-            })
+        )
 
 
         $allApplicationAssociationToasts += Get-ChildItem -Path HKLM:SOFTWARE\Clients\StartMenuInternet\* , HKCU:SOFTWARE\Clients\StartMenuInternet\* -ErrorAction SilentlyContinue |
@@ -533,25 +534,25 @@ function Set-FTA {
 
 
     function local:Get-UserExperience {
-    [OutputType([string])]
-    $hardcodedExperience = "User Choice set via Windows User Experience {D18B6DD5-6124-4341-9318-804003BAFA0B}"
-    $userExperienceSearch = "User Choice set via Windows User Experience"
-    $userExperienceString = ""
-    $user32Path = [Environment]::GetFolderPath([Environment+SpecialFolder]::SystemX86) + "\Shell32.dll"
-    $fileStream = [System.IO.File]::Open($user32Path, [System.IO.FileMode]::Open, [System.IO.FileAccess]::Read, [System.IO.FileShare]::ReadWrite)
-    $binaryReader = New-Object System.IO.BinaryReader($fileStream)
-    [Byte[]] $bytesData = $binaryReader.ReadBytes(5mb)
-    $fileStream.Close()
-    $dataString = [Text.Encoding]::Unicode.GetString($bytesData)
-    $position1 = $dataString.IndexOf($userExperienceSearch)
-    $position2 = $dataString.IndexOf("}", $position1)
-    try {
-        $userExperienceString = $dataString.Substring($position1, $position2 - $position1 + 1)
-    }
-    catch {
-        $userExperienceString = $hardcodedExperience
-    }
-    Write-Output $userExperienceString
+        [OutputType([string])]
+        $hardcodedExperience = "User Choice set via Windows User Experience {D18B6DD5-6124-4341-9318-804003BAFA0B}"
+        $userExperienceSearch = "User Choice set via Windows User Experience"
+        $userExperienceString = ""
+        $user32Path = [Environment]::GetFolderPath([Environment+SpecialFolder]::SystemX86) + "\Shell32.dll"
+        $fileStream = [System.IO.File]::Open($user32Path, [System.IO.FileMode]::Open, [System.IO.FileAccess]::Read, [System.IO.FileShare]::ReadWrite)
+        $binaryReader = New-Object System.IO.BinaryReader($fileStream)
+        [Byte[]] $bytesData = $binaryReader.ReadBytes(5mb)
+        $fileStream.Close()
+        $dataString = [Text.Encoding]::Unicode.GetString($bytesData)
+        $position1 = $dataString.IndexOf($userExperienceSearch)
+        $position2 = $dataString.IndexOf("}", $position1)
+        try {
+            $userExperienceString = $dataString.Substring($position1, $position2 - $position1 + 1)
+        }
+        catch {
+            $userExperienceString = $hardcodedExperience
+        }
+        Write-Output $userExperienceString
     }
 
 
@@ -805,8 +806,39 @@ if (-not (Test-Path -Path $notepadplusplusPath)) {
     Set-FTA Applications\notepad++.exe .
 
     $extensions = @(
+
+        #.log.1, .log.2, etc.
+        #We don't know if it's a text file, but those extensions are typically only used for logs
+        ".0",
+        ".1",
+        ".2",
+        ".3",
+        ".4",
+        ".5",
+        ".6",
+        ".7",
+        ".8",
+        ".9",
+        ".10",
+        ".11",
+        ".12",
+        ".13",
+        ".14",
+        ".15",
+        ".16",
+        ".17",
+        ".18",
+        ".19",
+        ".20",
+
+        #Feel free to suggest more txt extensions
+        #https://fileinfo.com/filetypes/text
+        ".asc",
+        ".asciidoc",
+        ".asm",
         ".bat",
         ".bashrc",
+        ".bash_history",
         ".bash_profile",
         ".c",
         ".cfg",
@@ -814,12 +846,15 @@ if (-not (Test-Path -Path $notepadplusplusPath)) {
         ".cjs",
         ".conf",
         ".cpp",
+        ".cs",
         ".css",
+        ".dsc",
         ".editorconfig",
         ".env",
         ".gitattributes",
         ".gitconfig",
         ".gitignore",
+        ".gradle",
         ".h",
         ".hpp",
         ".ini",
@@ -830,17 +865,25 @@ if (-not (Test-Path -Path $notepadplusplusPath)) {
         ".md",
         ".mjs",
         ".mts",
+        ".nfo",
+        ".php",
         ".pl",
+        ".properties",
         ".ps1",
         ".py",
+        ".readme",
         ".scss",
         ".sh",
         ".sql",
+        ".sqliterc",
         ".toml",
         ".ts",
         ".tsx",
         ".txt",
         ".vbs",
+        ".viminfo",
+        ".vimrc",
+        ".vscodeignore",
         ".vue",
         ".wsf",
         ".xml",
