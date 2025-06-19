@@ -63,7 +63,7 @@ foreach ($regPath in $regPaths) {
     echo "Setting color properties"
     for ($i = 0; $i -lt $colors.Count; $i++) {
         $colorValue = rgbToAABBGGRR $colors[$i]
-        $colorValue = +"0x$colorValue"
+        $colorValue = + "0x$colorValue"
         $regKey = "ColorTable{0:d2}" -f $i
         #echo ("Setting $regKey to {0:x}" -f $colorValue)
 
@@ -110,7 +110,7 @@ function patchShortcut {
 echo "Patching powershell shortcut"
 
 patchShortcut "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Windows PowerShell\Windows PowerShell.lnk" `
-"TAAAAAEUAgAAAAAAwAAAAAAAAEbfAgAAIAAAAJuvlrfNas0Bm6+Wt81qzQGAHQKo3WrNAQDwBgAA
+    "TAAAAAEUAgAAAAAAwAAAAAAAAEbfAgAAIAAAAJuvlrfNas0Bm6+Wt81qzQGAHQKo3WrNAQDwBgAA
 AAAAAQAAAAAAAAAAAAAAAAAAAPEBFAAfUOBP0CDqOmkQotgIACswMJ0ZAC9DOlwAAAAAAAAAAAAA
 AAAAAAAAAAAAUgAxAAAAAADHQgKwMABXaW5kb3dzADwACAAEAO+++kDALMdCArAqAAAAHxAAAAAA
 AQAAAAAAAAAAAAAAAAAAAFcAaQBuAGQAbwB3AHMAAAAWAFYAMQAAAAAAx0JdBTAAU3lzdGVtMzIA
@@ -158,7 +158,7 @@ AAALAAAA//8AABEAAAAKAAAAAAsAAAAAAAAAAAAAAAAAAAAAAAAA" 0x87E
 
 echo "Patching powershell x86 shortcut"
 patchShortcut "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Windows PowerShell\Windows PowerShell (x86).lnk" `
-"TAAAAAEUAgAAAAAAwAAAAAAAAEbfAgAAIAAAAJuvlrfNas0Bm6+Wt81qzQGAHQKo3WrNAQDwBgAA
+    "TAAAAAEUAgAAAAAAwAAAAAAAAEbfAgAAIAAAAJuvlrfNas0Bm6+Wt81qzQGAHQKo3WrNAQDwBgAA
 AAAAAQAAAAAAAAAAAAAAAAAAAPEBFAAfUOBP0CDqOmkQotgIACswMJ0ZAC9DOlwAAAAAAAAAAAAA
 AAAAAAAAAAAAUgAxAAAAAADHQgKwMABXaW5kb3dzADwACAAEAO+++kDALMdCArAqAAAAHxAAAAAA
 AQAAAAAAAAAAAAAAAAAAAFcAaQBuAGQAbwB3AHMAAAAWAFYAMQAAAAAAuELmrRAAU3lzV09XNjQA
@@ -207,7 +207,7 @@ AAALAAAA//8AABEAAAAKAAAAAAsAAAAAAAAAAAAAAAAAAAAAAAAA" 0x87E
 echo "Patching cmd shortcut"
 
 patchShortcut "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\System Tools\Command Prompt.lnk" `
-"TAAAAAEUAgAAAAAAwAAAAAAAAEbcAwACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    "TAAAAAEUAgAAAAAAwAAAAAAAAEbcAwACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAQAAAAAAAAAAAAAAAAAAACUAQAAlAHcAaQBuAGQAaQByACUAXABzAHkAcwB0AGUAbQAzADIA
 XABzAGgAZQBsAGwAMwAyAC4AZABsAGwALAAtADIAMgA1ADMANAAzAC4ALgBcAC4ALgBcAC4ALgBc
 AC4ALgBcAC4ALgBcAC4ALgBcAC4ALgBcAC4ALgBcAC4ALgBcAFcASQBOAEQATwBXAFMAXABzAHkA
@@ -323,8 +323,7 @@ function Get-UserExperience {
     $position2 = $dataString.IndexOf("}", $position1)
     try {
         $userExperienceString = $dataString.Substring($position1, $position2 - $position1 + 1)
-    }
-    catch {
+    } catch {
         $userExperienceString = $hardcodedExperience
     }
     Write-Output $userExperienceString
@@ -357,8 +356,7 @@ namespace Registry {
 
 try {
     Add-Type -TypeDefinition $code
-}
-catch {}
+} catch {}
 
 $userSid = ((New-Object System.Security.Principal.NTAccount([Environment]::UserName)).Translate([System.Security.Principal.SecurityIdentifier]).value).ToLower()
 
@@ -465,16 +463,14 @@ function Set-FTA {
 
             try {
                 [Registry.Utils]::DeleteKey($Key)
-            }
-            catch {}
+            } catch {}
         }
 
         try {
             $keyPath = "Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\$Extension\UserChoice"
             Write-Verbose "Remove Extension UserChoice Key If Exist: $keyPath"
             Remove-UserChoiceKey $keyPath
-        }
-        catch {
+        } catch {
             Write-Verbose "Extension UserChoice Key No Exist: $keyPath"
         }
 
@@ -484,8 +480,7 @@ function Set-FTA {
             [Microsoft.Win32.Registry]::SetValue($keyPath, "Hash", $ProgHash)
             [Microsoft.Win32.Registry]::SetValue($keyPath, "ProgId", $ProgId)
             Write-Verbose "Write Reg Extension UserChoice OK"
-        }
-        catch {
+        } catch {
             throw "Write Reg Extension UserChoice FAILED"
         }
     }
@@ -533,10 +528,9 @@ function Set-FTA {
             )
 
             if ($iValue -band 0x80000000) {
-            Write-Output (( $iValue -shr $iCount) -bxor 0xFFFF0000)
-            }
-            else {
-            Write-Output  ($iValue -shr $iCount)
+                Write-Output (( $iValue -shr $iCount) -bxor 0xFFFF0000)
+            } else {
+                Write-Output  ($iValue -shr $iCount)
             }
         }
 
@@ -578,7 +572,7 @@ function Set-FTA {
         if ($length -gt 1) {
 
             $map = @{PDATA = 0; CACHE = 0; COUNTER = 0 ; INDEX = 0; MD51 = 0; MD52 = 0; OUTHASH1 = 0; OUTHASH2 = 0;
-            R0 = 0; R1 = @(0, 0); R2 = @(0, 0); R3 = 0; R4 = @(0, 0); R5 = @(0, 0); R6 = @(0, 0); R7 = @(0, 0)
+                R0 = 0; R1 = @(0, 0); R2 = @(0, 0); R3 = 0; R4 = @(0, 0); R5 = @(0, 0); R6 = @(0, 0); R7 = @(0, 0)
             }
 
             $map.CACHE = 0
@@ -613,7 +607,7 @@ function Set-FTA {
             $buffer.CopyTo($outHash, 4)
 
             $map = @{PDATA = 0; CACHE = 0; COUNTER = 0 ; INDEX = 0; MD51 = 0; MD52 = 0; OUTHASH1 = 0; OUTHASH2 = 0;
-            R0 = 0; R1 = @(0, 0); R2 = @(0, 0); R3 = 0; R4 = @(0, 0); R5 = @(0, 0); R6 = @(0, 0); R7 = @(0, 0)
+                R0 = 0; R1 = @(0, 0); R2 = @(0, 0); R3 = 0; R4 = @(0, 0); R5 = @(0, 0); R6 = @(0, 0); R7 = @(0, 0)
             }
 
             $map.CACHE = 0
@@ -694,13 +688,11 @@ function Update-RegistryChanges {
 
     try {
         Add-Type -MemberDefinition $code -Namespace SHChange -Name Notify
-    }
-    catch {}
+    } catch {}
 
     try {
         [SHChange.Notify]::Refresh()
-    }
-    catch {}
+    } catch {}
 }
 
 
