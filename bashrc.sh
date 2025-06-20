@@ -120,6 +120,9 @@ set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 
+"Do not continue comment when pressing Enter
+autocmd FileType * set formatoptions-=cro
+
 set autoindent
 "Highlight matching brackets
 set showmatch
