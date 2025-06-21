@@ -395,7 +395,7 @@ $bashrc = @'
 ###BASHRC###
 '@
 
-if ($bashrc -ne "###BASHRC###`n") {
+if ($bashrc -ne "#`##BASHRC###`n") {
     [IO.File]::WriteAllText($bashrcPath, $bashrc)
 }
 
