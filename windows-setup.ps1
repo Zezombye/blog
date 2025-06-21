@@ -395,12 +395,14 @@ function prompt {
 '@
 
 [IO.File]::WriteAllText("$env:USERPROFILE\Documents\WindowsPowerShell\profile.ps1", $profileContent)
+[IO.File]::WriteAllText("$env:USERPROFILE\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1", $profileContent)
 if ($isAdmin) {
     #echo "Setting default powershell profile"
     #[IO.File]::WriteAllText("C:\Windows\System32\WindowsPowerShell\v1.0\profile.ps1", $profileContent)
     echo "Setting system powershell profile"
     New-Item -Path "C:\WINDOWS\system32\config\systemprofile\Documents\WindowsPowerShell" -ItemType Directory -Force | Out-Null
     [IO.File]::WriteAllText("C:\WINDOWS\system32\config\systemprofile\Documents\WindowsPowerShell\profile.ps1", $profileContent)
+    [IO.File]::WriteAllText("C:\WINDOWS\system32\config\systemprofile\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1", $profileContent)
 }
 
 
