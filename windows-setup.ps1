@@ -130,39 +130,6 @@ foreach ($regPath in $regPaths) {
     Set-ItemProperty -Path $regPath -Name "WindowSize" -Value (($consoleHeight -shl 16) -bor $consoleWidth)
 }
 
-# Prompt for CMD
-echo "Setting cmd prompt environment variable"
-Set-ItemProperty -Path "HKCU:\Environment" -Name "PROMPT" -Value '$e[92m$p$e[0m$g '
-
-# We can get conditional prompts with the autorun value, but only at startup (can't display git branch for example)
-# Use fltmc to test admin rights - https://stackoverflow.com/a/28268802/4851350
-# Note: don't add whitespace after the prompt statement
-Set-ItemProperty -Path "HKCU:/Software/Microsoft/Command Processor" -Name "Autorun" -Value @'
-
-if %ssh_connection% == ^%ssh_connection^% (
-    fltmc > nul 2>&1
-    && (set prompt=$e[91m[Admin]$e[92m $p$e[0m$g$s)
-    || (set prompt=$e[92m$p$e[0m$g$s)
-) else (
-    if not %userdomain% == %computername% (
-        if not %userdomain% == WORKGROUP
-            (set prompt=$e[33m%userdomain%\\%username%@%computername%$e[92m $p$e[0m$g$s)
-        else
-            (set prompt=$e[33m%username%@%computername%$e[92m $p$e[0m$g$s)
-    ) else
-        (set prompt=$e[33m%username%@%computername%$e[92m $p$e[0m$g$s)
-)
-
-'@.Replace("`n", " ")
-
-
-if ($isAdmin) {
-    #echo "Setting default cmd prompt environment variable"
-    #Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Session Manager\Environment" -Name "PROMPT" -Value '$e[92m$p$e[0m$g '
-    echo "Setting system cmd prompt environment variable"
-    Set-ItemProperty -Path "HKU:\S-1-5-18\Environment" -Name "PROMPT" -Value '$e[91m[SYSTEM]$e[92m $p$e[0m$g '
-}
-
 
 function patchShortcut {
     param (
@@ -321,6 +288,42 @@ CgAAAAALAAAAAAAAAAAAAAAtAAAAMVNQU1UoTJ95nzlLqNDh1C3h1fMRAAAAEgAAAAATAAAAAQAA
 AAAAAAAtAAAAMVNQU+KKWEa8TDhDu/wTkyaYbc4RAAAAAAAAAAATAAAAAAAAAAAAAAAAAAAAAAAA
 AA==" 0x49F
 
+
+
+# Prompt for CMD
+echo "Setting cmd prompt environment variable"
+Set-ItemProperty -Path "HKCU:\Environment" -Name "PROMPT" -Value '$e[92m$p$e[0m$g '
+
+# We can get conditional prompts with the autorun value, but only at startup (can't display git branch for example)
+# Use fltmc to test admin rights - https://stackoverflow.com/a/28268802/4851350
+# Note: don't add whitespace after the prompt statement
+Set-ItemProperty -Path "HKCU:/Software/Microsoft/Command Processor" -Name "Autorun" -Force -Type String -Value @'
+
+if %ssh_connection% == ^%ssh_connection^% (
+    fltmc > nul 2>&1
+    && (set prompt=$e[91m[Admin]$e[92m $p$e[0m$g$s)
+    || (set prompt=$e[92m$p$e[0m$g$s)
+) else (
+    if not %userdomain% == %computername% (
+        if not %userdomain% == WORKGROUP
+            (set prompt=$e[33m%userdomain%\\%username%@%computername%$e[92m $p$e[0m$g$s)
+        else
+            (set prompt=$e[33m%username%@%computername%$e[92m $p$e[0m$g$s)
+    ) else
+        (set prompt=$e[33m%username%@%computername%$e[92m $p$e[0m$g$s)
+)
+
+'@.Replace("`n", " ")
+
+
+if ($isAdmin) {
+    #echo "Setting default cmd prompt environment variable"
+    #Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Session Manager\Environment" -Name "PROMPT" -Value '$e[92m$p$e[0m$g '
+    echo "Setting system cmd prompt environment variable"
+    Set-ItemProperty -Path "HKU:\S-1-5-18\Environment" -Name "PROMPT" -Value '$e[91m[SYSTEM]$e[92m $p$e[0m$g '
+}
+
+
 echo "Setting powershell profile"
 
 $profileContent = @'
@@ -392,7 +395,10 @@ $bashrc = @'
 ###BASHRC###
 '@
 
-[IO.File]::WriteAllText($bashrcPath, $bashrc)
+if ($bashrc -ne "###BASHRC###`n") {
+    [IO.File]::WriteAllText($bashrcPath, $bashrc)
+}
+
 
 #display file extensions + system files
 
