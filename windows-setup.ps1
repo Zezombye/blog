@@ -15,7 +15,9 @@ $PSNativeCommandUseErrorActionPreference = $true
 
 $isAdmin = (New-Object Security.Principal.WindowsPrincipal ([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
 
-New-PSDrive HKU Registry HKEY_USERS
+if (-not (Test-Path "HKU:")) {
+    New-PSDrive HKU Registry HKEY_USERS | Out-Null
+}
 
 #Can be useful for w11
 #https://github.com/Ccmexec/PowerShell/blob/master/Customize%20TaskBar%20and%20Start%20Windows%2011/CustomizeTaskbar%20v1.1.ps1
@@ -297,6 +299,9 @@ Set-ItemProperty -Path "HKCU:\Environment" -Name "PROMPT" -Value '$e[92m$p$e[0m$
 # We can get conditional prompts with the autorun value, but only at startup (can't display git branch for example)
 # Use fltmc to test admin rights - https://stackoverflow.com/a/28268802/4851350
 # Note: don't add whitespace after the prompt statement
+if (-not (Test-Path -Path "HKCU:\Software\Microsoft\Command Processor")) {
+    New-Item -Path "HKCU:\Software\Microsoft\Command Processor" -Force | Out-Null
+}
 Set-ItemProperty -Path "HKCU:/Software/Microsoft/Command Processor" -Name "Autorun" -Force -Type String -Value @'
 
 if %ssh_connection% == ^%ssh_connection^% (
