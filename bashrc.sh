@@ -54,7 +54,7 @@ prompt_get_mingw64() {
 }
 
 
-PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\033[35m\]$(prompt_get_mingw64)\[\033[00m\]:\[\033[01;34m\]\w\[\033[01;35m$(prompt_get_git_branch)\]\[\033[00m\]\$ '
+PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\033[35m\]$(prompt_get_mingw64)\[\033[00m\] \[\033[01;34m\]\w\[\033[01;35m$(prompt_get_git_branch)\]\[\033[00m\]\$ '
 
 # If this is an xterm set the title to user@host:dir <branch>
 case "$TERM" in
@@ -80,7 +80,7 @@ fi
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-alias ll='ls -la'
+alias ll='ls -laF'
 
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases

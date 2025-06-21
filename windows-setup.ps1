@@ -13,6 +13,42 @@ echo ""
 $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $true
 
+$isAdmin = (New-Object Security.Principal.WindowsPrincipal ([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
+
+New-PSDrive HKU Registry HKEY_USERS
+
+#Can be useful for w11
+#https://github.com/Ccmexec/PowerShell/blob/master/Customize%20TaskBar%20and%20Start%20Windows%2011/CustomizeTaskbar%20v1.1.ps1
+
+#Todo: find out how to refresh after setting these values. Killing explorer is not an option as it would also kill opened windows, and I want this script to be non-disruptive.
+#For now, hide them manually.
+#echo "Hiding search in taskbar"
+#Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Search" -Name "SearchboxTaskbarMode" -Value 0 -Type DWord -Force
+#echo "Hiding task view button"
+#Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Explorer\Advanced" -Name "ShowTaskViewButton" -Value 0
+#echo "Hiding contacts button"
+#Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Explorer\Advanced/People" -Name "PeopleBand" -Value 0
+
+echo "Setting accent color"
+Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/DWM" -Name "AccentColor" -Value 0xffb16300
+Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/DWM" -Name "ColorizationColor" -Value 0xc40063B1
+Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/DWM" -Name "ColorizationColorBalance" -Value 0x59
+Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/DWM" -Name "ColorizationAfterglow" -Value 0xc40063B1
+Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/DWM" -Name "ColorizationAfterglowBalance" -Value 0x0A
+Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/DWM" -Name "ColorizationBlurBalance" -Value 0x01
+Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/DWM" -Name "EnableWindowColorization" -Value 0x01
+Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/DWM" -Name "ColorizationGlassAttribute" -Value 0x01
+Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/DWM" -Name "ColorPrevalence" -Value 0x01 #color title bar
+Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Themes/Personalize" -Name "ColorPrevalence" -Value 0x01 #color start menu, taskbar, and notification center
+Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Themes/Personalize" -Name "AppsUseLightTheme" -Value 0x00
+Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Themes/History" -Name "AutoColor" -Value 0x00
+Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Explorer/Accent" -Name "AccentPalette" -Value ([byte[]](134,202,255,0,95,178,242,0,30,145,234,0,0,99,177,0,0,66,117,0,0,45,79,0,0,32,56,0,0,204,106,0))
+Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Explorer/Accent" -Name "StartColorMenu" -Value 0xff754200
+
+#This value has to be the last, as it triggers a change. https://www.reddit.com/r/Windows11/comments/sw15u0/dark_theme_did_you_notice_the_ugly_pale_accent/
+Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Explorer/Accent" -Name "AccentColorMenu" -Value 0xffb16300
+
+
 # In the registry, those values are stored in little endian
 function rgbToAABBGGRR {
     param (
@@ -20,6 +56,9 @@ function rgbToAABBGGRR {
     )
     return '00{0:X2}{1:X2}{2:X2}' -f $rgb[2], $rgb[1], $rgb[0]
 }
+
+$consoleWidth = 120
+$consoleHeight = 34
 
 $Color0 = 24, 24, 24 #30 - black
 $Color1 = 73, 137, 226 #34 - blue
@@ -54,6 +93,15 @@ $regPaths = @(
     #"HKCU:\Console\%SystemRoot%_SysWOW64_WindowsPowerShell_v1.0_powershell_ise.exe"
 )
 
+if ($isAdmin) {
+    $regPaths += @(
+        "HKU:\S-1-5-18\Console",
+        "HKU:\S-1-5-18\Console\%SystemRoot%_system32_cmd.exe",
+        "HKU:\S-1-5-18\Console\%SystemRoot%_System32_WindowsPowerShell_v1.0_powershell.exe",
+        "HKU:\S-1-5-18\Console\%SystemRoot%_SysWOW64_WindowsPowerShell_v1.0_powershell.exe"
+    )
+}
+
 foreach ($regPath in $regPaths) {
     if (-not (Test-Path -Path $regPath)) {
         echo ("Creating registry path: {0}" -f $regPath)
@@ -79,18 +127,49 @@ foreach ($regPath in $regPaths) {
     Set-ItemProperty -Path $regPath -Name "FontSize" -Value 0x00100000 # 16px
     Set-ItemProperty -Path $regPath -Name "HistoryBufferSize" -Value 999
     Set-ItemProperty -Path $regPath -Name "HistoryNoDup" -Value 1
+    Set-ItemProperty -Path $regPath -Name "WindowSize" -Value (($consoleHeight -shl 16) -bor $consoleWidth)
 }
 
-# Prompt for CMD. Can't do much with it unfortunately other than setting color and adding a space after ">"
+# Prompt for CMD
 echo "Setting cmd prompt environment variable"
 Set-ItemProperty -Path "HKCU:\Environment" -Name "PROMPT" -Value '$e[92m$p$e[0m$g '
+
+# We can get conditional prompts with the autorun value, but only at startup (can't display git branch for example)
+# Use fltmc to test admin rights - https://stackoverflow.com/a/28268802/4851350
+# Note: don't add whitespace after the prompt statement
+Set-ItemProperty -Path "HKCU:/Software/Microsoft/Command Processor" -Name "Autorun" -Value @'
+
+if %ssh_connection% == ^%ssh_connection^% (
+    fltmc > nul 2>&1
+    && (set prompt=$e[91m[Admin]$e[92m $p$e[0m$g$s)
+    || (set prompt=$e[92m$p$e[0m$g$s)
+) else (
+    if not %userdomain% == %computername% (
+        if not %userdomain% == WORKGROUP
+            (set prompt=$e[33m%userdomain%\\%username%@%computername%$e[92m $p$e[0m$g$s)
+        else
+            (set prompt=$e[33m%username%@%computername%$e[92m $p$e[0m$g$s)
+    ) else
+        (set prompt=$e[33m%username%@%computername%$e[92m $p$e[0m$g$s)
+)
+
+'@.Replace("`n", " ")
+
+
+if ($isAdmin) {
+    #echo "Setting default cmd prompt environment variable"
+    #Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Session Manager\Environment" -Name "PROMPT" -Value '$e[92m$p$e[0m$g '
+    echo "Setting system cmd prompt environment variable"
+    Set-ItemProperty -Path "HKU:\S-1-5-18\Environment" -Name "PROMPT" -Value '$e[91m[SYSTEM]$e[92m $p$e[0m$g '
+}
 
 
 function patchShortcut {
     param (
         [string]$shortcutPath,
         [string]$shortcutContentBase64,
-        [int]$colorOffset
+        [int]$colorOffset,
+        [int]$sizeOffset
     )
 
     $shortcutContent = [System.Convert]::FromBase64String($shortcutContentBase64)
@@ -102,6 +181,11 @@ function patchShortcut {
     for ($i = 0; $i -lt $colors.Count; $i++) {
         $offset = $colorOffset + ($i * 4) + 1 # +1 for the first byte which is always 0
         $colors[$i] | ForEach-Object { $shortcutContent[$offset++] = $_ }
+    }
+    if ($sizeOffset) {
+        $shortcutContent[$sizeOffset] = $consoleWidth
+        $shortcutContent[$sizeOffset + 4] = $consoleWidth
+        $shortcutContent[$sizeOffset + 6] = $consoleHeight
     }
 
     Set-Content -Path $shortcutPath -Value $shortcutContent -Encoding Byte
@@ -154,7 +238,7 @@ HwAAADIAAABTAC0AMQAtADUALQAyADEALQAyADcAMgA3ADUAMgAxADEAOAA0AC0AMQA2ADAANAAw
 ADEAMgA3ADIAMAAtADEAOAA4ADcAOQAyADcANQAyADcALQAxADEAOAAwADYANAAzAAAAAAAAAJMA
 AAAxU1BTBwZXDJYD3kOdYeMh199QJhEAAAADAAAAAAsAAAD//wAAEQAAAAEAAAAACwAAAP//AAAR
 AAAAAgAAAAALAAAA//8AABEAAAAEAAAAAAsAAAAAAAAAEQAAAAYAAAAAAgAAAP8AAAARAAAABQAA
-AAALAAAA//8AABEAAAAKAAAAAAsAAAAAAAAAAAAAAAAAAAAAAAAA" 0x87E
+AAALAAAA//8AABEAAAAKAAAAAAsAAAAAAAAAAAAAAAAAAAAAAAAA" 0x87E 0x7FF
 
 echo "Patching powershell x86 shortcut"
 patchShortcut "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Windows PowerShell\Windows PowerShell (x86).lnk" `
@@ -202,7 +286,7 @@ HwAAADIAAABTAC0AMQAtADUALQAyADEALQAyADEAMgA3ADUAMgAxADEAOAA0AC0AMQA2ADAANAAw
 ADEAMgA5ADIAMAAtADEAOAA4ADcAOQAyADcANQAyADcALQAxADEAOAAwADYANAAzAAAAAAAAAJMA
 AAAxU1BTBwZXDJYD3kOdYeMh199QJhEAAAADAAAAAAsAAAD//wAAEQAAAAEAAAAACwAAAP//AAAR
 AAAAAgAAAAALAAAA//8AABEAAAAEAAAAAAsAAAAAAAAAEQAAAAYAAAAAAgAAAP8AAAARAAAABQAA
-AAALAAAA//8AABEAAAAKAAAAAAsAAAAAAAAAAAAAAAAAAAAAAAAA" 0x87E
+AAALAAAA//8AABEAAAAKAAAAAAsAAAAAAAAAAAAAAAAAAAAAAAAA" 0x87E 0x7FF
 
 echo "Patching cmd shortcut"
 
@@ -238,21 +322,26 @@ AAAAAAAtAAAAMVNQU+KKWEa8TDhDu/wTkyaYbc4RAAAAAAAAAAATAAAAAAAAAAAAAAAAAAAAAAAA
 AA==" 0x49F
 
 echo "Setting powershell profile"
-$profilePath = "$env:USERPROFILE\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1"
-if (-not (Test-Path -Path $profilePath)) {
-    echo ("Creating PowerShell profile at {0}" -f $profilePath)
-    New-Item -Path $profilePath -ItemType File -Force | Out-Null
-}
 
 $profileContent = @'
 #https://www.it-connect.fr/comment-personnaliser-le-prompt-de-son-environnement-powershell/
 #https://github.com/tbaheux/itconnect/blob/master/profile.ps1
 
-#Last modified: ###DATE###
+# Version: ###DATE###
+# irm zez.dev | iex
 
 function prompt {
+    $currentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+    $currentSid = [System.Security.Principal.WindowsIdentity]::GetCurrent().User
+    #Unlike $env:hostname, the hostname command returns the dns name (which isn't all uppercase)
+    $currentHost = $(hostname)
+    #Remove redundant domain name from user
+    $currentUser = $currentUser -replace [regex]::Escape("$currentHost\".toUpper()), ''
     $isAdmin = (New-Object Security.Principal.WindowsPrincipal ([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
-    $adminPrompt = if ($isAdmin) { "[Admin] " } else { "" }
+    $isInSsh = Test-Path env:SSH_CONNECTION
+    #Disable admin indicator in ssh sessions, as it seems windows puts admin by default
+    $adminPrompt = if ($currentSid -eq "S-1-5-18") { "[SYSTEM] " } elseif ($isAdmin -and -not $isInSsh) { "[Admin] " } else { "" }
+    $sshPrompt = "$currentUser@$currentHost"
     $currentPath = (Get-Location).Path
 
     #feels too weird
@@ -268,6 +357,9 @@ function prompt {
     }
     $host.UI.RawUI.WindowTitle = "$adminPrompt$currentPath$(if ($gitBranch) { " ($gitBranch)" } else { '' }) - Powershell"
     Write-Host $adminPrompt -NoNewline -ForegroundColor Red
+    if ($isInSsh) {
+        Write-Host "$sshPrompt " -NoNewline -ForegroundColor Blue
+    }
     Write-Host "PS " -NoNewline -ForegroundColor Green
     Write-Host "$currentPath" -NoNewline -ForegroundColor Cyan
     if ($gitBranch) {
@@ -283,7 +375,16 @@ function prompt {
 }
 '@
 
-[IO.File]::WriteAllText($profilePath, $profileContent)
+[IO.File]::WriteAllText("$env:USERPROFILE\Documents\WindowsPowerShell\profile.ps1", $profileContent)
+if ($isAdmin) {
+    #echo "Setting default powershell profile"
+    #[IO.File]::WriteAllText("C:\Windows\System32\WindowsPowerShell\v1.0\profile.ps1", $profileContent)
+    echo "Setting system powershell profile"
+    New-Item -Path "C:\WINDOWS\system32\config\systemprofile\Documents\WindowsPowerShell" -ItemType Directory -Force | Out-Null
+    [IO.File]::WriteAllText("C:\WINDOWS\system32\config\systemprofile\Documents\WindowsPowerShell\profile.ps1", $profileContent)
+}
+
+
 
 echo "Setting .bashrc for current/future git bash"
 $bashrcPath = "$env:USERPROFILE\.bashrc"
@@ -293,9 +394,7 @@ $bashrc = @'
 
 [IO.File]::WriteAllText($bashrcPath, $bashrc)
 
-#todo: set default file extensions, notably for empty extensions and also check for ps1
-
-#also display file extensions + system files
+#display file extensions + system files
 
 echo "Setting explorer to display hidden files"
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Hidden" -Value 1
@@ -695,7 +794,6 @@ function Update-RegistryChanges {
     } catch {}
 }
 
-
 $notepadplusplusPath = "$env:ProgramFiles\Notepad++\notepad++.exe"
 if (-not (Test-Path -Path $notepadplusplusPath)) {
     Start-Process "https://notepad-plus-plus.org/downloads/"
@@ -781,6 +879,7 @@ if (-not (Test-Path -Path $notepadplusplusPath)) {
         ".properties",
         ".ps1",
         ".py",
+        ".python_history",
         ".readme",
         ".rb",
         ".rs",
