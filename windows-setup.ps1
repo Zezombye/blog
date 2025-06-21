@@ -322,10 +322,10 @@ if (-not (Test-Path -Path "HKCU:\Software\Microsoft\Command Processor")) {
 Set-ItemProperty -Path "HKCU:/Software/Microsoft/Command Processor" -Name "Autorun" -Force -Type String -Value @'
 
 if defined ssh_connection
-    (set prompt=$e[92m$p$e[0m$g$s)
+    (set prompt=$e[33m[SSH] $e[92m$p$e[0m$g$s)
 else (
     fltmc > nul 2>&1
-    && (set prompt=$e[91m[Admin]$e[92m $p$e[0m$g$s)
+    && (set prompt=$e[91m[Admin] $e[92m$p$e[0m$g$s)
     || (set prompt=$e[92m$p$e[0m$g$s)
 )
 
