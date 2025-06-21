@@ -43,6 +43,9 @@ Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/DWM" -Name "Colorizatio
 Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/DWM" -Name "ColorPrevalence" -Value 0x01 #color title bar
 Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Themes/Personalize" -Name "ColorPrevalence" -Value 0x01 #color start menu, taskbar, and notification center
 Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Themes/Personalize" -Name "AppsUseLightTheme" -Value 0x00
+if (-not (Test-Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Themes/History")) {
+    New-Item -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Themes/History" -Force | Out-Null
+}
 Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Themes/History" -Name "AutoColor" -Value 0x00
 Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Explorer/Accent" -Name "AccentPalette" -Value ([byte[]](134,202,255,0,95,178,242,0,30,145,234,0,0,99,177,0,0,66,117,0,0,45,79,0,0,32,56,0,0,204,106,0))
 Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Explorer/Accent" -Name "StartColorMenu" -Value 0xff754200
