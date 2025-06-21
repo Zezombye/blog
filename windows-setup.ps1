@@ -303,25 +303,30 @@ echo "Setting cmd prompt environment variable"
 Set-ItemProperty -Path "HKCU:\Environment" -Name "PROMPT" -Value '$e[92m$p$e[0m$g '
 
 # We can get conditional prompts with the autorun value, but only at startup (can't display git branch for example)
-# Use fltmc to test admin rights - https://stackoverflow.com/a/28268802/4851350
-# Note: don't add whitespace after the prompt statement
 if (-not (Test-Path -Path "HKCU:\Software\Microsoft\Command Processor")) {
     New-Item -Path "HKCU:\Software\Microsoft\Command Processor" -Force | Out-Null
 }
+
+# Using environment variables is risky in batch, so don't add user@hostname when connecting via ssh to avoid potential command injection
+# Powershell is too long to start up
+#if not %userdomain% == %computername% (
+#    if not %userdomain% == WORKGROUP
+#        (set prompt=$e[33m%userdomain%\\%username%@%computername%$e[92m $p$e[0m$g$s)
+#    else
+#        (set prompt=$e[33m%username%@%computername%$e[92m $p$e[0m$g$s)
+#) else
+#    (set prompt=$e[33m%username%@%computername%$e[92m $p$e[0m$g$s)
+
+# Use fltmc to test admin rights - https://stackoverflow.com/a/28268802/4851350
+# Note: don't add whitespace after the prompt statement
 Set-ItemProperty -Path "HKCU:/Software/Microsoft/Command Processor" -Name "Autorun" -Force -Type String -Value @'
 
-if %ssh_connection% == ^%ssh_connection^% (
+if defined ssh_connection
+    (set prompt=$e[92m$p$e[0m$g$s)
+else (
     fltmc > nul 2>&1
     && (set prompt=$e[91m[Admin]$e[92m $p$e[0m$g$s)
     || (set prompt=$e[92m$p$e[0m$g$s)
-) else (
-    if not %userdomain% == %computername% (
-        if not %userdomain% == WORKGROUP
-            (set prompt=$e[33m%userdomain%\\%username%@%computername%$e[92m $p$e[0m$g$s)
-        else
-            (set prompt=$e[33m%username%@%computername%$e[92m $p$e[0m$g$s)
-    ) else
-        (set prompt=$e[33m%username%@%computername%$e[92m $p$e[0m$g$s)
 )
 
 '@.Replace("`n", " ")
