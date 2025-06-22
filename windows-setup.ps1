@@ -391,7 +391,7 @@ function prompt {
     #} else {
     #    Write-Host ">" -NoNewline -ForegroundColor White
     #}
-    return "$([char]27[0m)> "
+    return "$([char]27)[0m> "
 }
 '@
 
