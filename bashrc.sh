@@ -27,10 +27,10 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
 fi
 
 prompt_get_git_branch() {
-    parentheses=$1
+    title=$1
     _PROMPT_CURRENT_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
     if [[ ! -z $_PROMPT_CURRENT_GIT_BRANCH && $_PROMPT_CURRENT_GIT_BRANCH != "main" && $_PROMPT_CURRENT_GIT_BRANCH != "master" ]]; then
-        if [[ $parentheses == "true" ]]; then
+        if [[ $title == "true" ]]; then
             _PROMPT_CURRENT_GIT_BRANCH="($_PROMPT_CURRENT_GIT_BRANCH)"
         fi
         _PROMPT_CURRENT_GIT_BRANCH=" $_PROMPT_CURRENT_GIT_BRANCH"
@@ -41,10 +41,12 @@ prompt_get_git_branch() {
 }
 
 prompt_get_mingw64() {
-    dash=$1
+    title=$1
     if [[ "$MSYSTEM" == "MINGW64" ]]; then
-        if [[ $dash == "true" ]]; then
+        if [[ $title == "true" ]]; then
             echo " - MINGW64"
+        elif [[ -z "$SSH_CONNECTION" ]]; then
+            echo "MINGW64"
         else
             echo " MINGW64"
         fi
@@ -53,13 +55,22 @@ prompt_get_mingw64() {
     fi
 }
 
+prompt_display_user_hostname() {
+    # Display user@hostname, unless we are in mingw64 (git bash) and not in ssh
+    if [[ "$MSYSTEM" == "MINGW64" && -z "$SSH_CONNECTION" ]]; then
+        return 1
+    else
+        return 0
+    fi
+}
 
-PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\033[35m\]$(prompt_get_mingw64)\[\033[00m\] \[\033[01;34m\]\w\[\033[01;35m$(prompt_get_git_branch)\]\[\033[00m\]\$ '
 
-# If this is an xterm set the title to user@host:dir <branch>
+PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]$(prompt_display_user_hostname && echo "\u@\h" || echo '')\[\033[0m\033[35m\]$(prompt_get_mingw64)\[\033[0m\]:\[\033[01;34m\]\w\[\033[01;35m$(prompt_get_git_branch)\]\[\033[00m\]\$ '
+
+# If this is an xterm set the title to user@host: dir <branch>
 case "$TERM" in
 xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\$(prompt_get_git_branch true)\$(prompt_get_mingw64 true)\a\]$PS1"
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\$(prompt_display_user_hostname && echo '\u@\h: ' || echo '')\w\$(prompt_get_git_branch true)\$(prompt_get_mingw64 true)\a\]$PS1"
     ;;
 *)
     ;;

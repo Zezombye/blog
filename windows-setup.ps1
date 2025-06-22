@@ -309,6 +309,7 @@ if (-not (Test-Path -Path "HKCU:\Software\Microsoft\Command Processor")) {
 
 # Using environment variables is risky in batch, so don't add user@hostname when connecting via ssh to avoid potential command injection
 # Powershell is too long to start up
+# And it may be too risky. If the autorun command has a syntax error, then you simply cannot connect via ssh
 #if not %userdomain% == %computername% (
 #    if not %userdomain% == WORKGROUP
 #        (set prompt=$e[33m%userdomain%\\%username%@%computername%$e[92m $p$e[0m$g$s)
@@ -377,7 +378,7 @@ function prompt {
     $host.UI.RawUI.WindowTitle = "$adminPrompt$currentPath$(if ($gitBranch) { " ($gitBranch)" } else { '' }) - Powershell"
     Write-Host $adminPrompt -NoNewline -ForegroundColor Red
     if ($isInSsh) {
-        Write-Host "$sshPrompt " -NoNewline -ForegroundColor Blue
+        Write-Host "$([char]27)[01;34m$sshPrompt " -NoNewline
     }
     Write-Host "PS " -NoNewline -ForegroundColor Green
     Write-Host "$currentPath" -NoNewline -ForegroundColor Cyan
@@ -416,6 +417,10 @@ $bashrc = @'
 if ($bashrc -ne "#`##BASHRC###`n") {
     [IO.File]::WriteAllText($bashrcPath, $bashrc)
 }
+[IO.File]::WriteAllText("$env:USERPROFILE\.bash_profile", @'
+test -f ~/.profile && . ~/.profile
+test -f ~/.bashrc && . ~/.bashrc
+'@)
 
 
 #display file extensions + system files
@@ -837,27 +842,7 @@ if (-not (Test-Path -Path $notepadplusplusPath)) {
 
         #.log.1, .log.2, etc.
         #We don't know if it's a text file, but those extensions are typically only used for logs
-        ".0",
-        ".1",
-        ".2",
-        ".3",
-        ".4",
-        ".5",
-        ".6",
-        ".7",
-        ".8",
-        ".9",
-        ".10",
-        ".11",
-        ".12",
-        ".13",
-        ".14",
-        ".15",
-        ".16",
-        ".17",
-        ".18",
-        ".19",
-        ".20",
+        ".0",".1",".2",".3",".4",".5",".6",".7",".8",".9",".10",".11",".12",".13",".14",".15",".16",".17",".18",".19",".20",
 
         #Feel free to suggest more txt extensions
         #https://fileinfo.com/filetypes/text
@@ -867,6 +852,8 @@ if (-not (Test-Path -Path $notepadplusplusPath)) {
         ".asm",
         ".bat",
         ".bashrc",
+        ".bash_login",
+        ".bash_logout",
         ".bash_history",
         ".bash_profile",
         ".browserslistrc",
@@ -887,6 +874,7 @@ if (-not (Test-Path -Path $notepadplusplusPath)) {
         ".gradle",
         ".h",
         ".hpp",
+        ".info",
         ".ini",
         ".js",
         ".json",
@@ -900,6 +888,7 @@ if (-not (Test-Path -Path $notepadplusplusPath)) {
         ".node_repl_history",
         ".php",
         ".pl",
+        ".profile",
         ".properties",
         ".ps1",
         ".py",
