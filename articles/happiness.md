@@ -15,7 +15,7 @@ let premises = {
 }
 
 function PremiseDef(props) {
-    console.log(props);
+    //console.log(props);
     let premiseId = Object.keys(props)[0];
     return h("span", h("b", {innerHTML: "("+premiseId+") "+premises[premiseId]}));
 }

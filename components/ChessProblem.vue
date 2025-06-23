@@ -99,7 +99,7 @@ const props = defineProps({
         default: [],
     },
     moves: {
-        type: Array,
+        type: String,
         required: true,
     },
     orientation: {

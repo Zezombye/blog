@@ -1,10 +1,10 @@
 <!-- Technically not a "footnote" as it is inline, however it is used in the same case of adding details which aren't necessary for the article. -->
 
 <template>
-    <div class="footnote" @click="isExpanded = !isExpanded" :class="{ 'expanded': isExpanded, 'bigger-font': biggerFont }">
+    <span class="footnote" @click="isExpanded = !isExpanded" :class="{ 'expanded': isExpanded, 'bigger-font': biggerFont }">
         <span v-if="!isExpanded">{{ unexpandedText }}</span>
         <span v-else v-html='(addParentheses ? "(" : "")+fixTypography(text).trim()+(addParentheses ? ")" : "")'></span>
-    </div>
+    </span>
 </template>
 
 <script>
