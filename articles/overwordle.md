@@ -25,7 +25,7 @@ As I was programming in the Overwatch Workshop at the time, the next move was ob
 
 ## Creating the UI
 
-If you are not familiar with the Overwatch Workshop, I recommend reading [my article on OverPy](https://zez.dev/overpy) for an introduction. In summary, the Workshop is a custom scripting language for Overwatch, and I created OverPy (a language on top of it) for easier programming.
+If you are not familiar with the Overwatch Workshop, I recommend reading [my article on OverPy](/overpy) for an introduction. In summary, the Workshop is a custom scripting language for Overwatch, and I created OverPy (a language on top of it) for easier programming.
 
 *Note: for brevity, the code will be slightly incorrect as unnecessary function parameters will be omitted.*
 

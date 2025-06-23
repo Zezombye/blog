@@ -17,10 +17,16 @@ hero:
 features:
   - title: "<a href='/overpy'>OverPy</a>"
     details: "<a href='/overpy'>The birth of a programming language: Making the Overwatch Workshop usable</a>"
-  - title: "Coming Soon™"
-    details: ""
-  - title: "Coming Soon™"
-    details: ""
+    icon:
+      src: "/overpy/hero.svg"
+  - title: "<a href='/overwordle'>OverWordle</a>"
+    details: "<a href='/overwordle'>Making a multiplayer Wordle: Pushing the Overwatch Workshop to its limits</a>"
+    icon:
+      src: "/overwordle/hero.png"
+  - title: "<a href='/workshop-shenanigans'>Workshop shenanigans</a>"
+    details: "<a href='/workshop-shenanigans'>Exploiting the Overwatch Workshop with Unicode shenanigans</a>"
+    icon:
+      src: "/workshop-shenanigans/hero.png"
 ---
 
 |                              |                               | |

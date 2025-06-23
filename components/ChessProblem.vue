@@ -4,8 +4,9 @@
             <div class="disable-overlay" v-if="isBoardDisabled"></div>
             <TheChessboard :board-config="boardConfig" @board-created="onBoardCreated" @move="onMove" />
         </div>
-        <figcaption v-if="caption">
-            <template v-if="nbMovesMade === moves.length"><span class="success-icon">✓</span> Success!</template>
+        <figcaption v-if="caption || captions.length > 0">
+            <template v-if="captions.length > 0"><span v-if="nbMovesMade === moves.length" class="success-icon">✓ </span>{{ captions[nbMovesMade === moves.length ? Math.ceil(moves.length/2) : Math.max(0, Math.floor(nbMovesMade/2))] }}</template>
+            <template v-else-if="nbMovesMade === moves.length"><span class="success-icon">✓</span> Success!</template>
             <!-- <template v-else-if="isWrongMove"><span class="failure-icon">✗</span> Wrong move!</template> -->
             <template v-else>{{ displayedCaption }}</template>
         </figcaption>
@@ -42,6 +43,7 @@ figcaption {
     font-style: italic;
     margin-top: 0.5em;
     font-size: 15px;
+    white-space: pre-wrap;
 }
 
 .main-wrap, .wrapper {
@@ -51,6 +53,7 @@ figcaption {
 
 .success-icon {
     color: hsl(88, 62%, 50%);
+    padding-right: 0.2em;
 }
 
 .failure-icon {
@@ -74,6 +77,10 @@ cg-board {
 </style>
 
 <script setup>
+
+//https://qwerty084.github.io/vue3-chessboard-docs/
+//https://github.com/qwerty084/vue3-chessboard
+
 import { ref, toRefs, computed } from 'vue';
 import { TheChessboard } from 'vue3-chessboard';
 import 'vue3-chessboard/style.css';
@@ -87,13 +94,21 @@ const props = defineProps({
         type: String,
         default: '',
     },
+    captions: {
+        type: Array,
+        default: [],
+    },
     moves: {
         type: Array,
         required: true,
     },
+    orientation: {
+        type: String,
+        default: 'white',
+    },
 });
 
-const { fen } = toRefs(props);
+const { fen, orientation } = toRefs(props);
 
 const moves = props.moves.split(" ").map(x => x.replace("+", ""));
 
@@ -107,12 +122,13 @@ const goodMoveShape = '<defs><filter id="shadow"><feDropShadow dx="4" dy="7" std
 const badMoveShape = '<defs><filter id="shadow"><feDropShadow dx="4" dy="7" stdDeviation="5" flood-opacity="0.5" /></filter></defs><g transform="translate(71 -12) scale(0.4)"><circle style="fill:#df5353;filter:url(#shadow)" cx="50" cy="50" r="50" /><path fill="#fff" d="M79.4 68q0 1.8-1.4 3.2l-6.7 6.7q-1.4 1.4-3.5 1.4-1.9 0-3.3-1.4L50 63.4 35.5 78q-1.4 1.4-3.3 1.4-2 0-3.5-1.4L22 71.2q-1.4-1.4-1.4-3.3 0-1.7 1.4-3.5L36.5 50 22 35.4Q20.6 34 20.6 32q0-1.7 1.4-3.5l6.7-6.5q1.2-1.4 3.5-1.4 2 0 3.3 1.4L50 36.6 64.5 22q1.2-1.4 3.3-1.4 2.3 0 3.5 1.4l6.7 6.5q1.4 1.8 1.4 3.5 0 2-1.4 3.3L63.5 49.9 78 64.4q1.4 1.8 1.4 3.5z"/></g>'
 
 const displayedCaption = computed(() => {
-    return props.caption.replace("%moves%", Math.ceil((moves.length - nbMovesMade.value)/2));
+    return props.caption.replace("%moves%", Math.ceil((moves.length - nbMovesMade.value+1)/2));
 })
 
 const boardConfig = {
     fen: fen.value,
     coordinates: false,
+    orientation: orientation.value,
     animation: {
         duration: 300,
     },
@@ -129,8 +145,8 @@ function normalizeMove(move) {
 
 async function onMove(move) {
     // Handle the move event
-    console.log('Move made:', move);
-    console.log("board = ", boardApi);
+    //console.log('Move made:', move);
+    //console.log("board = ", boardApi);
     if (nbMovesMade.value % 2 === 0) {
         if (normalizeMove(moves[nbMovesMade.value]) !== normalizeMove(move.san)) {
             // Invalid move

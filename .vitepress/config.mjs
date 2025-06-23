@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 import imageFiguresPlugin from './markdown-it-image-figures.js';
 import { inlineHighlightPlugin } from './inline-highlight.js';
 import overpyLanguage from './overpy-highlight.json';
+import highlightLanguage from './highlight-language.json';
 import { typographicReplacerPlugin } from './typographicReplacer.js';
 import * as fs from 'node:fs';
 
@@ -12,7 +13,7 @@ export default defineConfig({
     srcDir: "articles",
     cleanUrls: true,
     lang: "en-US",
-    appearance: "dark",
+    appearance: "force-dark",
     lastUpdated: true,
     markdown: {
         image: {
@@ -20,7 +21,7 @@ export default defineConfig({
         },
         math: true,
 
-        languages: [overpyLanguage],
+        languages: [overpyLanguage, highlightLanguage],
         defaultHighlightLang: 'overpy',
         codeTransformers: [
             {
@@ -147,7 +148,9 @@ export default defineConfig({
         ],*/
 
         socialLinks: [
-            { icon: 'github', link: 'https://github.com/Zezombye' }
+            { icon: 'github', link: 'https://github.com/Zezombye' },
+            { icon: 'twitter', link: 'https://twitter.com/Zezombye' },
+            { icon: 'youtube', link: 'https://youtube.com/@Zezombye' },
         ]
     },
 })

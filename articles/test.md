@@ -7,7 +7,17 @@ import ChessProblem from "../components/ChessProblem.vue"
 
 </script>
 
+The bits marked with `§blue§x`{hl} are then retrieved and concatenated together to form the final number. For example:
+- The “ඞ” character is the number `0x0D9E`, which in binary is `1101 1001 1110`{txt}
+- The UTF-8 binary representation of it is `1110§blue§0000 §reset§10§blue§110110 §reset§10§blue§011110`{hl}
+- This yields `0000 1101 1001 1110`{txt} which is indeed the number in Unicode
+- `some §red§red§reset§ text`{hl}
+
 <ChessProblem fen="4k1N1/1p6/2p1Kp2/p1B5/2n5/8/P7/8 w - - 0 57" moves="Be7 Nd6 Nxf6" caption="White to play and win"/>
+
+Sacrifice problem:
+
+<ChessProblem fen="1kr4r/ppp5/4Nbn1/8/B7/5pPq/5P2/1Q3RK1 w - - 0 1" moves="Qxb7 Kxb7 Rb1 Ka6 Nc5 Ka5 Rb5" :captions="['Material advantage: -7.\nBlack threatens checkmate', 'Material advantage: -15??\n ', 'Black\'s not feeling good\n ', 'Mate in 1\n ', 'Victory requires sacrifice :)\n ']"/>
 
 ```
 # Wait until the startFacing action applies and the player's angle has been set to one of the three values.

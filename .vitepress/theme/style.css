@@ -71,6 +71,8 @@
 
     --vp-paragraph-gap: 23px;
     --vp-code-line-height: 1.5;
+    --vp-code-color: #E1E4E8;
+    --vp-c-divider: #595962;
 }
 
 /**
@@ -153,9 +155,9 @@
         width: 100%;
     }
     figcaption {
-    font-size: 0.8em;
-    font-style: italic;
-    margin-top: 0.5em;
+        font-size: 15px;
+        font-style: italic;
+        margin-top: 0.5em;
     }
 }
 
@@ -238,6 +240,19 @@ body, .vp-doc p {
         top: -2px;
     }
 
+    .highlight-blue {
+        color: rgb(60, 120, 216);
+    }
+
+    hr {
+        margin-top: 48px;
+        margin-bottom: 44px;
+    }
+
+    strong, b {
+        font-weight: 800;
+    }
+
 }
 
 @media (max-width: 640px) {
@@ -311,6 +326,12 @@ button.copy[title="Copy Code"] {
     color: var(--vp-c-text-2);
 }
 
+.VPDocAside .outline-link {
+    white-space: normal;
+    line-height: 1.35;
+    padding: 0.41rem 0;
+}
+
 .vp-doc h1 {
     font-size: 36px;
     line-height: 44px;
@@ -362,4 +383,11 @@ button.copy[title="Copy Code"] {
     :root {
         --vp-paragraph-gap: 21px;
     }
+}
+
+.VPHome .VPHomeFeatures article img.VPImage {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
 }
