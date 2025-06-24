@@ -385,9 +385,30 @@ button.copy[title="Copy Code"] {
     }
 }
 
-.VPHome .VPHomeFeatures article img.VPImage {
-    width: 100%;
-    height: auto;
-    max-width: 100%;
-    object-fit: contain;
+.VPHome .VPHomeFeatures {
+    article img.VPImage {
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+        object-fit: contain;
+    }
+    .items {
+        justify-content: center;
+    }
+}
+
+.VPHome .VPHomeFeatures .item.grid-6 {
+    width: calc(100% / 1);
+    max-width: 500px;
+}
+@media (min-width: 850px) {
+    .VPHome .VPHomeFeatures .item.grid-6 {
+        width: calc(100% / 2);
+    }
+}
+
+@media (min-width: 1280px) {
+    .VPHome .VPHomeFeatures .item.grid-6 {
+        width: calc(100% / 3);
+    }
 }

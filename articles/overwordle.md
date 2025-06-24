@@ -4,7 +4,7 @@ defaultHighlightLang: overpy
 
 # Making a multiplayer Wordle: Pushing the Overwatch Workshop to its limits
 
-![](overwordle/hero.png)
+![](/overwordle-hero.png)
 
 ## How Wordle works
 

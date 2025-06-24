@@ -34,6 +34,8 @@ function Premise(props) {
 
 # Why the purpose of life is happiness
 
+![](/happiness-hero.jpeg)
+
 ## Introduction
 
 If you are religious, then the purpose of life is simple: just follow whatever is written in your holy book. And then you can just stop reading this essay right there.
@@ -507,8 +509,6 @@ But, as detailed in section 2.3, he then realized that he is in a prison from wh
 ### 4.2. Irrationality
 
 <p style="display: flex; justify-content: center"><iframe width="560" height="315" src="https://www.youtube.com/embed/ztABYog5x3o" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
-
-https://www.youtube.com/watch?v=ztABYog5x3o
 
 > **[Smith]**
 > *Why, Mr. Anderson, why? Why...?*

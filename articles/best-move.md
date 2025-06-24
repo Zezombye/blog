@@ -5,6 +5,8 @@ import ChessProblem from "../components/ChessProblem.vue"
 
 # “What’s the best move on the board?”
 
+![](/best-move-hero.png)
+
 Imagine you have a supermegagigabrain. 400 IQ. 6000 elo. Stockfish ain’t got nothing on you. Let alone Magnus Carlsen, the world chess champion; he’s barely 3000 elo.
 
 You decide to take on the world title. After a dozen moves, you arrive at this position.
@@ -44,8 +46,6 @@ Maybe one day you’ll get past 150 elo.
 ----
 
 Obviously, this is absurd. And yet it is how the vast majority of people, including probably you, play the game of life.
-
-The absurdity of the human condition is that the hardest thing isn't to know the best move, but to make the best move.
 
 Life is a chessboard, and every second of every day you can move your arms, legs, and mouth to progress your position on the board.
 
@@ -91,6 +91,8 @@ Your past, your struggles, all your stories of how you’ve gotten there doesn�
 The only two things that matter are the current position and the time left on the clock.
 
 This is what determines the best move on the board.
+
+The absurdity of the human condition is that the hardest thing isn't to know the best move, but to make the best move.
 
 ## A solution for analysis paralysis
 

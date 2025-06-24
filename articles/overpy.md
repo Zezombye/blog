@@ -4,7 +4,7 @@ defaultHighlightLang: overpy
 
 # The birth of a programming language: Making the Overwatch Workshop usable
 
-![](overpy/hero.svg)
+![](/overpy-hero.svg)
 
 ## The Overwatch Workshop
 

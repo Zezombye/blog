@@ -4,7 +4,7 @@ defaultInlineHighlightLang: txt
 
 # Exploiting the Overwatch Workshop with Unicode shenanigans
 
-![](workshop-shenanigans/hero.png)
+![](/workshop-shenanigans-hero.png)
 
 Please see [my article on OverPy](/overpy) for an introduction to the Overwatch Workshop.
 
