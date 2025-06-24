@@ -33,17 +33,22 @@ features:
     icon:
       src: "/workshop-shenanigans-hero.png"
 
-  - title: "\"What's the best move on the board?\""
-    details: "The mindset that is required to win"
-    link: "/best-move"
-    icon:
-      src: "/best-move-hero.png"
-
   - title: "Why the purpose of life is happiness"
     details: "A philosophical essay and a tutorial on introspection"
     link: "/happiness"
     icon:
       src: "/happiness-hero.jpeg"
 
-  - title: "Coming Soon™"
+  - title: "\"What's the best move on the board?\""
+    details: "The mindset that is required to win"
+    link: "/best-move"
+    icon:
+      src: "/best-move-hero.png"
+
+
+  - title: "Why I view relationships like a business"
+    details: "The way to avoid ending up like the 80%"
+    link: "/relationships"
+    icon:
+      src: "/relationships-hero.jpg"
 ---

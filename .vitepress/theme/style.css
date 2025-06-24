@@ -253,6 +253,13 @@ body, .vp-doc p {
         font-weight: 800;
     }
 
+    ol[type="a"] {
+        list-style-type: lower-alpha;
+    }
+    ol[type="a_upper"] {
+        list-style-type: upper-alpha;
+    }
+
 }
 
 @media (max-width: 640px) {
@@ -424,7 +431,7 @@ button.copy[title="Copy Code"] {
 .vpi-social-youtube {
     mask: unset !important;
     -webkit-mask: unset !important;
-    background-image: url("/youtube.svg") !important;
+    background-image: url("/youtube.png") !important;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;

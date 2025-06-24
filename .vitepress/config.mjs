@@ -4,6 +4,7 @@ import { inlineHighlightPlugin } from './inline-highlight.js';
 import overpyLanguage from './overpy-highlight.json';
 import highlightLanguage from './highlight-language.json';
 import { typographicReplacerPlugin } from './typographicReplacer.js';
+import { markdownItFancyListPlugin } from './markdown-it-fancy-lists.ts';
 import * as fs from 'node:fs';
 
 // https://vitepress.dev/reference/site-config
@@ -102,6 +103,7 @@ export default defineConfig({
                 lazyLoading: true,
                 className: 'image-figures'
             });
+            md.use(markdownItFancyListPlugin);
             md.use(inlineHighlightPlugin);
             //md.use(blockHighlightPlugin);
             md.use(typographicReplacerPlugin);
