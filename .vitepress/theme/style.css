@@ -412,3 +412,21 @@ button.copy[title="Copy Code"] {
         width: calc(100% / 3);
     }
 }
+
+.vpi-social-github {
+    background-color: #D5D5D5 !important;
+}
+
+.vpi-social-twitter {
+    background-color: #46B0F2 !important;
+}
+
+.vpi-social-youtube {
+    mask: unset !important;
+    -webkit-mask: unset !important;
+    background-image: url("/youtube.svg") !important;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent !important;
+}
