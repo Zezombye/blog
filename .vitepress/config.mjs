@@ -10,8 +10,8 @@ import * as fs from 'node:fs';
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
     title: "Zezombye's Blog",
-    description: "Programming, self-improvement, and various stuff",
-    //description: "Zezombye's Blog",
+    //description: "Programming, self-improvement, and various stuff",
+    description: "Zezombye's Blog",
     srcDir: "articles",
     cleanUrls: true,
     lang: "en-US",
