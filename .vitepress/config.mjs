@@ -18,7 +18,8 @@ export default defineConfig({
     lastUpdated: true,
     markdown: {
         image: {
-            lazyLoading: false, //to avoid potential issues with images not loading due to poor connection
+            //lazyLoading: false, //to avoid potential issues with images not loading due to poor connection
+            lazyLoading: true,
         },
         math: true,
 
