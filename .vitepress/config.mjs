@@ -158,7 +158,7 @@ export default defineConfig({
         ]
     },
     transformHead(context) {
-        let description = context.pageData?.frontmatter?.layout === "home" ? "Zezombye's Blog" : "Programming, self-improvement, and various stuff";
+        let description = context.pageData?.frontmatter?.layout === "home" ? "Programming, self-improvement, and various stuff" : "Zezombye's Blog";
         return [
             ['meta', { name: 'description', content: description }],
         ]
