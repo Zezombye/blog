@@ -34,7 +34,7 @@ function Premise(props) {
 
 # Why the purpose of life is happiness
 
-![](/happiness-hero.jpeg)
+![](/purpose-hero.jpeg)
 
 ## Introduction
 
@@ -68,7 +68,7 @@ Fortunately, modern life has given us the potential to be our own Gods. So we ca
 
 Suppose a 2-dimensional tile-based video game. There is a player and an enemy. In this example, we are going to program the enemy (the spider) to attack the player.
 
-![](happiness/game1.png){width=400}
+![](purpose/game1.png){width=400}
 
 We therefore write code that is similar to this:
 
@@ -77,7 +77,7 @@ We therefore write code that is similar to this:
 
 We, as the programmer, are the *creator* of the enemy. And we thus define the *purpose* of the enemy as killing the player. To do that, we programmed *actions* into that enemy that align with its purpose (moving towards the player, attacking them).
 
-![](happiness/game2.gif){width=400}
+![](purpose/game2.gif){width=400}
 
 We are the God of the reality we created.
 
@@ -92,7 +92,7 @@ Suppose now that we made a mistake in our coding. The code we wrote is actually:
 - Every frame, move **away** from the player.
 - If next to the player, attack them.
 
-![](happiness/game3.gif){width=400}
+![](purpose/game3.gif){width=400}
 
 If we again interviewed the enemy, it would say:
 
@@ -139,7 +139,7 @@ Therefore, if the enemy manages to complete its purpose, it will do absolutely n
 
 Suppose there is a wall around the player, such that the enemy cannot directly reach the player. The enemy would then go around the wall; even if it temporarily goes away from the player, it knows it is still ultimately fulfilling its purpose.
 
-![](happiness/game4.gif){width=500}
+![](purpose/game4.gif){width=500}
 
 Note how the graph temporarily goes down before going back up. If we had a rule that the graph could only go straight up, the enemy would be stuck at a distance of 3.
 
@@ -147,7 +147,7 @@ Note how the graph temporarily goes down before going back up. If we had a rule 
 
 But suppose we completely surround the player in a wall such that it is not reachable. Then where would the enemy go? Simply: nowhere. The enemy would not move anywhere as it could not progress towards its purpose.
 
-![](happiness/game5.png){width=400}
+![](purpose/game5.png){width=400}
 
 <PremiseDef G/>
 
@@ -201,7 +201,7 @@ You might call negative reinforcement “pain” and positive reinforcement “p
 
 Minecraft has a progression system where you must complete tasks in order (for example, you must gather wood before mining stone). Therefore we will also make “higher needs” and “lower needs” to make sure the bot does not jump straight to a task that would be a detriment given its current position.
 
-![](happiness/maslows_minecraft.png){width=500}
+![](purpose/maslows_minecraft.png){width=500}
 
 Suppose for example that the bot sees an Enderman (who drops Ender Pearls, which are required to complete the game). With our needs system, the bot will not bother attacking the Enderman before first taking care of itself: making sure its health and food are full, and making sure it has basic armor and weapons to be able to attack it.
 
@@ -211,7 +211,7 @@ If we did not have this hierarchy of needs, the bot would treat attacking Enderm
 
 Obviously, this hierarchy is based on Maslow’s hierarchy of needs, which is the hierarchy that has been programmed into us by evolution.
 
-![](happiness/maslows_hierarchy.jpg){width=500}
+![](purpose/maslows_hierarchy.jpg){width=500}
 
 This hierarchy can very simply be proven. For example:
 - If you are dying of thirst or hunger, you won’t seek shelter.
@@ -319,7 +319,7 @@ To do that, you have to balance pleasure and fulfillment. Have as much pleasure 
 
 Suppose we take drugs. The resulting graph of happiness would look like this:
 
-![](happiness/graph1.png){width=400}
+![](purpose/graph1.png){width=400}
 
 Clearly one can see this is a very bad idea and not a good way of achieving sustainable happiness.
 
@@ -327,11 +327,11 @@ Video games are a more subtle example. They aren’t as addicting as drugs, and 
 
 Unfortunately, how our life is currently structured makes it so life is competitive, and since video games do not give any transferable skills, it is only later in life where one realizes that although they have enjoyed playing video games, they are far behind their competition and now have to grind ten times harder to catch up in order to get what they want from society (a job, a romantic partner, friends, etc).
 
-![](happiness/graph2.png){width=400}
+![](purpose/graph2.png){width=400}
 
 The ultimate graph that one should aim for in their life is this - a constant, baseline happiness procured by fulfillment, with occasional pleasure.
 
-![](happiness/graph3.png){width=400}
+![](purpose/graph3.png){width=400}
 
 ### 2.3. Towards absurdism
 

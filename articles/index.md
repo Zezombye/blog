@@ -35,9 +35,9 @@ features:
 
   - title: "Why the purpose of life is happiness"
     details: "A philosophical essay and a tutorial on introspection"
-    link: "/happiness"
+    link: "/purpose"
     icon:
-      src: "/happiness-hero.jpeg"
+      src: "/purpose-hero.jpeg"
 
   - title: "\"What's the best move on the board?\""
     details: "The mindset that is required to win"

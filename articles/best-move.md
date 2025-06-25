@@ -185,7 +185,7 @@ You get a job in X industry. Why? Is that the best move?
 
 If you do something without knowing the reason why, and the why’s why, several levels deep until you reach your purpose, then this is something you must fix, NOW.
 
-You can look at [section 3 of my essay on the purpose of life](/happiness#finding-your-purpose) for a tutorial on introspection.
+You can look at [section 3 of my essay on the purpose of life](/purpose#finding-your-purpose) for a tutorial on introspection.
 
 ## Adaptability
 

@@ -392,6 +392,16 @@ button.copy[title="Copy Code"] {
     }
 }
 
+.VPHome .VPHomeHero {
+    .heading .clip {
+        background: -webkit-linear-gradient(-83deg, var(--color-1) 40%, var(--color-2));
+        -webkit-background-clip: text;
+        background-clip: text;
+        --color-1: #389BF2;
+        --color-2: #66cdff;
+    }
+}
+
 .VPHome .VPHomeFeatures {
     article img.VPImage {
         width: 100%;
