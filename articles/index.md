@@ -89,3 +89,11 @@ features:
   - Disable continuing comment when going on a new line (very annoying when pasting scripts)
   - Case insensitive search
   - Mouse support
+
+Feel free to suggest additional modifications.
+
+## Social media
+
+- [Twitter](x.com/zezombye)
+- [Youtube](youtube.com/@Zezombye)
+- [GitHub](github.com/Zezombye)
