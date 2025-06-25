@@ -11,7 +11,7 @@ import * as fs from 'node:fs';
 export default defineConfig({
     title: "Zezombye's Blog",
     //description: "Programming, self-improvement, and various stuff",
-    description: " ",
+    description: "Zezombye's Blog",
     srcDir: "articles",
     cleanUrls: true,
     lang: "en-US",
@@ -157,17 +157,10 @@ export default defineConfig({
             { icon: 'youtube', link: 'https://youtube.com/@Zezombye' },
         ]
     },
-    transformPageData(pageData) {
-        pageData.frontmatter.head ??= []
-        pageData.frontmatter.head.push([
-            'meta',
-            {
-                name: 'og:description',
-                content:
-                pageData.frontmatter.layout === 'home'
-                    ? `Programming, self-improvement, and various stuff`
-                    : `Zezombye's Blog`
-            }
-        ])
-    }
+    transformHead(context) {
+        let description = context.pageData?.frontmatter?.layout === "home" ? "Zezombye's Blog" : "Programming, self-improvement, and various stuff";
+        return [
+            ['meta', { name: 'description', content: description }],
+        ]
+    },
 })
