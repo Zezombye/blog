@@ -94,6 +94,6 @@ Feel free to suggest additional modifications.
 
 ## Social media
 
-- [Twitter](x.com/zezombye)
-- [Youtube](youtube.com/@Zezombye)
-- [GitHub](github.com/Zezombye)
+- [Twitter](https://x.com/zezombye)
+- [Youtube](https://youtube.com/@Zezombye)
+- [GitHub](https://github.com/Zezombye)
