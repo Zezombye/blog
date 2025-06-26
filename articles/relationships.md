@@ -111,7 +111,7 @@ But even when you get past the fundamentals and officially enter a relationship 
 
    Just like, if you hire a worker to do tasks A, B and C, you give them all 3 tasks as soon as possible. Else, maybe they will work on task A for a year, then you find that they fail at B and C, and you wasted a year trying to find a good worker.
 2. In business, weekly one-on-one meetings are held between a manager and the workers. This makes it so all grievances are taken care of as soon as possible. You NEED to implement this in your relationship. Every week, meet together and discuss if everything is going well. This prevents resentment from building up, which is what truly destroys relationships.
-3. Just like you sign a contract for your job, you need a “contract” for your relationship. No need for anything formal; you just need to make sure there are no hidden expectations from either party. How much time do you expect to talk together every day? How often do you have sex? Can we hang out with our friends? For each question like that, you need to find a compromise which works for both of you.
+3. Just like you sign a contract for your job, you need a “contract” for your relationship. No need for anything formal; you just need to make sure there are no hidden expectations from either party. How much time do you expect to talk together every day? How often do you have sex? When can we hang out with our friends? For each question like that, you need to find a compromise which works for both of you.
 
 The Hormozis’ relationship is a model for me. A couple of entrepreneurs who manage to have such a strong relationship that they can pilot a $100 million company.
 
@@ -221,7 +221,7 @@ Other people’s relationships are a good start, but you only know the surface o
 
 The only first-hand experience you get is your own relationships. But that takes too long. It takes a 5-year relationship to get 5 years of experience. By the time you break up, you’ve wasted 5 years and you’ll make other mistakes with your next partner.
 
-The way to fix this is to defer to the professionals: dating coaches, who have seen thousands of relationships. Their knowledge about relationships encompasses lifetimes of experience.
+The way to fix this is to defer to the professionals: dating coaches and relationship therapists, who have seen thousands of relationships. Their knowledge about relationships encompasses lifetimes of experience.
 
 The book I will forever recommend is [How To Not Die Alone](https://www.amazon.com/How-Not-Die-Alone-Surprising/dp/0349428298), written by a professional dating coach. This post’s advice is distilled from both this book as well as my own conclusions based on basic logic and first principles.
 

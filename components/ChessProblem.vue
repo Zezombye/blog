@@ -106,16 +106,20 @@ const props = defineProps({
         type: String,
         default: 'white',
     },
+    arrows: {
+        type: Array,
+        default: [],
+    },
 });
 
-const { fen, orientation } = toRefs(props);
+const { fen, orientation, arrows } = toRefs(props);
 
 const moves = props.moves.split(" ").map(x => x.replace("+", ""));
 
 let boardApi;
 const nbMovesMade = ref(0);
 const isWrongMove = ref(false);
-const isBoardDisabled = ref(false);
+const isBoardDisabled = ref(moves.length === 1 && moves[0] === "");
 
 //https://github.com/lichess-org/lila/blob/master/ui/lib/src/game/glyphs.ts
 const goodMoveShape = '<defs><filter id="shadow"><feDropShadow dx="4" dy="7" stdDeviation="5" flood-opacity="0.5" /></filter></defs><g transform="translate(71 -12) scale(0.4)"><circle style="fill:#22ac38;filter:url(#shadow)" cx="50" cy="50" r="50" /><path fill="#fff" d="M87 32.8q0 2-1.4 3.2L51 70.6 44.6 77q-1.7 1.3-3.4 1.3-1.8 0-3.1-1.3L14.3 53.3Q13 52 13 50q0-2 1.3-3.2l6.4-6.5Q22.4 39 24 39q1.9 0 3.2 1.3l14 14L72.7 23q1.3-1.3 3.2-1.3 1.6 0 3.3 1.3l6.4 6.5q1.3 1.4 1.3 3.4z"/></g>'
@@ -132,10 +136,20 @@ const boardConfig = {
     animation: {
         duration: 300,
     },
+    shapes: [{orig: "b8", dest: "b1", brush: "green"}], // Example shape, can be overridden by arrows prop
+    autoShapes: [{orig: "b8", dest: "b1", brush: "green"}], // Example shape, can be overridden by arrows prop
 }
 
 function onBoardCreated(boardApi_) {
     boardApi = boardApi_;
+
+    //green, red, blue, yellow, paleBlue, paleGreen, paleRed, paleGrey, purple, pink, hilite
+    boardApi.setShapes(arrows.value.map(arrow => ({
+        orig: arrow.from,
+        dest: arrow.to,
+        brush: arrow.color || "green" // Default color if not specified
+    })));
+    boardApi.board.redrawAll();
 }
 
 function normalizeMove(move) {

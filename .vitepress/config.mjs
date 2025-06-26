@@ -157,10 +157,11 @@ export default defineConfig({
             { icon: 'youtube', link: 'https://youtube.com/@Zezombye' },
         ]
     },
-    transformHead(context) {
-        let description = context.pageData?.frontmatter?.layout === "home" ? "Programming, self-improvement, and various stuff" : "Zezombye's Blog";
-        return [
-            ['meta', { name: 'description', content: description }],
-        ]
-    },
+    transformPageData(pageData) {
+        if (pageData.frontmatter.layout === 'home') {
+            return {
+                description: "Programming, self-improvement, and various stuff",
+            }
+        }
+    }
 })

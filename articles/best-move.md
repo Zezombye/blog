@@ -11,7 +11,7 @@ Imagine you have a supermegagigabrain. 400 IQ. 6000 elo. Stockfish ain’t got n
 
 You decide to take on the world title. After a dozen moves, you arrive at this position.
 
-<ChessProblem fen="1r3rk1/p1np1p2/b1pbp1p1/q7/4QB2/4P1P1/P1PNNPBP/1R2K2R b - - 0 20" moves="Rxb1 Nc1 Rxc1" orientation="black"/>
+<ChessProblem fen="1r3rk1/p1np1p2/b1pbp1p1/q7/4QB2/4P1P1/P1PNNPBP/1R2K2R b - - 0 20" moves="Rxb1 Nc1 Rxc1" orientation="black" :arrows="[{from: 'b8', to: 'b1', color: 'blue'}, {from: 'b1', to: 'b1', color: 'blue'}]"/>
 
 A backrank checkmate. By moving your rook to the other side of the board, you can win. Elementary.
 
@@ -36,6 +36,8 @@ You see it, of course. But you’re too anxious. The clock’s running down. Plu
 The opponent continues his attack with a check. Opportunity lost. Again. You blame yourself for it.
 
 Mate in 1.
+
+<ChessProblem fen="1r3rk1/8/2pN1pQ1/p1npp1p1/b7/q1P1P1R1/3N1P1P/1R2K3 b - - 0 20" moves="Kh8 Rh3" orientation="black"/>
 
 Checkmate.
 
@@ -84,7 +86,8 @@ The board can always change, giving you an opportunity to win.
 
 Do not be swayed by emotions. View life as rationally and objectively as possible. Assess the state of the board without any bias.
 
-If you blundered your bishop, is the best move to next blunder your knight? If you gave in and ate junk food, is the best move to next play video games because "the day is ruined"?
+If you blundered your bishop, is the best move to next blunder your knight?
+If you gave in and ate junk food, is the best move to next play video games because "the day is ruined"?
 
 Your past, your struggles, all your stories of how you’ve gotten there doesn’t matter.
 
@@ -191,7 +194,7 @@ You can look at [section 3 of my essay on the purpose of life](/purpose#finding-
 
 The best move on the board changes every move.
 
-The best move on life changes every day, every hour, every second.
+The best move in life changes every day, every hour, every second.
 
 Perhaps you have spent the last 30 moves building an attack on the right side of the board. You have a perfect plan.
 
