@@ -62,7 +62,13 @@ This means optimizing as least as possible for appearance. Many people hold crit
 
 Personality and mindset are the most important traits. If they are not compatible with yours, your relationship WILL suffer and cannot last 60+ years in a happy state.
 
-Things such as emotional stability, kindness, loyalty, maturity, conflict resolution skills, and a growth mindset are additional criterias to optimize for.
+Additional criterias to optimize for are:
+- Emotional stability
+- Kindness
+- Loyalty
+- Maturity
+- Conflict resolution skills
+- Growth mindset
 
 Just like, when choosing your co-founder for your startup, physical beauty won’t be an issue. It will be whether they are mature enough to handle running a business.
 

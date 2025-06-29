@@ -110,6 +110,10 @@ const props = defineProps({
         type: Array,
         default: [],
     },
+    displaySuccessIcon: {
+        type: Boolean,
+        default: true,
+    },
 });
 
 const { fen, orientation, arrows } = toRefs(props);
@@ -175,7 +179,9 @@ async function onMove(move) {
         } else {
             // Valid move
             isBoardDisabled.value = true;
-            boardApi.setShapes([{orig: move.from, dest: move.to, customSvg: {html: goodMoveShape, center: "dest"}}]);
+            if (props.displaySuccessIcon) {
+                boardApi.setShapes([{orig: move.from, dest: move.to, customSvg: {html: goodMoveShape, center: "dest"}}]);
+            }
             nbMovesMade.value++;
             await new Promise(resolve => setTimeout(resolve, 500));
             if (nbMovesMade.value < moves.length) {
