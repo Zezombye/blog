@@ -55,12 +55,13 @@ a. Who are the people in your life that have influenced you the most, and in wha
 b. What shows, movies, books etc have made an impact on your life and in what way?
 c. What is your MBTI? (https://www.16personalities.com/) (This shouldn’t be a dealbreaker no matter the answer, but helps understand your partner.)
 d. What are your interests and hobbies and which ones do your partner not care about or wouldn’t do with you?
-e. Ten years from now, where would you like to be emotionally, spiritually, economically, and relationship-wise?
-f. Are you more emotional or rational?
-g. What parts of yourself would you never change?
-h. Do you think you are trustworthy?
-i. What is a summary of your life story?
-j. What makes it easy for you to be open and vulnerable, and what makes it difficult?
+e. Would you want to live more rurally or in the city?
+f. Ten years from now, where would you like to be emotionally, spiritually, economically, and relationship-wise?
+g. Are you more emotional or rational?
+h. What parts of yourself would you never change?
+i. Do you think you are trustworthy?
+j. What is a summary of your life story?
+k. What makes it easy for you to be open and vulnerable, and what makes it difficult?
 
 ## 5. Pets
 a. What kinds of pets would you be ok with? Dog, cat, rabbit, turtle, goldfish, hamster, lizard, snake, tarantula…?
@@ -72,7 +73,7 @@ a. What is your social class compared to your partner’s?
 b. Are you materialistic?
 c. How do you handle money? Do you have any problems with money?
 d. Have you ever been bankrupt or close to bankrupt? Are you in debt?
-e. What is your employment history and how would it look in the future?
+e. What is your employment history and how would it look in the future? How far into your career do you want to get?
 
 ## 7. Sex
 a. What are your views on sex in general?

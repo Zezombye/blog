@@ -13,11 +13,7 @@ The bits marked with `§blue§x`{hl} are then retrieved and concatenated togethe
 - This yields `0000 1101 1001 1110`{txt} which is indeed the number in Unicode
 - `some §red§red§reset§ text`{hl}
 
-<ChessProblem fen="4k1N1/1p6/2p1Kp2/p1B5/2n5/8/P7/8 w - - 0 57" moves="Be7 Nd6 Nxf6" caption="White to play and win"/>
-
-Sacrifice problem:
-
-<ChessProblem fen="1kr4r/ppp5/4Nbn1/8/B7/5pPq/5P2/1Q3RK1 w - - 0 1" moves="Qxb7 Kxb7 Rb1 Ka6 Nc5 Ka5 Rb5" :captions="['Material advantage: -7.\nBlack threatens checkmate', 'Material advantage: -15??\n ', 'Black\'s not feeling good\n ', 'Mate in 1\n ', 'Victory requires sacrifice :)\n ']"/>
+<ChessProblem fen="1r3rk1/8/2pN1pQ1/p1npp1p1/b7/q1P1P1R1/3N1P1P/1R2K3 b - - 0 20" moves="Kh8 Rh3" orientation="black" :displaySuccessIcon="false"/>
 
 ```
 # Wait until the startFacing action applies and the player's angle has been set to one of the three values.

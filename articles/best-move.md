@@ -148,7 +148,7 @@ A grandmaster obeys the same rules as you do. They have no advantage. Yet they b
 
 Although life is more complex, it has to be treated the same. Even if a mistake is only 10% your fault, you HAVE to focus on that 10%.
 
-Because that 10% is the only thing you can change. It is blatantly obvious that focusing on things you can’t change is useless, and thus not the best move.
+Because that 10% is the only thing you can change. It is blatantly obvious that focusing on things you can’t change is useless - and thus not the best move.
 
 You have to dig deeply into the chain of causality.
 
