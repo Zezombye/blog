@@ -370,7 +370,7 @@ Even if you believe that your purpose would make you suffer endlessly for the re
 
 Finding your purpose = Finding what makes you happy.
 
-“So I just play video games and scroll on tiktok? Those make me happy!”
+“So I just play video games and scroll on TikTok? Those make me happy!”
 
 No. Remember section 2.1. Hedonism is not the way.
 

@@ -31,6 +31,10 @@ fi
 prompt_get_git_branch() {
     title=$1
     _PROMPT_CURRENT_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+    if [[ $_PROMPT_CURRENT_GIT_BRANCH == "HEAD" ]]; then
+        #If checking out a specific commit, we need to use --short
+        _PROMPT_CURRENT_GIT_BRANCH=$(git rev-parse --short HEAD 2>/dev/null)
+    fi
     if [[ ! -z $_PROMPT_CURRENT_GIT_BRANCH && $_PROMPT_CURRENT_GIT_BRANCH != "main" && $_PROMPT_CURRENT_GIT_BRANCH != "master" ]]; then
         if [[ $title == "true" ]]; then
             _PROMPT_CURRENT_GIT_BRANCH="($_PROMPT_CURRENT_GIT_BRANCH)"
@@ -66,8 +70,12 @@ prompt_display_user_hostname() {
     fi
 }
 
+if [[ $MSYSTEM == "MINGW64" ]]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;36m\]$(prompt_display_user_hostname && echo "\u@\h" || echo '')\[\033[0m\033[01;32m\]MINGW64\[\033[0m\] \[\033[01;34m\]\w\[\033[01;35m\]$(prompt_get_git_branch)\[\033[00m\]\$ '
+else
 
-PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]$(prompt_display_user_hostname && echo "\u@\h" || echo '')\[\033[0m\033[35m\]$(prompt_get_mingw64)\[\033[0m\]:\[\033[01;34m\]\w\[\033[01;35m$(prompt_get_git_branch)\]\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h[\033[0m\]:\[\033[01;34m\]\w\[\033[01;35m\]$(prompt_get_git_branch)\[\033[00m\]\$ '
+fi
 
 # If this is an xterm set the title to user@host: dir <branch>
 case "$TERM" in
@@ -136,7 +144,13 @@ set shiftwidth=4
 "Do not continue comment when pressing Enter
 autocmd FileType * set formatoptions-=cro
 
-set autoindent
+"Disable autoindent, as it messes up pasting
+filetype indent off
+set noautoindent
+set nocindent
+set nosmartindent
+set indentexpr&
+
 "Highlight matching brackets
 set showmatch
 

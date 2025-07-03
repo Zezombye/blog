@@ -369,6 +369,10 @@ function prompt {
 
     try {
         $gitBranch = (git rev-parse --abbrev-ref HEAD 2>$null)
+        #If checking out a specific commit, we need to use --short
+        if ($gitBranch -eq "HEAD") {
+            $gitBranch = (git rev-parse --short HEAD 2>$null)
+        }
         if ($gitBranch -eq "master" -or $gitBranch -eq "main") {
             $gitBranch = ""
         }
@@ -511,6 +515,12 @@ function Set-FTA {
     if (Test-Path -Path $ProgId) {
         $ProgId = "SFTA." + [System.IO.Path]::GetFileNameWithoutExtension($ProgId).replace(" ", "") + $Extension
     }
+
+    if ([Microsoft.Win32.Registry]::GetValue("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\$Extension\UserChoice", "ProgId", $null) -eq $ProgId) {
+        echo "$ProgId already set for $Extension"
+        return
+    }
+    echo "Setting $ProgId as default program for extension $Extension"
 
     Write-Verbose "ProgId: $ProgId"
     Write-Verbose "Extension/Protocol: $Extension"
@@ -825,17 +835,10 @@ function Update-RegistryChanges {
 
 $notepadplusplusPath = "$env:ProgramFiles\Notepad++\notepad++.exe"
 if (-not (Test-Path -Path $notepadplusplusPath)) {
-    Start-Process "https://notepad-plus-plus.org/downloads/"
-}
-while (-not (Test-Path -Path $notepadplusplusPath)) {
-    Read-Host -Prompt "Notepad++ not found at '$notepadplusplusPath', install it and press Enter to continue..."
-}
-if (-not (Test-Path -Path $notepadplusplusPath)) {
-    echo "Could not find Notepad++ install path"
+    echo "Could not find Notepad++ install path at '$notepadplusplusPath'. Install it at https://notepad-plus-plus.org/downloads/ then relaunch this script."
 } else {
     #Todo: maybe on a new windows install notepad++ is not registered. Potentially gotta use Register-FTA
 
-    echo "Setting Notepad++ as default editor for files without extension"
     Set-FTA Applications\notepad++.exe .
 
     $extensions = @(
@@ -919,7 +922,6 @@ if (-not (Test-Path -Path $notepadplusplusPath)) {
         ".yml"
     )
     foreach ($ext in $extensions) {
-        echo "Setting Notepad++ as default editor for *$ext"
         Set-FTA Applications\notepad++.exe $ext
     }
 

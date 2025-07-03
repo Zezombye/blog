@@ -68,7 +68,7 @@ But the biggest bottleneck is simply to not think about life like a chessboard.
 
 ## Viewing life logically
 
-In retrospect, every single one of the problems I’ve ever had in my life came down to me not using enough logic and succumbing to my emotions. Whereas I’ve never stumbled onto a situation where I used too much logic.
+In retrospect, every single problem I’ve ever had in my life came down to me not using enough logic and succumbing to my emotions. Whereas I’ve never stumbled onto a situation where I used too much logic.
 
 As with the girl example above, a very simple analysis would’ve revealed the best move on the board: I simply needed to study rizz, get a basic idea of how relationships work, then ask her out.
 
@@ -144,7 +144,7 @@ If you lose, it was 100% your fault, and you have no choice but to accept it. YO
 
 No teammate to blame, no bad weather, it was just you who failed to see the best move.
 
-A grandmaster obeys the same rules as you do. They have no advantage. Yet they beat you because they think deeper, while 100 elo players don’t think at all. They move pieces almost at random and just “see what happens”.
+A grandmaster obeys the same rules as you do. They have no advantage, they have the same pieces. Yet they beat you because they think deeper, while 100 elo players don’t think at all. They move pieces almost at random and just “see what happens”.
 
 Although life is more complex, it has to be treated the same. Even if a mistake is only 10% your fault, you HAVE to focus on that 10%.
 
