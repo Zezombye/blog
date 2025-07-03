@@ -71,7 +71,7 @@ prompt_display_user_hostname() {
 }
 
 if [[ $MSYSTEM == "MINGW64" ]]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]$(prompt_display_user_hostname && echo "\u@\h" || echo '')\[\033[0m\033[01;35m\]MINGW64\[\033[0m\] \[\033[01;34m\]\w\[\033[01;36m\]$(prompt_get_git_branch)\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]$(prompt_display_user_hostname && echo "\u@\h " || echo '')\[\033[0m\033[01;35m\]MINGW64\[\033[0m\] \[\033[01;34m\]\w\[\033[01;36m\]$(prompt_get_git_branch)\[\033[00m\]\$ '
 else
 
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[0m\]:\[\033[01;34m\]\w\[\033[01;35m\]$(prompt_get_git_branch)\[\033[00m\]\$ '
