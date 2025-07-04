@@ -231,7 +231,7 @@ The way to fix this is to defer to the professionals: dating coaches and relatio
 
 The book I will forever recommend is [How To Not Die Alone](https://www.amazon.com/How-Not-Die-Alone-Surprising/dp/0349428298), written by a professional dating coach. This post’s advice is distilled from both this book as well as my own conclusions based on basic logic and first principles.
 
-If your relationship is struggling, or if you struggle to find a life partner, then I heavily suggest you read that book, and search on the internet for the problem you’re currently having (ignoring redpill garbage, as the redpill ideology states that a monogamous lifelong relationship is impossible). You can also view my playlist: https://www.youtube.com/playlist?list=PLDS8MSVtwiPZT37BUdFbO07glh7ZXZqxY
+If your relationship is struggling, or if you struggle to find a life partner, then I heavily suggest you read that book, and search on the internet for the problem you’re currently having (ignoring redpill garbage, as the redpill ideology states that a monogamous lifelong relationship is impossible). The [Gottmans](https://www.gottman.com/blog/the-four-horsemen-the-antidotes/) are a very good reference in terms of relationship science. You can also view my playlist: https://www.youtube.com/playlist?list=PLDS8MSVtwiPZT37BUdFbO07glh7ZXZqxY
 
 No matter what, do keep in mind to treat relationships professionally, and not fall for the cultural bullshit surrounding them.
 

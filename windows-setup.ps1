@@ -839,7 +839,17 @@ if (-not (Test-Path -Path $notepadplusplusPath)) {
 } else {
     #Todo: maybe on a new windows install notepad++ is not registered. Potentially gotta use Register-FTA
 
+
+    #Don't associate .bat and .ps1, otherwise we can no longer run batch files from the command line
+    try {
+        [Registry.Utils]::DeleteKey("Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.bat\UserChoice")
+    } catch {}
+    try {
+        [Registry.Utils]::DeleteKey("Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.ps1\UserChoice")
+    } catch {}
+
     Set-FTA Applications\notepad++.exe .
+    
 
     $extensions = @(
 
@@ -853,7 +863,7 @@ if (-not (Test-Path -Path $notepadplusplusPath)) {
         ".asc",
         ".asciidoc",
         ".asm",
-        ".bat",
+        #".bat",
         ".bashrc",
         ".bash_login",
         ".bash_logout",
@@ -893,7 +903,7 @@ if (-not (Test-Path -Path $notepadplusplusPath)) {
         ".pl",
         ".profile",
         ".properties",
-        ".ps1",
+        #".ps1",
         ".py",
         ".python_history",
         ".readme",
