@@ -73,7 +73,7 @@ $Color1 = 73, 137, 226 #34 - blue
 $Color2 = 64, 199, 61 #32 - green
 $Color3 = 17, 168, 205 #36 - cyan
 $Color4 = 205, 49, 49 #31 - red
-$Color5 = 188, 63, 188 #35 - magenta
+$Color5 = 202, 90, 202 #35 - magenta
 $Color6 = 229, 229, 16 #33 - yellow
 $Color7 = 215, 215, 215 #37 - white
 $Color8 = 102, 102, 102 #90 - bright black (gray)
@@ -382,12 +382,16 @@ function prompt {
     $host.UI.RawUI.WindowTitle = "$adminPrompt$currentPath$(if ($gitBranch) { " ($gitBranch)" } else { '' }) - Powershell"
     Write-Host $adminPrompt -NoNewline -ForegroundColor Red
     if ($isInSsh) {
-        Write-Host "$([char]27)[01;34m$sshPrompt " -NoNewline
+        Write-Host "$sshPrompt " -NoNewline -foregroundcolor magenta
     }
     Write-Host "PS " -NoNewline -ForegroundColor Green
     Write-Host "$currentPath" -NoNewline -ForegroundColor Cyan
     if ($gitBranch) {
-        Write-Host " $gitBranch" -NoNewline -ForegroundColor Magenta
+        if ($isInSsh) {
+            Write-Host " $gitBranch" -NoNewline -ForegroundColor Yellow
+        } else {
+            Write-Host " $gitBranch" -NoNewline -ForegroundColor Magenta
+        }
     }
     #It seems it is not possible to accurately detect if the last command failed
     #if ($? -eq $false) {
@@ -418,7 +422,7 @@ $bashrc = @'
 ###BASHRC###
 '@
 
-if ($bashrc -ne "#`##BASHRC###`n") {
+if ($bashrc.Trim() -ne "#`##BASHRC###") {
     [IO.File]::WriteAllText($bashrcPath, $bashrc)
 }
 [IO.File]::WriteAllText("$env:USERPROFILE\.bash_profile", @'
