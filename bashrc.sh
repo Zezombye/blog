@@ -118,11 +118,12 @@ fi
 
 export PYTHONDONTWRITEBYTECODE=1
 
-#Automatically display column names in sqlite cli
+#Automatically display column names in sqlite cli and add color to the prompt
 cat << EOF > ~/.sqliterc
 --Note: this is automatically generated and overwritten by .bashrc
 .headers ON
 .mode columns
+.prompt "[92msqlite[0m> " "[36m   ...[0m> ";
 EOF
 
 cat << EOF > ~/.vimrc
