@@ -1,6 +1,5 @@
 <script setup>
 import ChessProblem from "../components/ChessProblem.vue"
-import Footnote from "../components/Footnote.vue"
 import { h } from "vue"
 
 let premises = {
@@ -120,7 +119,7 @@ Because, if we aren’t fulfilling our guessed purpose, then we will be in a con
 
 ### 1.3. Premises of purpose
 
-To find our purpose, and how we can conclude that it is happiness, let us define properties that a purpose must have, or that it implies.
+To find our purpose, and how we can conclude that it is happiness, let us define properties that a purpose must have, or implies.
 
 In our example (where the enemy was correctly programmed), it managed to guess its purpose by reverse engineering the actions that were programmed into it, and concluding that they all lead towards one aim: killing the player.
 

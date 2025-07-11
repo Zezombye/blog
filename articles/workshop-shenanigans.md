@@ -18,7 +18,7 @@ On September 11, 2019, Sparkette wanted to see how Overwatch handled images and 
 
 What she found was that Overwatch used a HTML-looking system of tags:
 
-- For textures, it simply is a tag `<TX C00000000xxxxxx>` where xxxxxx is the identifier of the texture. For example, the tag `<TX C00000000007980>` would produce the "bink video" logo.
+- For textures, it is simply a tag `<TX C00000000xxxxxx>` where xxxxxx is the identifier of the texture. For example, the tag `<TX C00000000007980>` would produce the "bink video" logo.
 - For colors, the text is surrounded by tags of the format `<FGrrggbbaa>text</fg>`, where `rrggbbaa` is a hexadecimal color code. As such, you could make yellow text with `<FGffff00ff>`.
 
 This is used in various places in the game, for example when displaying an ability icon in the chat:
@@ -84,7 +84,7 @@ Therefore, if you wanted to make an encoding and map each character to a number,
 
 But these mappings are completely arbitrary; we could put lowercase letters before uppercase letters, or change the order of the punctuation. It is crucial that people agree on an encoding system, or text would be mangled. Since only numbers can be transmitted, you need to know what character the number 10 refers to.
 
-Americans, who pioneered computing, standardized on one single encoding, called ASCII; quite a bit more complex than our example encoding, as it contains control characters such as tab or newline.
+Americans, who pioneered computing, standardized on a single encoding, called ASCII; quite a bit more complex than our example encoding, as it contains control characters such as tab or newline.
 
 ![The ASCII table, with control characters in gray](workshop-shenanigans/ascii_table.png)
 
@@ -124,7 +124,7 @@ On September 4th, 2024, I had taken a break from the workshop for almost two yea
 
 In the workshop, you can write strings up to 128 characters, as well as concatenate multiple strings together. But you could not concatenate indefinitely; in the end, strings were limited to 511 bytes. Like in most modern programming languages, strings use the UTF-8 encoding.
 
-The important thing is that this limitation was performed byte-wise, cutting the string in the middle of tags (not treating a tag as one single character). Hence, the bypass is simple:
+The important thing is that this limitation was enforced byte-wise, cutting the string in the middle of tags (not treating a tag as one single character). Hence, the bypass is simple:
 
 1. Create a string with 510 1-byte characters followed by a texture tag. The texture tag will get cut off, leaving only the `<`.
 2. Use the substring function to remove the first 510 chars and have access to a lone, unescaped `<` character.
@@ -178,7 +178,7 @@ Therefore, this is a simple adaptation for our exploit:
 3. Put the bot's name inside a string
 4. Use the substring function to remove the first 126 chars
 
-Texture tags and newlines are removed for some reason when naming a bot (no idea why the developers don't want icons in bot names), however the function that performs the replacement has a bug where it does not move backwards after replacing.
+Texture tags and newlines are removed for some reason when naming a bot (no idea why the developers don't want icons in bot names), however the function enforcing the removal has a bug where it skips the character after a replacement.
 
 Take the string `"§blue§12§red§AB§blue§5§reset§"`{hl} for example, and suppose you made a function to remove all letters. You check all the characters one by one.
 - The 1st character is `§blue§1`{hl}, which is good.
@@ -225,7 +225,7 @@ Is there really no way of using the string byte limit to its advantage?
 - There are no other places where a string byte limit is enforced.
 - There is no way of getting an unescaped `<` character into a string from a bot's name.
 
-It seemed I had reached a dead end, until I remembered something else: unicode shenanigans.
+It seemed I had reached a dead end, until I remembered something else: Unicode shenanigans.
 
 ## Unicode my beloved
 
@@ -234,7 +234,7 @@ Unicode is so wonderfully janky that I absolutely love using it:
 - Easy bypass of word filter lists with lookalike characters or zero-width spaces
 - Empty or whitespace-looking strings by using one of the many invisible characters
 
-But none of those would help us here. The Unicode exploits that we're gonna use are some that were popular in the 2000s, but have since been patched in pretty much every major language and library.
+But none of those would help us here. The Unicode exploits that we'll use are some that were popular in the 2000s, but have since been patched in pretty much every major language and library.
 
 Overwatch rolls its own engine, and it would seem like the developers either made their own version of a UTF-8 parser, or included a wonderfully vulnerable library.
 
@@ -296,7 +296,7 @@ The bits marked with `§blue§x`{hl} are then retrieved and concatenated togethe
 - The UTF-8 binary representation of it is `1110§blue§0000 §reset§10§blue§110110 §reset§10§blue§011110`{hl}
 - This yields `0000 1101 1001 1110` which is indeed the number in Unicode
 
-So what if we take a 1-byte character and encode it over 3 bytes? This is called an "overlong encoding" and is an alternative representation of a character. It is normally considered an error by Unicode decoders, as they decrease security (you have to check for all possible representations of the character you want to look out for).
+So what if we take a 1-byte character and encode it over 3 bytes? This is called an "overlong encoding" and is an alternative representation of a character. It is normally considered an error by Unicode decoders, as it decreases security (you have to check for all possible representations of the character you want to look out for).
 
 With any luck, Overwatch's parser was vulnerable to this; even just on the display side would be enough (and we already had proof that the parser used when displaying a string is vulnerable to a basic attack, why not the other basic attack).
 
@@ -316,7 +316,7 @@ Note that we could've chosen different characters. For the first bot, we need an
 ```
 #First bot
 createDummy(Hero.ANA, Team.ALL, 11, null, null)
-#\uXXXX is a way of representing a unicode character.
+#\uXXXX is a way of representing a Unicode character.
 #The bot will have 126 1-byte characters 0x7C ("|") followed by the 0x0840 character, encoded as E0 A1 80.
 getLastCreatedEntity().startForcingName("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\u0840")
 #botName1 should be 0xE0
@@ -345,7 +345,7 @@ Was it some mistake in the bytes I used? No clue, as all I get is a square.
 
 But this is where paying close attention comes in handy in programming. I had a debug string that showed `botName2`, and it was displaying nothing instead of a square.
 
-That meant the string was empty, and thus that `substring()`{opy} _really_ wasn't falling for my unicode shenanigans, as it correctly interpreted the broken 3-byte character as one character instead of two. It viewed the `E3 81` sequence of bytes as one single character, meaning `holygrail` was `E0 E3 81 E3 81` instead of `E0 81 81`. It seemed there was no way of getting a continuation byte, and thus impossible to perform the attack.
+That meant the string was empty, and thus that `substring()`{opy} _really_ wasn't falling for my Unicode shenanigans, as it correctly interpreted the broken 3-byte character as one character instead of two. It viewed the `E3 81` sequence of bytes as one single character, meaning `holygrail` was `E0 E3 81 E3 81` instead of `E0 81 81`. It seemed there was no way of getting a continuation byte, and thus impossible to perform the attack.
 
 But... that is with `substring`. Let's look at the other functions we have:
 

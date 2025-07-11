@@ -41,7 +41,7 @@ Mate in 1.
 
 Checkmate.
 
-It’s not your fault, you didn’t sleep well last night. You're kinda hungry. You’re quite anxious with the current politics. You have some unresolved trauma. You lack energy for anything, but certainly not making excuses.
+It’s not your fault, you didn’t sleep well last night. You're kinda hungry. You’re quite anxious with the current politics. You have some unresolved trauma. You lack energy for anything, but certainly not to make excuses.
 
 Maybe one day you’ll get past 150 elo.
 
@@ -68,7 +68,7 @@ But the biggest bottleneck is simply to not think about life like a chessboard.
 
 ## Viewing life logically
 
-In retrospect, every single problem I’ve ever had in my life came down to me not using enough logic and succumbing to my emotions. Whereas I’ve never stumbled onto a situation where I used too much logic.
+In retrospect, every single problem I’ve ever had in my life came down to me not using enough logic and succumbing to my emotions. Whereas I’ve never stumbled upon a situation where I used too much logic.
 
 As with the girl example above, a very simple analysis would’ve revealed the best move on the board: I simply needed to study rizz, get a basic idea of how relationships work, then ask her out.
 
@@ -76,20 +76,16 @@ But I did not even analyze at all. I was too paralyzed by my emotions to even th
 
 You need to analyze EVERYTHING. This is how you win and get what you want.
 
-No matter your position, no matter if you are winning or losing, there is always a best move.
+Do not be swayed by emotions. View life as rationally and objectively as possible. Assess the state of the board without any bias.
 
 Even if you are feeling hopeless, you should never resign or start throwing.
 
-The enemy can make a mistake.
+There is always a best move.
 
 The board can always change, giving you an opportunity to win.
 
-Do not be swayed by emotions. View life as rationally and objectively as possible. Assess the state of the board without any bias.
-
 If you blundered your bishop, is the best move to next blunder your knight?
 If you gave in and ate junk food, is the best move to next play video games because "the day is ruined"?
-
-Your past, your struggles, all your stories of how you’ve gotten there doesn’t matter.
 
 The only two things that matter are the current position and the time left on the clock.
 
@@ -112,11 +108,11 @@ Moving your pawn due to time pressure would be absurd. You know it’s nowhere n
 
 ![](best-move/do_fucking_nothing.jpg){width=400}
 
-Whether to flip a coin, to determine the optimal order of the tasks (the time-sensitive one first, obviously), or to just start on one task you decide on; you need, at all costs, to find a way to annihilate this analysis paralysis.
+Whether to flip a coin, to determine the optimal order of the tasks (the time-sensitive one first, obviously), or to just start on whatever task comes to mind, you need at all costs to find a way to annihilate this analysis paralysis.
 
 Think about it. How many times did you fail to make the best move because it wasn’t obvious, and your brain defaulted to “if I can’t make the best move, I’ll make the worst move” and you just doomscrolled for hours?
 
-Analyze the chessboard, determine the best move in regards to your goals, then do it regardless of your emotions.
+Analyze the chessboard, determine the best move with regard to your goals, then do it regardless of your emotions.
 
 Because it’s very rare that you look at the chessboard and think “you know what, the BEST thing I can do right now is jerk off”. Yet how many times did you do it in the past 2 weeks?
 
@@ -162,7 +158,7 @@ It turns out, if you fix your parts of the mistakes, fewer and fewer things star
 
 ## Introspection and feedback
 
-Practice only makes perfect when coupled to feedback.
+Practice only makes perfect when coupled with feedback.
 
 Every chess coach and course ever will tell you to analyze your games. Otherwise, you simply do not grow; or you grow very slowly.
 

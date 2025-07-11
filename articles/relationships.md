@@ -7,11 +7,11 @@ In this post, I will consider the most common case when it comes to romantic rel
 The first thing to notice when thinking seriously about love is the following:
 
 - 41% of first marriages end in divorce. (https://www.wf-lawyers.com/divorce-statistics-and-facts/)
-- Given the amount of children with parents that fight all day, and the fact that “I hate my wife” is a boomer trope by now, I think it is fair to add another 40% of marriages which are unhappy (although this statistic is quite hard to measure) and who stay together for the kids, for financial reasons, or due to delusions that they can still make it work.
+- Given the amount of children with parents that fight all day, and the fact that “I hate my wife” is a boomer trope by now, I think it is fair to add another 40% of marriages that are unhappy and who stay together for the kids, for financial reasons, or due to delusions that they can still make it work. <Footnote text="Although this statistic is purely based on vibes, and I feel I'm underestimating, the point still holds if we consider that only 41% of marriages are unhappy. It should be 2-3%."/>
 
 This gives approximately **80% of marriages that aren’t happy**.
 
-We aren’t talking about high school weeklong relationships. We are talking about two adults (because in the West, barely anybody marries young anymore) who have made a commitment on the altar to love each other no matter what. 40% fail, another 40% don’t care enough to study basic psychology and fix their relationship.
+We aren’t talking about high school weeklong relationships. We're talking about two adults who have made a commitment on the altar to love each other no matter what. 40% fail, another 40% don’t care enough to study basic psychology and fix their relationship.
 
 Therefore, it is obvious to point out that **mainstream advice about love is bullshit.**
 
@@ -56,13 +56,13 @@ This, really, is what the problem of finding love boils down to. The limiting fa
 
 This leads to the following, very obvious realizations:
 
-#### 1. **Criterias for a romantic partner must be optimized to last 60+ years.**
+#### 1. **Criteria for a romantic partner must be optimized to last 60+ years.**
 
-This means optimizing as least as possible for appearance. Many people hold criterias like height, money, or beauty as dealbreakers. Although physical attraction is important (else we would all be bisexual), you need to make it matter at least as possible. In the end, we all grow old and wrinkle, and there is an effect you probably experienced yourself where, when you are attracted to someone, their attractiveness goes up tenfold and you only have eyes for them.
+This means optimizing as little as possible for appearance. Many people hold criteria like height, money, or beauty as dealbreakers. Although physical attraction is required (else we would all be bisexual), you need to make it matter at little as possible. In the end, we all grow old and wrinkle, and there is an effect you probably experienced yourself where, when you are attracted to someone, their attractiveness goes up tenfold and you only have eyes for them.
 
 Personality and mindset are the most important traits. If they are not compatible with yours, your relationship WILL suffer and cannot last 60+ years in a happy state.
 
-Additional criterias to optimize for are:
+Additional criteria to optimize for are:
 - Emotional stability
 - Kindness
 - Loyalty
@@ -94,7 +94,7 @@ When you enter a potential relationship with your partner (starting at the momen
 - What you both are planning in the future (Kids? Family? Pets? Marriage?)
 - etc. (See my article on [the fundamentals](/fundamentals) for more)
 
-Yes, this means from the very first date onwards, you have to discuss this; else you are just wasting your time and your partner’s.
+Yes, this means from the very first date onwards, you have to discuss this; otherwise you are just wasting your time and your partner’s.
 
 You will need to know the answer to these questions eventually anyway. As we’ve proved, you need to “fail early”: if the relationship doesn’t work, you need to know it as early as possible so that you can try out another potential partner. Hence why you need to make sure you are compatible in a fundamental way before you even make sure your personalities are compatible (something that is harder to assess).
 
@@ -129,7 +129,7 @@ The comments speak for themselves.
 
 ![](relationships/comments.png)
 
-## “You’ll find someone when you’ll least expect it” is bullshit
+## “You’ll find someone when you least expect it” is bullshit
 
 I’m doing a whole section for this because it is so obviously nonsense that it pisses me off.
 
@@ -173,7 +173,7 @@ Think of all the things you’d say when you compliment your partner. You’d ta
 - Their personality: how they’re nice, empathetic, smart, etc.
 - Their mindset: they’re disciplined, hardworking, unstoppable, ambitious, etc.
 
-If you remove all that, what's there left to compliment? What’s there left to love?
+If you remove all that, what's left to compliment? What’s left to love?
 
 All those reasons are conditions. I love you because you’re smart -> I love you IF you’re smart. I love you IF you’re disciplined. Etc.
 
@@ -181,7 +181,7 @@ Obviously, you won’t suddenly stop loving your partner if they get in a rut. B
 
 Mainstream views of love speak of it as being “unconditional” and you may think “damn, I longed for unconditional love”. You shouldn’t, because love being conditional is what gives it its value.
 
-I **want** my girlfriend to love me conditionally. That way when she says “I love you” it actually *means* something. I’d think “damn, out of all people in the world, I won her love”. I would feel extremely confident.
+I **want** my girlfriend to love me conditionally. That way, when she says “I love you”, it actually *means* something. I’d think “damn, out of all people in the world, I won her love”. I would feel extremely confident.
 
 If my girlfriend loved me unconditionally? I’d be like “eh whatever, you’d love me no matter what anyway, and you’d love me regardless of who I am. I could be a complete loser and you’d still love me. Your love is worthless”. It would be the equivalent of a participation trophy, and nobody likes those.
 
