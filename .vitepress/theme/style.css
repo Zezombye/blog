@@ -408,6 +408,7 @@ button.copy[title="Copy Code"] {
         height: auto;
         max-width: 100%;
         object-fit: contain;
+        aspect-ratio: 16 / 9;
     }
     .items {
         justify-content: center;
@@ -446,4 +447,118 @@ button.copy[title="Copy Code"] {
     background-repeat: no-repeat;
     background-position: center;
     background-color: transparent !important;
+}
+
+
+.VPHome .VPHomeHero.has-image {
+
+    .image {
+        .VPImage {
+            border-radius: 9999px;
+            opacity: 90%;
+            border: 1px solid #47caff80;
+            max-width: 200px;
+            max-height: 200px;
+        }
+        .image-bg {
+            filter: blur(5px);
+            background-image: linear-gradient(-45deg, #bd34fe 40%, #47caff 60%);
+            width: 210px;
+            height: 210px;
+        }
+    }
+}
+
+@media (min-width: 960px) {
+    
+    .VPHome .VPHomeHero.has-image {
+        .container {
+            flex-direction: row-reverse;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .image {
+            width: 200px;
+            height: 200px;
+            flex-grow: 0;
+
+            .image-container {
+                transform: translateY(-4px);
+            }
+        }
+    }
+}
+
+@media(max-width: 639px) {
+    .VPHome .VPHomeHero.has-image {
+
+        .image {
+            .VPImage {
+                    max-width: 150px;
+                    max-height: 150px;
+            }
+            .image-bg {
+                width: 158px;
+                height: 158px;
+            }
+        }
+    }
+}
+
+.VPHomeHero .actions {
+    .action a {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 0 20px;
+    }
+    .action:nth-child(1) a::before {
+        mask: url('https://api.iconify.design/simple-icons/github.svg') no-repeat;
+        mask-size: 100% 100%;
+        background-color: #D5D5D5;
+        content: "";
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+    }
+    .action:nth-child(2) a::before {
+        mask: url('https://api.iconify.design/simple-icons/twitter.svg') no-repeat;
+        mask-size: 100% 100%;
+        background-color: #46B0F2;
+        content: "";
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+    }
+    .action:nth-child(3) a::before {
+        background-color: red;
+        background-image: url("/youtube.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-color: transparent;
+        content: "";
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+    }
+}
+
+@media (max-width: 639px) {
+    .VPHomeHero .actions {
+        .action a {
+            padding: 0 10px;
+        }
+    }
+}
+
+.VPNavBarTitle {
+    .VPImage.logo {
+        border-radius: 9999px;
+    }
+}
+
+[hide-anchor] a.header-anchor {
+    display: none;
 }
