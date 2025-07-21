@@ -6,7 +6,7 @@ function BibleVerse(props) {
     let verse = props?.verse || props?.v
     let text = props?.text || props?.t
     return h(Footnote, {
-        text: verse+"—"+text,
+        text: verse+"︱"+text,
         unexpandedText: verse,
         addParentheses: false,
         biggerFont: true,
@@ -424,7 +424,7 @@ There is no reason why God couldn't continue to perform those miracles, especial
 
 Hence, if God is vain, then he would recognize that we wouldn't have had the proper opportunity to acknowledge his power (that we only read about in books, not witnessed for ourselves), and would forgive us for that and give us an opportunity to do so after our death. Thus, belief is also unnecessary.
 
-3. **God is just**
+3. **God is just**.
 
 As justice is incompatible with the concept of eternal Hell for non-believers, and we are assuming the existence of Hell for the purposes of this essay, assuming a just God requires us to drop the exclusivity clause: non-believers can, indeed, go to Heaven.
 
