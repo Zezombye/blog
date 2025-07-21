@@ -217,6 +217,17 @@
     letter-spacing: normal;
 }
 
+.vp-doc blockquote > p {
+    margin-top: var(--vp-paragraph-gap);
+    margin-bottom: var(--vp-paragraph-gap);
+}
+.vp-doc blockquote > p:first-child {
+    margin-top: 0;
+}
+.vp-doc blockquote > p:last-child {
+    margin-bottom: 0;
+}
+
 body, .vp-doc p {
     line-height: 23px;
 }

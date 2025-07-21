@@ -5,13 +5,13 @@ import ChessProblem from "../components/ChessProblem.vue"
 
 # “What’s the best move on the board?”
 
-![](/best-move-hero.png)
+![](/bestmove-hero.png)
 
 Imagine you have a supermegagigabrain. 400 IQ. 6000 elo. Stockfish ain’t got nothing on you. Let alone Magnus Carlsen, the world chess champion; he’s barely 3000 elo.
 
 You decide to take on the world title. After a dozen moves, you arrive at this position.
 
-<ChessProblem fen="1r3rk1/p1np1p2/b1pbp1p1/q7/4QB2/4P1P1/P1PNNPBP/1R2K2R b - - 0 20" moves="Rxb1 Nc1 Rxc1" orientation="black" :arrows="[{from: 'b8', to: 'b1', color: 'blue'}, {from: 'b1', to: 'b1', color: 'blue'}]"/>
+<ChessProblem fen="1r3rk1/p1np1p2/b1pbp1p1/q7/4QB2/4P1P1/P1PNNPBP/1R2K2R b - - 0 20" moves="Rxb1 Nc1 Rxc1" orientation="black" :arrows="[{from: 'b8', to: 'b1', color: 'blue'}, {from: 'b1', to: 'b1', color: 'blue'}]" caption="This is interactive :)"/>
 
 A backrank checkmate. By moving your rook to the other side of the board, you can win. Elementary.
 
@@ -41,7 +41,7 @@ Mate in 1.
 
 Checkmate.
 
-It’s not your fault, you didn’t sleep well last night. You're kinda hungry. You’re quite anxious with the current politics. You have some unresolved trauma. You lack energy for anything, but certainly not to make excuses.
+It’s not your fault, you didn’t sleep well last night. You're kinda hungry. You’re quite anxious with the current politics. You have some unresolved trauma. You lack energy for anything, but certainly not for making excuses.
 
 Maybe one day you’ll get past 150 elo.
 
@@ -106,7 +106,7 @@ Time’s running out, you hope for the best and move your knight. It might not b
 
 Moving your pawn due to time pressure would be absurd. You know it’s nowhere near the best move. And yet, this is what everyone is doing.
 
-![](best-move/do_fucking_nothing.jpg){width=400}
+![](bestmove/do_fucking_nothing.jpg){width=400}
 
 Whether to flip a coin, to determine the optimal order of the tasks (the time-sensitive one first, obviously), or to just start on whatever task comes to mind, you need at all costs to find a way to annihilate this analysis paralysis.
 

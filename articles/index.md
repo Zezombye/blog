@@ -43,9 +43,9 @@ features:
 
   - title: "Workshop shenanigans"
     details: "Exploiting the Overwatch Workshop with Unicode tricks to bypass sanitization"
-    link: "/workshop-shenanigans"
+    link: "/workshopshenanigans"
     icon:
-      src: "/workshop-shenanigans-hero.png"
+      src: "/workshopshenanigans-hero.png"
 
   - title: "Why the purpose of life is happiness"
     details: "A philosophical essay and a tutorial on introspection"
@@ -55,9 +55,9 @@ features:
 
   - title: "\"What's the best move on the board?\""
     details: "The mindset that is required to win"
-    link: "/best-move"
+    link: "/bestmove"
     icon:
-      src: "/best-move-hero.png"
+      src: "/bestmove-hero.png"
 
 
   - title: "Why I view relationships like a business"
@@ -67,8 +67,8 @@ features:
       src: "/relationships-hero.jpg"
 ---
 
-## Other stuff
+## Other stuff {hide-anchor}
 
 #### [Chariot Wars](/chariotwars) {hide-anchor}
 #### [Sokoban](/sokoban) {hide-anchor}
-#### [Linux/Windows Setup Scripts](/setup-scripts) {hide-anchor}
+#### [Linux/Windows Setup Scripts](/setupscripts) {hide-anchor}

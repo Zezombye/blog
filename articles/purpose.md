@@ -1,5 +1,6 @@
 <script setup>
 import ChessProblem from "../components/ChessProblem.vue"
+import Footnote from "../components/Footnote.vue"
 import { h } from "vue"
 
 let premises = {
