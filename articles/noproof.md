@@ -298,7 +298,7 @@ Additionally, to only take the two major religions, the field of Biblical/Islami
 
 Both Christianity and Islam also have devout believers and websites stating pages upon pages of proofs, but both are mutually exclusive and can't be right; if they're still at a stalemate, it is very unlikely you would be the one to solve this age-long debate.
 
-## The "just in case" argument
+## The "just in case" argument {#the-just-in-case-argument}
 
 What I am arguing for in this essay is to not fall down the rabbit hole of "which religion, if any, is right", as it would take many decades of deep immersion and learning in various subjects to hope to come to an answer. If established scholars cannot get to the bottom of it and are still debating to this day, then you, an amateur in all fields, surely won't come to a conclusion. And if scholars ever get to a consensus, don't worry; you'll know.
 
@@ -325,7 +325,7 @@ Interestingly, from a cursory research, other religions (Judaism, Buddhism, Taoi
 Therefore, one could make the following argument:
 
 - Although it has been demonstrated that a *known* proof for God does not exist, there is still a non-zero chance that a proof for God exists, whether it has been found and not widely spread (a non-believer could've kept it for itself, or not realized its importance, or live under heavy censorship), or whether it remains to be found (an overlooked archeological paper, a connection between two facts nobody has made, etc).
-- For any of the three religions listed above, the stakes are high: non-believers will suffer eternal torment. Although Pascal's Wager [has been debunked](https://www.ebonmusings.org/essays/wager.html) and it is wrong to say that one should believe in one of those three religions to at least have a 33% chance of not going to Hell, it cannot be denied that it would be much more likely to find proof for those three religions than for any other ones. Plus, there is a chance of finding a proof for another religion not listed above which would still hold exclusivity and the doctrine of Hell.
+- For any of the three religions listed above, the stakes are high: non-believers will suffer eternal torment. Although Pascal's Wager has been debunked (see [my refutation](/pascalswager) or [Adam Lee's](https://www.ebonmusings.org/essays/wager.html)) and it is wrong to say that one should believe in one of those three religions to at least have a 33% chance of not going to Hell, it cannot be denied that it would be much more likely to find proof for those three religions than for any other ones. Plus, there is a chance of finding a proof for another religion not listed above which would still hold exclusivity and the doctrine of Hell.
 - In conclusion, given infinite torture is at stake, one should dedicate their life to attempt to find a proof for God, in order to potentially find the right religion and escape Hell.
 
 Although this argument is sound, I will argue that it is extremely unlikely that Hell, in any of the above three religions, exists; and that even if it did, believing would not change the probability of not going to Hell.

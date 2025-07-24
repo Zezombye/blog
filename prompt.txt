@@ -5,3 +5,13 @@ Criticize the following blog article, section by section, on different criterias
 - Feedback: give your raw feedback on the section.
 
 -------------
+
+
+Criticize the following essay, section by section, on different criterias:
+- Grammar: check for any typos, grammatical errors, unnatural sentences, etc. Informal tone is accepted.
+- Writing: check for repetitions, run-on sentences, superflous paragraphs, as well as any other stuff that an expert book editor would report.
+- Content: check for any inconsistencies, technical errors, logic errors, wrong or inexact stuff, etc.
+- Criticism: argue as the opposite side, trying to refute the thesis of the essay.
+- Feedback: give your raw feedback on the section.
+
+-------------

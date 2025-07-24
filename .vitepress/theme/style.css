@@ -158,6 +158,7 @@
         font-size: 15px;
         font-style: italic;
         margin-top: 0.5em;
+        text-align: center;
     }
 }
 
@@ -215,6 +216,14 @@
 .vp-doc h1 {
     text-align: center;
     letter-spacing: normal;
+}
+
+.vp-doc table {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+    max-width: 100%;
 }
 
 .vp-doc blockquote > p {
@@ -276,6 +285,12 @@ body, .vp-doc p {
 @media (max-width: 640px) {
     .vp-doc h1 br {
         display: none;
+    }
+
+    .vp-doc table {
+        th, td {
+            padding: 4px 8px;
+        }
     }
 }
 

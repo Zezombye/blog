@@ -72,3 +72,6 @@ features:
 #### [Chariot Wars](/chariotwars) {hide-anchor}
 #### [Sokoban](/sokoban) {hide-anchor}
 #### [Linux/Windows Setup Scripts](/setupscripts) {hide-anchor}
+#### Other essays: {hide-anchor}
+- [There is no known proof for God](/noproof)
+- [Refuting Pascal's Wager](/pascalswager)
