@@ -5,7 +5,7 @@ Pascal's wager is among the most well known arguments regarding religion. Put fo
 - If God exists, and you believe, you go to Heaven (eternity of pleasure); but if you don't believe, you go to Hell (eternity of pain).
 - If God doesn't exist, and you believe, you waste your time believing and doing actions (prayer, fasting, etc) for nothing; but if you don't believe, you lose nothing.
 
-The crucial part is that, if God doesn't exist, you can only have finite gains or losses; whereas if God exists, you stand to have an eternity of pain if you disbelieve, and get rewarded with an eternity of pleasure if you believe.
+The crucial part is that, if God doesn't exist, you can only have finite gains or losses; whereas if God exists, you wager an eternity of pain against an eternity of pleasure.
 
 The decision matrix runs as follows:
 
@@ -41,7 +41,7 @@ Let $R$ be the set of all religions $\{R_0,\ R_1,\ \cdots,\ R_n\}$, where $R_x$ 
 - $R_x$ has defined a set of criterias that must be met for a belief ($B_x$) in it. That religion states that, if that belief is respected ($B_x$ is true), the soul will cease to exist (gain of 0); if that belief is not respected, the soul will go to Hell.
 - $R_x$ has an exclusivity clause; it states that it is not possible to believe in $R_x$ and in any other religion in $R$ at the same time. One can only believe in at most one of the religions in $R$.
 - $R_x$ defines a God ($G_x$), who will, according to the religion, oversee the process of "judgement" in the afterlife: putting the soul into Hell, or make it cease to exist, according to whether the soul held the belief $B_x$. Note that actions can also count as necessary for belief (eg, a religion can define belief as doing 5 prayers per day; a soul who would only do 4 per day, despite genuinely believing in $G_x$, would still go to Hell).
-- $E(G_x)$ is the possibility that $R_x$ is true and $G_x$ exists, where $0 < P(E(G_x)) < 1$. In normal terms, there is a non-zero chance that $R_x$ is true, but not 100%, as the whole point of this argument is about religions which cannot be proved nor refuted..
+- $E(G_x)$ is the possibility that $R_x$ is true and $G_x$ exists, where $0 < P(E(G_x)) < 1$. In normal terms, there is a non-zero chance that $R_x$ is true, but not 100%, as the whole point of this argument is about religions which cannot be proved nor refuted.
 
 Taking $R_0$ to be Christianity, $R_1$ to be Islam, and $R_2$ to be Mormonism, we get the following decision matrix if we only consider the set of those three religions, where $\overline{E}$ denotes the possibility that none of the Gods exist, and $\overline{B}$ denotes the belief in no God (atheism):
 
@@ -74,6 +74,8 @@ What we must consider is that a religion is defined by its holy book, and it may
 
 For each $R_x$, having a god $G_x$ sending souls to Hell if they do not meet $B_x$ and making them cease to exist if they do meet $B_x$, we can postulate that the God of $R_x$ is actually the opposite (represented as $\overline{G_x}$): sending souls to Hell if they *do* meet $B_x$, making them cease to exist otherwise. In other words, God could be a shy teenager who would punish you for worshipping him.
 
+This isn't far-fetched, as many religions assume the existence of Satan or a similar God-tier evil entity. And as [this essay](https://infidels.org/library/modern/richard-carrier-heaven/) argues, this could also be the work of a good entity.
+
 For the rest of this essay, to not make calculations too complex, we will only consider $R_0$, but the calculations also apply for all of $R$.
 
 The decision matrix thus becomes, again assuming equal probabilities:
@@ -91,7 +93,11 @@ Adding more religions does not change the result: for each $G_x$, there is a $\o
 
 The hardest part of the refutation, however, is to prove that we have to assume that an evil God has the same probability of existing as a good God; that is, $P(E(G_x)) = P(E(\overline{G_x}))$. If that equality were not true, then the balance would shift to one side or the other.
 
-Consider the following situation: there is a bag with an unknown, non-zero, possibly infinite number of balls ($0 < n < \infty$). You know that balls can be red or blue. <Footnote text="Colors were chosen deliberately."/> Picking a ball at random from the bag, what is the chance that it is a blue ball?
+Consider the following situation:
+
+There is a bag with an unknown, non-zero, possibly infinite number of balls ($0 < n ≤ \infty$). You know that balls can be red or blue. <Footnote text="Colors were chosen deliberately."/> You do not know anything else about the balls and what proportions are red or blue.
+
+Picking a ball at random from the bag, what is the chance that it is a blue ball?
 
 At first glance, this question seems impossible to answer. And yet, this is exactly the problem we are dealing with. Gods can be good or evil <Footnote text='As defined earlier, a "good" God will send non-believers to Hell, whereas an "evil" God will send believers to Hell. I do not believe that a God who sends anyone but the most hardened criminals to Hell could be called "good".'/>, and we assume that a God has been assigned to creating our universe, but we have no idea of the probability that a God can be good or evil.
 
