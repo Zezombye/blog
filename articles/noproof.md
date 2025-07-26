@@ -7,6 +7,7 @@ function BibleVerse(props) {
     let text = props?.text || props?.t
     return h(Footnote, {
         text: verse+"︱"+text,
+        tooltipText: text,
         unexpandedText: verse,
         addParentheses: false,
         biggerFont: true,
@@ -25,7 +26,7 @@ In this essay, I will aim to demonstrate that there is no known proof for God, a
 
 That there is no known proof for God can be demonstrated by reductio ad absurdum.
 
-Note that, when I speak about "proof", I do not mean mathematical proof. Descartes demonstrated that, in a mathematical sense, we cannot be sure of anything other than the fact that we exist; there is no way to disprove, for example, the "Last Thursdayism" hypothesis stating that the Universe was created last Thursday, complete with all memories, historical artifacts, etc.
+Note that, when I speak about "proof", I do not mean mathematical proof. Descartes [demonstrated](https://en.wikipedia.org/wiki/Cogito,_ergo_sum) that, in a mathematical sense, we cannot be sure of anything other than the fact that we exist; there is no way to disprove, for example, the "[Last Thursdayism](https://rationalwiki.org/wiki/Last_Thursdayism)" hypothesis stating that the Universe was created last Thursday, complete with all memories, historical artifacts, etc.
 
 By "proof", I mean "proof beyond a reasonable doubt", as in a court of law. If a murderer is tried and there is video evidence of him committing the murder from several different angles, all congruent with one another; several experts have testified the videos have not been tampered with; there are several eyewitnesses; there is no reason to believe someone would falsify evidence or lie about it not being falsified; and the video evidence is high resolution and leaves no doubts about the identity of the murderer, then he would rightfully be sentenced to prison.
 
@@ -47,9 +48,9 @@ $P$ could, in practice, be one of the following:
 
 - Any other proof where any reasonable person would be convinced, such that denying that proof would be denying lots of other things we take for truth in our life, as well as implying the existence of a grand conspiracy on a "Truman Show" scale to hide or falsify evidence.
 
-**Let us assume that $P$ exists**. This would imply the following premises:
+**Let us assume that $\pmb{P}$ exists**. This would imply the following premises:
 
-- It is a fact that, for any $R$ today (or at least the major ones), there are people dedicating their life to spreading it. There are, as well, people who have spent their entire life professionally studying $R$ and $B$, and those people obviously have an overlap with the first group.
+- It is a fact that, for any $R$ today (or at least the major ones), there are people dedicating their entire life to spreading it. There are, as well, people who have spent their life professionally studying $R$ and $B$, and those people obviously have an overlap with the first group.
 
    Let $M$ be the group representing the missionaries of $R$ who have dedicated their life to study $B$ and spread the word of their religion.
 
@@ -64,7 +65,7 @@ $P$ could, in practice, be one of the following:
 
    We can thus say that **(A) $\pmb{M}$ is aware of $\pmb{P}$**.
 
-- As $M$, by definition, is a group of scholars member of $R$ dedicating their lives to spreading their belief, it is safe to assume that $M$'s next move is to spread $P$ to all members of $R$. $M$ is a minority in $R$, so before even trying to convert non-believers, they would first make all members of $R$ aware of $P$.
+- As $M$, by definition, is a group of scholars member of $R$ dedicating their lives to spread their belief, it is safe to assume that $M$'s next move is to spread $P$ to all members of $R$. $M$ is a minority in $R$, so before even trying to convert non-believers, they would first make all members of $R$ aware of $P$.
 
    One could argue that humans aren't rational, and non-believers would be too stubborn and close-minded to accept the veracity of $P$. However, there would be no reason why any member of $R$ would reject $P$; why wouldn't they want a proof that $R$, the religion they believe in, is correct? It would be an absurdity to argue in bad faith against a proof of your beliefs, and we can safely say that **(B) The vast majority of $\pmb{R}$ would accept $\pmb{P}$**.
 
@@ -140,7 +141,7 @@ And indeed, [this website](https://www.blogos.org/theologyapologetics/evidence-e
 
 1. The papyrus talks about a "river of blood", consistent with the 2nd plague where Moses turns the Nile into blood (<BibleVerse v="Exodus 7:20-21" t="Moses and Aaron did just as the Lord had commanded. He raised his staff in the presence of Pharaoh and his officials and struck the water of the Nile, and all the water was changed into blood. The fish in the Nile died, and the river smelled so bad that the Egyptians could not drink its water. Blood was everywhere in Egypt."/>).
 
-2. It claims that "gold and lapis lazuli, silver and turquoise, carnelian and amethyst, Ibhet-stone and [...] are strung on the necks of maidservants." This is consistent with <BibleVerse v="Exodus 12:35-36" t="The Israelites did as Moses instructed and asked the Egyptians for articles of silver and gold and for clothing. The Lord had made the Egyptians favorably disposed toward the people, and they gave them what they asked for; so they plundered the Egyptians."/> where God mind controls the Egyptians to let the Israelites plunder them before leaving.
+2. It claims that "gold and lapis lazuli, silver and turquoise, carnelian and amethyst, Ibhet-stone and [unknown] are strung on the necks of maidservants." This is consistent with <BibleVerse v="Exodus 12:35-36" t="The Israelites did as Moses instructed and asked the Egyptians for articles of silver and gold and for clothing. The Lord had made the Egyptians favorably disposed toward the people, and they gave them what they asked for; so they plundered the Egyptians."/> where God mind controls the Egyptians to let the Israelites plunder them before leaving.
 
 3. The passages "Those who were Egyptians [have become] foreigners and are thrust aside.", "Behold, serving-men have become masters of butlers" and "The troops whom we marshaled for ourselves have turned into foreigners and have taken to ravaging." can be interpreted to refer to the Israelites no longer being enslaved.
 
@@ -253,7 +254,7 @@ What is interesting, however, is that none of the other gospels mention two anim
 > 
 > At first his disciples did not understand all this. Only after Jesus was glorified did they realize that these things had been written about him and that these things had been done to him.
 
-This is one of the many contradictions between the gospels, and apologists say that *technically*, the other gospels do not exclude the existence of an adult donkey (although it is very unlikely that Jesus would only say to untie a colt, as stated in Mark and Luke, but was actually expecting his disciples to also untie a donkey to fulfill the prophecy).
+This is one of many contradictions between the gospels, and apologists say that *technically*, the other gospels do not exclude the existence of an adult donkey (although it is very unlikely that Jesus would only say to untie a colt, as stated in Mark and Luke, but was actually expecting his disciples to also untie a donkey to fulfill the prophecy).
 
 That prophecy is also contradicted between Matthew and John, where John states that the king is only seated on a colt. The prophecy comes from Zechariah 9:9, which states:
 
@@ -282,7 +283,7 @@ Therefore, on the surface, it seems like a form of $P$ against Christianity: whe
 
 In the end, although it does seem like a blatant error, apologists manage to get around it by claiming the meaning is distorted, and I haven't heard of anyone losing their faith because of this proof. We thus, as usual, get into a stalemate.
 
-This is, in practice, what happens every time a "proof against God" is put forward. When faced with a potential contradiction or potential scientific mistake, apologists either claim a bad translation, misinterpretation, or that the story is metaphorical (the most well known case being the story of Genesis and Noah's Ark, which if taken literally gives rise to Creationism, stating that the Earth is 6000 years old, which is [easily disproved](https://rationalwiki.org/wiki/Evidence_against_a_recent_creation)). As no holy book explicitly states "this is literal" and "this is metaphorical", and all holy books do make use of metaphors, this gives rise to a stalemate as we can neither prove nor disprove whether a given passage is metaphorical.
+This is, in practice, what happens every time a "proof against God" is put forward. When faced with a potential contradiction or scientific mistake, apologists claim either a bad translation, a misinterpretation, or that the story is metaphorical (the most well known case being the story of Genesis and Noah's Ark, which if taken literally gives rise to Creationism, stating that the Earth is 6000 years old, which is [easily disproved](https://rationalwiki.org/wiki/Evidence_against_a_recent_creation)). As no holy book explicitly states "this is literal" and "this is metaphorical", and all holy books do make use of metaphors, this gives rise to a stalemate as we can neither prove nor disprove whether a given passage is metaphorical.
 
 ---
 
@@ -318,9 +319,9 @@ Moreover, all three of these religions preach the existence of Hell, which is et
 
 - The Bible states that there will be "weeping and gnashing of teeth" (<BibleVerse v="Matthew 41-42" t="The Son of Man will send out his angels, and they will weed out of his kingdom everything that causes sin and all who do evil. They will throw them into the blazing furnace, where there will be weeping and gnashing of teeth."/>), that Hell is a "lake of fire" (<BibleVerse v="Revelation 20:12-15" t="[...] The dead were judged according to what they had done as recorded in the books. [...] Then death and Hades were thrown into the lake of fire. The lake of fire is the second death. Anyone whose name was not found written in the book of life was thrown into the lake of fire."/>), and that the damned will have "no rest day or night" (<BibleVerse v="Revelation 14:9-11" t="[...] “If anyone worships the beast and its image and receives its mark on their forehead or on their hand, they, too, will drink the wine of God’s fury, which has been poured full strength into the cup of his wrath. They will be tormented with burning sulfur in the presence of the holy angels and of the Lamb. And the smoke of their torment will rise for ever and ever. There will be no rest day or night for those who worship the beast and its image, or for anyone who receives the mark of its name.”"/>);
 - The Quran states various abhorrent eternal punishments for non-believers in <BibleVerse v="Quran 4:56" t="Surely those who reject Our signs, We will cast them into the Fire. Whenever their skin is burnt completely, We will replace it so they will ˹constantly˺ taste the punishment. Indeed, Allah is Almighty, All-Wise."/> and <BibleVerse v="Quran 22:19-22" t="[...] as for the disbelievers, garments of Fire will be cut out for them and boiling water will be poured over their heads, melting whatever is in their bellies, along with their skin. And awaiting them are maces of iron. Whenever they try to escape from Hell—out of anguish—they will be forced back into it, ˹and will be told,˺ “Taste the torment of burning!”"/>;
-- The Book of Mormon states that God delivers from the endless torment of the lake of fire and brimstone (<BibleVerse v="2 Nephi 9:19" t="O the greatness of the mercy of our God, the Holy One of Israel! For he delivereth his saints from that awful monster the devil, and death, and hell, and that lake of fire and brimstone, which is endless torment."/>).
+- The Book of Mormon states that God delivers from the "endless torment" of the "lake of fire and brimstone" (<BibleVerse v="2 Nephi 9:19" t="O the greatness of the mercy of our God, the Holy One of Israel! For he delivereth his saints from that awful monster the devil, and death, and hell, and that lake of fire and brimstone, which is endless torment."/>).
 
-Interestingly, from a cursory research, other religions (Judaism, Buddhism, Taoism, etc) either do not have exclusivity or do not have the belief in an eternal Hell for non-believers. However, the argument still holds for any n ≥ 2 religions with those two criterias.
+Interestingly, from a cursory research, other religions (Judaism, Buddhism, Taoism, etc) either do not have exclusivity or do not have the belief in an eternal Hell for non-believers. However, the argument still holds for any n ≥ 2 religions with those two criteria.
 
 Therefore, one could make the following argument:
 
@@ -335,11 +336,11 @@ Although this argument is sound, I will argue that it is extremely unlikely that
 Consider two religions $R_1$ and $R_2$.
 
 - $R_1$ is a very basic religion: it claims there is a God, along with a creation myth, and explanation for seemingly supernatural events, but stops there.
-- $R_2$ has the same components, with the addition of a "divine law": those who follow this law will be rewarded with luck and prosperity, and those who don't will be punished by diseases, famine, etc.
+- $R_2$ has the same components, with the addition of a "divine law": those who follow this law will be rewarded with luck and prosperity, and those who don't will be punished by diseases and famine.
 
 Let us imagine two tribes $T_1$ and $T_2$, each respectively believing in $R_1$ and $R_2$.
 
-Upon contact, these religions will "compete" for each other; just like the Darwinism theory where species compete for resources and reproduction, religions compete for believers.
+Upon contact, these religions will "compete" with each other; just like the Darwinism theory where species compete for resources and reproduction, religions compete for believers.
 
 It is trivial to conclude that $R_2$ will win:
 
@@ -365,7 +366,7 @@ As $R_4$'s punishment is infinite, it will always be advantageous to believe in 
 - If $R_3$ is true, then not following $R_3$ will lead to $0.9999*p_3$ punishment.
 - But if $R_4$ is true, then not following it will lead to $0.0001*\infty = \infty$ punishment.
 
-Note that Pascal's Wager works here because we are only considering a limited subset of religions ($R_1$ through $R_4$), while the refutation for it involves the set of all religions.
+Note that Pascal's Wager works here because we are assuming the Gods $G_{1,2,3,4}$ are as described in $R_{1,2,3,4}$, while the refutation for it involves discarding that assumption.
 
 All tribes will end up believing in $R_4$, as infinity cannot be overtaken by any amount of finite punishment.
 
@@ -377,7 +378,7 @@ Using the same reasoning, we can find out additional criteria that successful re
 - A religion mandating its followers to actively spread the belief (even if by force) will outcompete a religion that respects the freedom of religion and avoids proselytization, as the former would gain converts from the latter but not the opposite;
 - A religion with a developed lore and advanced wisdom will win over a religion considered "primitive", as being considered more likely to be true.
 
-It is, then, of no surprise that the two major religions today - Christianity and Islam - hold all of those criterias (eternal Hell, exclusivity, impossible to disprove, have missionaries and holy wars, developed lore and advanced wisdom compared to other religions), and are at a stalemate as there are no additional criterias to ensure a clear victory over the other. However, as they hold all the necessary criterias to win, they have had no difficulties converting almost the entire world.
+It is, then, of no surprise that the two major religions today - Christianity and Islam - hold all of those criteria (eternal Hell, exclusivity, impossible to disprove, have missionaries and holy wars, developed lore and advanced wisdom compared to other religions), and are at a stalemate as they lack any additional criteria to ensure a clear victory over the other. However, as they hold all the necessary criteria to win, they have had no difficulties converting almost the entire world.
 
 What must be kept in mind is that **religions converge to exclusivity and an eternal Hell**, and this is not necessarily a feature of the creator of the Universe, but a fact of Darwinism that is as evident as 1/x converges to zero.
 
@@ -393,7 +394,7 @@ Of course, as we have seen, successful religions must have an exclusivity clause
 
 Consider two people: Jack committed a violent murder, while John was listening to Freebird and did 80 in a 75. Both people are tried for their crimes. However, we are in North Korea, and in his infinite might, Kim Jong-Un is ready to forgive anyone who believes in him.
 
-- Jack apologizes for his crime and recognizes that Kim Jong-Un is the Supreme Leader; he is let off with not even a fine and invited to Kim's house, where he eats at an amazing banquet and enjoys all the wonders of North Korea.
+- Jack apologizes for his crime and recognizes that Kim Jong-Un is the Supreme Leader; he is let off with not even a fine and invited to Kim's palace, where he eats at an amazing banquet and enjoys all the wonders of North Korea.
 - John recognizes that what he did was wrong, and it was a honest mistake; he's not seeking to break the speed limit when he drives. Nevertheless, he refuses to acknowledge Kim Jong-Un's power, claiming instead that he is a mere man. Kim throws him into the pit of torture, and artificially extends his life so that he stays down there until the Sun swallows up the Earth; although John later repents and explicitly says that Kim is the Supreme Leader, Kim doesn't want to hear it, stating he should've acknowledged that beforehand.
 
 Obviously, nobody would consider that to be justice; surely Jack ought to have a heavier punishment than John. Yet, because Jack believes and John doesn't, John is the one sent to the endless torture pit.
@@ -434,7 +435,9 @@ This, of course, contradicts the holy book of all three religions. But one can a
 - At the time the holy books were written, other religions generally couldn't be described as good, as they did abhorrent practices such as child sacrifice (eg <BibleVerse v="Leviticus 18:21" t="Do not give any of your children to be sacrificed to Molek, for you must not profane the name of your God."/>). Therefore, the "non-believers" would've referred to those practicing evil acts, and not people who didn't believe but who could be considered to live a morally good life.
 - God considers "belief" not as acknowledging his existence and praying to him, but as following his law. This would be consistent with a just and benevolent God: such a God wouldn't be concerned with whether people believe in him (as we have seen, that would be vanity), but as whether people do good or evil.
 
-In the case of a just God, what matters would be following the laws, and it is generally accepted that the laws of all three religions align with the current view of morality (none of those religions promote child sacrifice or anything that would be considered plainly evil). As one should strive to be a morally good person anyway, belief would also be unnecessary in this case: a just God would reserve Hell for the worst possible crimes imaginable, and so far I have certainly not committed crimes worthy of eternal torture (and if I do, then I would see nothing wrong with being sentenced to my righteous punishment).
+In the case of a just God, what matters would be following the laws, and it is generally accepted that the laws of all three religions align with the current view of morality (none of those religions promote child sacrifice or anything that would be considered plainly evil).
+
+As one should strive to be a morally good person anyway, belief would also be unnecessary in this case: a just God would reserve Hell for the worst possible crimes imaginable, and so far I have certainly not committed crimes worthy of eternal torture (and if I do in the future, then I would see nothing wrong with being sentenced to my righteous punishment).
 
 As such, for all three religions, belief is unnecessary, and it is thus unnecessary to dedicate your life to seeking proof for any of those religions.
 
@@ -491,9 +494,9 @@ Note that this also applies for the three religions listed above. Even if you be
 
 - There is no known proof for God. If there was such a proof, it would be widely known and not hidden away in some YouTube video.
 - The doctrine of an eternal Hell, along with the requirement for belief, can easily be explained as a consequence of Darwinism.
-- Even if one of the three biggest religions having an eternal Hell for non-believers (Christianity, Islam, Mormonism) is true, it would be incompatible with their description of God.
+- Even if one of the three biggest religions having an eternal Hell for non-believers (Christianity, Islam, Mormonism) is true, it would be incompatible with their description of God, so it is unnecessary to dedicate a significant amount of time to finding the "right" religion.
 - Last, even if we postulate the existence of a religion we have yet to know about where the doctrine of Hell would be compatible, the refutation of Pascal's Wager still applies and finding proof would not help us.
 
 We can therefore conclude that the right thing to do is to not waste our finite, earthly life trying to solve a debate raging since the dawn of time, and certainly not be emotionally fearful of a doctrine whose sole purpose is to make the religion victorious against the competition.
 
-Instead, realize that it is likely there is no God at all; every single rabbit hole I have ever investigated either ends up in stalemate or towards the side of atheism. We only have one life, and we should live it.
+Instead, realize that it is likely there is no God at all; every single rabbit hole I have ever investigated ends up either in stalemate or towards the side of atheism. We only have one life, and we should live it.

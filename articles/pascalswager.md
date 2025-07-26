@@ -87,19 +87,19 @@ The decision matrix thus becomes, again assuming equal probabilities:
 
 Something interesting happens: since atheists are punished by $G_x$ and believers are punished by $\overline{G_x}$, believers get no advantage in the infinity department, and it all comes down to the earthly life gains, where atheists win.
 
-Adding more religions does not change the result: for each $G_x$, there is a $\overline{G_x}$, and $R$ is finite. <Footnote text="The proof for this is trivial and left as an exercise to the reader."/> Thus, every column $E(G_x)$ is "cancelled out" by $E(\overline{G_x})$, leaving out the $\overline{E}$ column (no God exists) where atheists end up advantageous.
+Adding more religions does not change the result: for each $G_x$, there is a $\overline{G_x}$. Thus, every column $E(G_x)$ is "cancelled out" by $E(\overline{G_x})$, leaving out the $\overline{E}$ column (no God exists) where atheists end up advantageous.
 
 ## The equal probabilities
 
 The hardest part of the refutation, however, is to prove that we have to assume that an evil God has the same probability of existing as a good God; that is, $P(E(G_x)) = P(E(\overline{G_x}))$. If that equality were not true, then the balance would shift to one side or the other.
 
-Consider the following situation:
+Consider the following situation.
 
 There is a bag with an unknown, non-zero, possibly infinite number of balls ($0 < n ≤ \infty$). You know that balls can be red or blue. <Footnote text="Colors were chosen deliberately."/> You do not know anything else about the balls and what proportions are red or blue.
 
 Picking a ball at random from the bag, what is the chance that it is a blue ball?
 
-At first glance, this question seems impossible to answer. And yet, this is exactly the problem we are dealing with. Gods can be good or evil <Footnote text='As defined earlier, a "good" God will send non-believers to Hell, whereas an "evil" God will send believers to Hell. I do not believe that a God who sends anyone but the most hardened criminals to Hell could be called "good".'/>, and we assume that a God has been assigned to creating our universe, but we have no idea of the probability that a God can be good or evil.
+At first glance, this question seems impossible to answer. And yet, this is exactly the problem we are dealing with. Gods can be good or evil<Footnote text='As defined earlier, a "good" God will send non-believers to Hell, whereas an "evil" God will send believers to Hell. I do not believe that a God who sends anyone but the most hardened criminals to Hell could be called "good".'/>, and we assume that a God has been assigned to overseeing our universe, but we have no idea of the probability that a God can be good or evil.
 
 Going back to our balls, let us first assume there are 100 balls in the bag. The following possibilities thus arise:
 
@@ -166,7 +166,7 @@ In fact, we can bring Heaven back into our considerations, as well as any other 
 
 In other words, for any conception of God that someone can have, I can conceive of a God that would behave the exact opposite way.
 
-And because we don't know anything about Gods (and those are beings that are generally postulated to be infinite in many ways), our only limit is our imagination. If I can conceive of a God that follows a certain behavior, and it does not clash with what we already know about Gods (which is nothing, barring the definition stated in this essay that they have power over what happens to our soul in the afterlife), then it has to be considered as a possibility.
+And because we don't know anything about Gods (and those are beings that are generally postulated to be beyond human comprehension in many ways), our only limit is our imagination. If I can conceive of a God that follows a certain behavior, and it does not clash with what we already know about Gods (which is nothing, barring the definition stated in this essay that they have power over what happens to our soul in the afterlife), then it has to be considered as a possibility.
 
 Therefore, all the columns in Pascal's Wager regarding Gods cancel out, as any God is met with its opposite, just like every positive number is met with a negative number; and we are simply left with the single column of "no God exists", which makes our reality the only thing that matters, and where we cannot use the Principle of Insufficient Reason, because we *do* know things about our reality and are not in a complete lack of knowledge.
 

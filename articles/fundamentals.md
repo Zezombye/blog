@@ -4,11 +4,11 @@ This is a concise summary of lists I’ve found on the internet as well as the v
 
 Except those questions are the kind of questions to ask at the start, not years down the line. Potential incompatibilities must be rooted out as early as possible.
 
-Those are not “questions to get to know each other”, you can find that elsewhere on the internet. These are all things that could be dealbreakers or hard compromises, and at the very least that you and your partner must know about each other before deciding to commit to a relationship.
+Those are not “questions to get to know each other”, you can find that elsewhere on the internet. These are all things that could be dealbreakers or hard compromises, and are, at the very least, things you and your partner must know about each other before deciding to commit to a relationship.
 
-For the tests (political compass, attachment styles, etc) do them before the date if possible, and study what the results mean (what the libertarian/authoritarian axis is, or an avoidant attachment style.)
+For the tests (political compass, attachment styles, etc) do them before the date if possible, and study what the results mean (what the libertarian/authoritarian axis is, or an avoidant attachment style.) Of course, keep in mind that those are just internet tests, not professional diagnoses.
 
-Try to make this not an interview but a “podcast date”. The questions provide topics as a starting point and the conversation will eventually drift off naturally, until it reaches the end and you continue with the next question. You’ll need multiple dates to get to the end of the list, and that’s fine. Just make sure to eventually answer all questions.
+Try to make this not an interview but a “podcast date”. The questions provide topics as a starting point and the conversation will eventually drift off, until the current topic comes to a natural close and you can move on to the next question. You’ll need multiple dates to get to the end of the list, and that’s fine. Just make sure to eventually answer all questions.
 
 Some questions may be too sensitive to answer just yet, especially if you’ve just met. That’s also fine. Take note of these to answer later on when trust is built.
 
@@ -24,10 +24,11 @@ c. What has been your spiritual journey so far and what future do you foresee fo
 
 ## 2. Children
 
-a. Do you want children? If so, how many? Why or why not?
+a. Do you want children? If so, how many and when? Why or why not?
 b. Are you open to adoption?
 c. What experience have you had with parenting (could be babysitting, younger siblings…)?
-d. How will you raise your children in general, especially compared to your childhood?
+d. How will you raise your children in general, especially compared to your childhood? Regarding discipline, education, technology...
+e. (If your religious views differ) How do you envision us raising our children under our different religions?
 
 ## 3. Relationships
 
@@ -59,19 +60,19 @@ e. Would you want to live more rurally or in the city?
 f. Ten years from now, where would you like to be emotionally, spiritually, economically, and relationship-wise?
 g. Are you more emotional or rational?
 h. What parts of yourself would you never change?
-i. Do you think you are trustworthy?
-j. What is a summary of your life story?
-k. What makes it easy for you to be open and vulnerable, and what makes it difficult?
+i. What is a summary of your life story?
+j. What makes it easy for you to be open and vulnerable, and what makes it difficult?
 
 ## 5. Pets
 a. What kinds of pets would you be ok with? Dog, cat, rabbit, turtle, goldfish, hamster, lizard, snake, tarantula…?
 b. Are you allergic to any pets?
 c. Are you ok with having pets while raising children?
+d. (If you both want a pet) Who would be the primary caretaker and how would we split financial and practical responsibilities?
 
 ## 6. Money
-a. What is your social class compared to your partner’s?
-b. Are you materialistic?
-c. How do you handle money? Do you have any problems with money?
+a. Are you materialistic?
+b. How do you handle money? Do you have any problems with money?
+c. How would we handle our finances (jointly, separately, both)?
 d. Have you ever been bankrupt or close to bankrupt? Are you in debt?
 e. What is your employment history and how would it look in the future? How far into your career do you want to get?
 
@@ -96,13 +97,14 @@ i. What type of relationship did your parents have with your ex?
 a. Where do you fall on the political compass? (https://www.politicalcompass.org/test)
 b. How do you evaluate the next 20+ years of the country you want to live in? Do you think it is overall trending upwards or downwards?
 c. Which candidate did you vote for in the last election, if any? (Careful about tribalism. Don’t rule out your partner just because they didn’t vote for your candidate, but evaluate what brought them to vote for them.)
-d. What is your stance on abortion and why?
-e. What do you think of the Covid-19 pandemic? Did you get the vaccine?
+d. How involved are you in politics?
+e. What is your stance on abortion and why?
+f. What do you think of the Covid-19 pandemic? Did you get the vaccine?
 
 ## 10. Health
 a. What is your relationship to fitness and food?
 b. Do you have any STDs?
 c. Do you have any addiction? (To porn, gambling, drugs, alcohol, video games, social media…) What have you done so far to fight it?
 d. Do you have any chronic illness that significantly impacts your life, or any kind of disability (autism, ADHD, infertility, BPD…)?
-e. Do you have any trauma ? (From childhood, past relationships…)
+e. Do you have any trauma? (From childhood, past relationships…)
 f. How is your mental health currently?

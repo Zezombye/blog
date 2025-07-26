@@ -1,9 +1,9 @@
 <!-- Technically not a "footnote" as it is inline, however it is used in the same case of adding details which aren't necessary for the article. -->
 
 <template>
-    <span class="footnote" @click="isExpanded = !isExpanded" :class="{ 'expanded': isExpanded, 'bigger-font': biggerFont }">
+    <span class="footnote" @click="isExpanded = !isExpanded" :class="{ 'expanded': isExpanded, 'bigger-font': biggerFont }" :title="!isExpanded ? (tooltipText || expandedText) : ''">
         <span v-if="!isExpanded">{{ unexpandedText }}</span>
-        <span v-else v-html='(addParentheses ? "(" : "")+fixTypography(text).trim()+(addParentheses ? ")" : "")'></span>
+        <span v-else v-html='expandedText'></span>
     </span>
 </template>
 
@@ -22,6 +22,10 @@ export default {
             type: String,
             default: '…'
         },
+        tooltipText: {
+            type: String,
+            default: ''
+        },
         addParentheses: {
             type: Boolean,
             default: true
@@ -34,6 +38,12 @@ export default {
     data() {
         return {
             isExpanded: false
+        }
+    },
+    computed: {
+        // This is used to ensure that the text is always fixed, even if it is not expanded.
+        expandedText() {
+            return (this.addParentheses ? "(" : "")+fixTypography(this.text).trim()+(this.addParentheses ? ")" : "");
         }
     },
     methods: {fixTypography},

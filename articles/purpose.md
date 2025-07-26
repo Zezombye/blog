@@ -24,6 +24,7 @@ function Premise(props) {
     let premiseId = Object.keys(props)[0];
     return h(Footnote, {
         text: "("+premiseId+") "+premises[premiseId],
+        tooltipText: premises[premiseId],
         unexpandedText: "("+premiseId+")",
         addParentheses: false,
         biggerFont: true,
