@@ -166,7 +166,7 @@ export default defineConfig({
         
         const pageTitle = pageData.title ?? pageData.frontmatter.title ?? "Zezombye's Blog";
         const pageDescription = pageData.frontmatter.description ?? "Zezombye's Blog";
-        const pageImage = pageData.frontmatter.image ?? "/pfp.png";
+        const pageImage = pageData.frontmatter.image ? "https://zez.dev/"+pageData.frontmatter.image : "https://zez.dev/pfp.png";
 
         pageData.frontmatter.head ??= [];
 

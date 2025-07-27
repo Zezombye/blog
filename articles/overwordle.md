@@ -1,5 +1,6 @@
 ---
 defaultHighlightLang: overpy
+image: "/overwordle-hero.png"
 ---
 
 # Making a multiplayer Wordle: Pushing the Overwatch Workshop to its limits
