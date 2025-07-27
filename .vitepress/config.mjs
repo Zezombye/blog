@@ -164,8 +164,8 @@ export default defineConfig({
     transformPageData(pageData) {
         const isHomePage = pageData.frontmatter.layout === 'home';
         
-        const pageTitle = pageData.title ?? pageData.frontmatter.title ?? "Zezombye's Blog";
-        const pageDescription = pageData.frontmatter.description ?? "Zezombye's Blog";
+        const pageTitle = pageData.title || pageData.frontmatter.title || "Zezombye's Blog";
+        const pageDescription = isHomePage ? "Programming, self-improvement, and various stuff" : pageData.frontmatter.description || "Zezombye's Blog";
         const pageImage = pageData.frontmatter.image ? "https://zez.dev/"+pageData.frontmatter.image : "https://zez.dev/pfp.png";
 
         pageData.frontmatter.head ??= [];
@@ -182,7 +182,7 @@ export default defineConfig({
         );
         if (isHomePage) {
             return {
-                description: "Programming, self-improvement, and various stuff",
+                description: pageDescription,
             }
         }
     },
