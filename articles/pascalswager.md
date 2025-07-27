@@ -138,7 +138,7 @@ Unfortunately, this intuition is purely cultural and not based in any mathematic
 
 However, God is not human, and so we cannot transpose our knowledge about humans to God.
 
-Moreover, we cannot use epistemic knowledge to tilt the balance one side or the other: a common refutation to the [problem of evil](https://en.wikipedia.org/wiki/Problem_of_evil) is that God can be good nevertheless, as God has access to knowledge we don't have, and thus we cannot judge him. But this argument works both ways: as we cannot judge God, we cannot say he is good any more than we can say he is evil. Just like an amateur trying to judge the chess move of a grandmaster, we are completely unable to determine whether God could be good or evil.
+Moreover, we cannot use epistemic knowledge to tilt the balance to one side or the other: a common refutation to the [problem of evil](https://en.wikipedia.org/wiki/Problem_of_evil) is that God can be good nevertheless, as God has access to knowledge we don't have, and thus we cannot judge him. But this argument works both ways: as we cannot judge God, we cannot say he is good any more than we can say he is evil. Just like an amateur trying to judge the chess move of a grandmaster, we are completely unable to determine whether God could be good or evil.
 
 Consider a situation where you go to a friend's house. You sit on the couch, and their pet comes next to the couch. In general, you will feel much more at ease if your friend has a cat, rather than if your friend has a pitbull. Why is that?
 

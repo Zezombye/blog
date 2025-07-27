@@ -153,6 +153,8 @@ export default defineConfig({
             }
         ],*/
 
+        
+
         socialLinks: [
             { icon: 'github', link: 'https://github.com/Zezombye' },
             { icon: 'twitter', link: 'https://twitter.com/Zezombye' },
@@ -160,10 +162,31 @@ export default defineConfig({
         ]
     },
     transformPageData(pageData) {
-        if (pageData.frontmatter.layout === 'home') {
+        const isHomePage = pageData.frontmatter.layout === 'home';
+        
+        const pageTitle = pageData.title ?? pageData.frontmatter.title ?? "Zezombye's Blog";
+        const pageDescription = pageData.frontmatter.description ?? "Zezombye's Blog";
+        const pageImage = pageData.frontmatter.image ?? "/pfp.png";
+
+        pageData.frontmatter.head ??= [];
+
+        pageData.frontmatter.head.push(
+            ["meta", { property: "og:title", content: pageTitle}],
+            ["meta", { name: "twitter:description", content: pageDescription}],
+            ["meta", { name: "twitter:title", content: pageTitle}],
+            ["meta", { name: "twitter:description", content: pageDescription}],
+            ["meta", { name: "twitter:creator", content: "@Zezombye"}],
+            ["meta", { name: "twitter:card", content: pageData.frontmatter.image ? "summary_large_image" : "summary"}],
+            ["meta", { property: "og:image", content: pageImage }],
+            ["meta", { name: "twitter:image", content: pageImage }],
+        );
+        if (isHomePage) {
             return {
                 description: "Programming, self-improvement, and various stuff",
             }
         }
+    },
+    sitemap: {
+        hostname: "https://zez.dev",
     }
 })

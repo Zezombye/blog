@@ -350,6 +350,12 @@ button.copy[title="Copy Code"] {
     display: none;
 }
 
+.aside-title {
+    font-size: 14px;
+    font-weight: 600;
+    padding-bottom: 0.41rem;
+}
+
 .VPDocAside .outline-marker {
     margin-top: -32px;
     display: none;
@@ -587,4 +593,13 @@ button.copy[title="Copy Code"] {
 
 [hide-anchor] a.header-anchor {
     display: none;
+}
+
+.VPSocialLink {
+    
+    margin: 3px;
+}
+.VPSocialLink:hover {
+    background-color: var(--vp-c-gray-3);
+    border-radius: 9999px;
 }

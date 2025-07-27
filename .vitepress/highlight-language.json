@@ -18,6 +18,22 @@
                 {
                     "name": "keyword.control",
                     "match": "§red§[^§]*"
+                },
+                {
+                    "name": "entity.name.function",
+                    "match": "§purple§[^§]*"
+                },
+                {
+                    "name": "punctuation.definition.list.begin.markdown",
+                    "match": "§orange§[^§]*"
+                },
+                {
+                    "name": "string.regexp",
+                    "match": "§green§[^§]*"
+                },
+                {
+                    "name": "string.quoted",
+                    "match": "§lightblue§[^§]*"
                 }
             ]
         }

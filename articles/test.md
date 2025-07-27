@@ -12,6 +12,10 @@ The bits marked with `§blue§x`{hl} are then retrieved and concatenated togethe
 - The UTF-8 binary representation of it is `1110§blue§0000 §reset§10§blue§110110 §reset§10§blue§011110`{hl}
 - This yields `0000 1101 1001 1110`{txt} which is indeed the number in Unicode
 - `some §red§red§reset§ text`{hl}
+- `§blue§blue §reset§vs §lightblue§light blue`{hl}
+- `§orange§orange`{hl}
+- `§purple§purple`{hl}
+- `§green§green`{hl}
 
 <ChessProblem fen="1r3rk1/8/2pN1pQ1/p1npp1p1/b7/q1P1P1R1/3N1P1P/1R2K3 b - - 0 20" moves="Kh8 Rh3" orientation="black" :displaySuccessIcon="false"/>
 

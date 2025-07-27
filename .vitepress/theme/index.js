@@ -2,16 +2,15 @@
 import { h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
 import Footnote from '../../components/Footnote.vue'
+import CustomLayout from '../../components/CustomLayout.vue'
 import './style.css'
+
+const Layout = DefaultTheme.Layout;
 
 /** @type {import('vitepress').Theme} */
 export default {
   extends: DefaultTheme,
-  Layout: () => {
-    return h(DefaultTheme.Layout, null, {
-      // https://vitepress.dev/guide/extending-default-theme#layout-slots
-    })
-  },
+  Layout: CustomLayout,
   enhanceApp({ app, router, siteData }) {
     app.component('Footnote', Footnote)
   }

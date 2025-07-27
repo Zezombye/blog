@@ -1,3 +1,7 @@
+---
+image: "/relationships-hero.jpg"
+---
+
 # Why I view relationships like a business
 
 ![](/relationships-hero.jpg)

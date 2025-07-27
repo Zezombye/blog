@@ -13,7 +13,7 @@ export const inlineHighlightPlugin = (md) => {
             //Add <wbr> to allow line breaks after parentheses/brackets/braces or dots (not in numbers)
             token.content = token.content.replace(/([\(\[\{]|\.(?=[A-Za-z_]))/g, "$1\uE86F")
             let htmlStr = options.highlight(token.content, language, '')
-            htmlStr = htmlStr.replaceAll("\uE86F", "<wbr>").replace(/§(blue|red|green|yellow|reset)§/g, "");
+            htmlStr = htmlStr.replaceAll("\uE86F", "<wbr>").replace(/§(blue|red|green|yellow|orange|lightblue|purple|reset)§/g, "");
             return htmlStr.replace(/^<pre class="/, '<span class="inline-code-highlight ' + (addInlineBlock ? "inline-block " : "")).replace(/<\/pre>$/, "</span>")
         } else {
             return codeRender(...args)

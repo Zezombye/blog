@@ -75,7 +75,9 @@ html.dark .footnote {
     cursor: pointer;
 }
 
-.footnote:not(.expanded):hover {
-    filter: brightness(300%);
+@media (hover: hover) {
+    .footnote:not(.expanded):hover {
+        filter: brightness(300%);
+    }
 }
 </style>
