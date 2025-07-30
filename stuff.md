@@ -4,7 +4,7 @@ https://ericgardner.info/notes/blogging-with-vitepress-january-2024
 https://soubiran.dev/series/create-a-blog-with-vitepress-and-vue-js-from-scratch
 https://abc.fractalf.net/articles/001-vitepress-as-a-blog.html#list-articles-automatically
 https://adocs.vercel.app/guide.html
-
+https://olets.dev/posts/per-page-dynamic-social-metas-in-vitepress/
 
 ## Fully automated landing page
 

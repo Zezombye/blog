@@ -1,5 +1,6 @@
 ---
 defaultInlineHighlightLang: txt
+image: "/workshopshenanigans-hero.png"
 ---
 
 # Exploiting the Overwatch Workshop with Unicode shenanigans

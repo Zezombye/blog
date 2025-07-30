@@ -111,6 +111,8 @@ The problem, of course, is that none of these premises are the case in our curre
 
 - (F) is obviously false, as I've very rarely heard people claim the existence of $P$ (and when they do, it isn't the same proof). Instead, I've more commonly heard people say you need faith to believe in God (which wouldn't be the case with $P$; it would just be a matter of science instead), and people say they "lost faith" and quit their religion (as it is a very psychologically heavy burden to quit one's religion, it would be absurd to deny $P$ out of bad faith; one would assume people would instead try their hardest to accept $P$).
 
+  An example is [Bart Ehrman](https://www.youtube.com/watch?v=e6DUD1KHEnk) who was born Christian yet went through a painful process of deconversion, losing his community and view of the world, after deeply studying the Bible on a professional level; how come none of the other Christians were able to convince him that God really exists? The comments in the linked video also share other deconversion stories, where people were desperate to find $P$ but couldn't.
+
 - (G) is also false. In the pro-atheist websites I've read, there also isn't a common refutation of a single proof, neither a big headline "Here's why $P$ isn't true, despite what believers say". As the whole debate would revolve around $P$, so would the websites, but that is not the case.
 
 As none of these premises are true (disproving (C) means, since (B) is obvious, that (A) is not true either), we can conclude that our initial assumption is false: **There is no known proof for God**.

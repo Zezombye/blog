@@ -1,3 +1,7 @@
+---
+image: "/purpose-hero.jpeg"
+---
+
 <script setup>
 import ChessProblem from "../components/ChessProblem.vue"
 import Footnote from "../components/Footnote.vue"

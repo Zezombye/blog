@@ -1,4 +1,6 @@
-
+---
+image: "/bestmove-hero.png"
+---
 <script setup>
 import ChessProblem from "../components/ChessProblem.vue"
 </script>

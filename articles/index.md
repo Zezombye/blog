@@ -5,7 +5,7 @@ layout: home
 hero:
   name: "Zezombye's Blog"
   #text: ""
-  tagline: "Programming, self-improvement, and various stuff"
+  tagline: "Programming, self\u2011improvement, and various stuff"
   #actions:
   #  - theme: brand
   #    text: OverPy

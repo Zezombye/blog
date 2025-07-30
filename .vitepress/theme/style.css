@@ -350,10 +350,17 @@ button.copy[title="Copy Code"] {
     display: none;
 }
 
-.aside-title {
+#aside-title {
     font-size: 14px;
     font-weight: 600;
     padding-bottom: 0.41rem;
+    color: var(--vp-c-text-2);
+    transition: color 0.25s;
+    line-height: 1.5;
+
+    &:hover {
+        color: var(--vp-c-text-1);
+    }
 }
 
 .VPDocAside .outline-marker {
@@ -371,10 +378,17 @@ button.copy[title="Copy Code"] {
     padding: 0.41rem 0;
 }
 
+.VPLocalNavOutlineDropdown .outline-link {
+    white-space: normal;
+    line-height: 1.35;
+    padding: 0.41rem 0;
+}
+
 .vp-doc h1 {
     font-size: 36px;
     line-height: 44px;
     letter-spacing: normal;
+    text-wrap: balance;
 }
 
 .vp-doc h2 {
@@ -431,6 +445,10 @@ button.copy[title="Copy Code"] {
         background-clip: text;
         --color-1: #389BF2;
         --color-2: #66cdff;
+    }
+
+    .tagline {
+        text-wrap: balance;
     }
 }
 

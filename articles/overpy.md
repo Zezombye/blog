@@ -1,5 +1,6 @@
 ---
 defaultHighlightLang: overpy
+image: "/overpy-hero.svg"
 ---
 
 # The birth of a programming language: Making the Overwatch Workshop usable

@@ -6,6 +6,7 @@ import highlightLanguage from './highlight-language.json';
 import { typographicReplacerPlugin } from './typographicReplacer.js';
 import { markdownItFancyListPlugin } from './markdown-it-fancy-lists.ts';
 import * as fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -184,6 +185,16 @@ export default defineConfig({
             return {
                 description: pageDescription,
             }
+        }
+    },
+    vite: {
+        resolve: {
+            alias: [
+                {
+                    find: /^.*\/VPDocAside.vue$/,
+                    replacement: fileURLToPath(new URL('../components/CustomVPDocAside.vue', import.meta.url))
+                }
+            ]
         }
     },
     sitemap: {
