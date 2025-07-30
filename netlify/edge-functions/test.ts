@@ -15,3 +15,6 @@ export default async (request: Request, context: Context) => {
   const text = await response.text();
   return new Response(text.toUpperCase(), response);
 };
+export const config: Config = {
+    path: "/*",
+};

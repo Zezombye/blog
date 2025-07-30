@@ -1,4 +1,4 @@
-import type { Context } from "@netlify/edge-functions";
+import type { Context, Config } from "@netlify/edge-functions";
 
 export default async (request: Request, context: Context) => {
     if (request.headers.get("user-agent")?.match(/\bDiscordbot\b/i)) {
@@ -8,4 +8,7 @@ export default async (request: Request, context: Context) => {
         text = text.replace("<head>", `<head><meta name="theme-color" content="${themeColor}">`);
         return new Response(text, response);
     }
+};
+export const config: Config = {
+    path: "/*",
 };
