@@ -52,6 +52,17 @@
     }
 }
 
+@property --c0 {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: blue;
+}
+@property --c1 {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: red;
+}
+
 :root {
 
     --blue: #47caff;
@@ -332,6 +343,11 @@ body, .vp-doc p {
             margin-left: 0;
         }*/
     }
+
+    #VPContent > div.VPDoc:not(.has-aside) > div.container {
+        max-width: calc(1104px - 256px);
+        padding-left: 32px;
+    }
 }
 
 
@@ -555,6 +571,15 @@ button.copy[title="Copy Code"] {
             }
         }
     }
+
+    .VPSocialLinks {
+        display: flex !important;
+        align-items: center;
+    }
+
+    .VPFlyout.VPNavBarExtra {
+        display: none !important;
+    }
 }
 
 @media(max-width: 639px) {
@@ -700,6 +725,37 @@ button.copy[title="Copy Code"] {
     }
 }
 
+@media (min-width: 640px) {
+    .VPHomeHero .VPButton {
+        position: relative;
+        border-width: 0px;
+        padding: 0 21px !important;
+        line-height: 40px !important;
+
+
+        --c0: var(--vp-button-alt-bg);
+        --c1: var(--vp-button-alt-bg);
+
+        background: linear-gradient(to bottom right, var(--c0) 40%, var(--c1) 60%);
+        background-color: transparent !important;
+        transition: --c0 0.25s, --c1 0.25s;
+
+    }
+    .VPHomeHero .actions .action:nth-child(1) .VPButton:hover {
+        --c0: #b4b4b499;
+        --c1: #74747499;
+    }
+    .VPHomeHero .actions .action:nth-child(2) .VPButton:hover {
+        --c0: #4abaff99;
+        --c1: #4989ff99;
+    }
+    .VPHomeHero .actions .action:nth-child(3) .VPButton:hover {
+        --c0: #ff2c5399;
+        --c1: #c41d3b99;
+    }
+}
+
+
 /* Width must be the same as border width, to not have dividers or other components go beyond the apparent edges */
 .VPHome .vp-doc.container > div {
     padding: 0 2px;
@@ -709,4 +765,8 @@ button.copy[title="Copy Code"] {
     .VPHome {
         margin-bottom: 44px !important;
     }
+}
+
+.VPDoc:not(.has-aside) .header-anchor {
+    display: none;
 }

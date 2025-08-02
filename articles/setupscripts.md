@@ -1,3 +1,7 @@
+---
+aside: false
+---
+
 # My setup scripts
 
 ### [Windows 10](/windows-setup.ps1){target="_blank"}

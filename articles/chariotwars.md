@@ -1,3 +1,7 @@
+---
+aside: false
+---
+
 <script setup>
 
 import CalcEmulator from "../casio-emulator/CalcEmulator.vue"
