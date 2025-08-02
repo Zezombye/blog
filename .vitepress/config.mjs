@@ -160,14 +160,18 @@ export default defineConfig({
             { icon: 'github', link: 'https://github.com/Zezombye' },
             { icon: 'twitter', link: 'https://twitter.com/Zezombye' },
             { icon: 'youtube', link: 'https://youtube.com/@Zezombye' },
-        ]
+        ],
+        notFound: {
+            quote: "If this is not a typo, please report it to me so I can fix it :)",
+            linkText: "Go to homepage",
+        }
     },
     transformPageData(pageData) {
         const isHomePage = pageData.frontmatter.layout === 'home';
         
         const pageTitle = pageData.title || pageData.frontmatter.title || "Zezombye's Blog";
         const pageDescription = isHomePage ? "Programming, self-improvement, and various stuff" : pageData.frontmatter.description || "Zezombye's Blog";
-        const pageImage = pageData.frontmatter.image ? "https://zez.dev/"+pageData.frontmatter.image : "https://zez.dev/pfp.png";
+        const pageImage = pageData.frontmatter.image ? "https://zez.dev/"+pageData.frontmatter.image.replace(".svg", ".jpg") : "https://zez.dev/pfp.png";
 
         pageData.frontmatter.head ??= [];
 

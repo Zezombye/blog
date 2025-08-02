@@ -67,11 +67,7 @@ features:
       src: "/relationships-hero.jpg"
 ---
 
-## Other stuff {hide-anchor}
-
-#### [Chariot Wars](/chariotwars) {hide-anchor}
-#### [Sokoban](/sokoban) {hide-anchor}
-#### [Linux/Windows Setup Scripts](/setupscripts) {hide-anchor}
-#### Other essays: {hide-anchor}
-- [There is no known proof for God](/noproof)
-- [Refuting Pascal's Wager](/pascalswager)
+<div style="display: flex; row-gap: 20px; column-gap: 40px; justify-content: center; flex-wrap: wrap; border-top: 1px solid var(--vp-c-divider); padding-top: 44px; margin-top: 44px;">
+  <ArticleGroup title="Other projects" :articles="{chariotwars: 'Chariot Wars', 'sokoban': 'Sokoban', 'setupscripts': 'Linux/Windows Setup Scripts'}"/>
+  <ArticleGroup title="Other essays" :articles="{noproof: 'There is no known proof for God', pascalswager: 'Refuting Pascal\'s Wager'}"/>
+</div>

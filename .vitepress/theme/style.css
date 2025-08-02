@@ -43,7 +43,21 @@
  *   in custom container, badges, etc.
  * -------------------------------------------------------------------------- */
 
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 :root {
+
+    --blue: #47caff;
+    --purple: #bd34fe;
+    --purple-2: #c74de9;
+
     --vp-c-default-1: var(--vp-c-gray-1);
     --vp-c-default-2: var(--vp-c-gray-2);
     --vp-c-default-3: var(--vp-c-gray-3);
@@ -97,13 +111,6 @@
 
 :root {
     --vp-home-hero-name-color: transparent;
-    --vp-home-hero-name-background: -webkit-linear-gradient(120deg,
-            #bd34fe 30%,
-            #41d1ff);
-
-    --vp-home-hero-image-background-image: linear-gradient(-45deg,
-            #bd34fe 50%,
-            #47caff 50%);
     --vp-home-hero-image-filter: blur(44px);
 }
 
@@ -440,7 +447,7 @@ button.copy[title="Copy Code"] {
 
 .VPHome .VPHomeHero {
     .heading .clip {
-        background: -webkit-linear-gradient(-83deg, var(--color-1) 40%, var(--color-2));
+        background: linear-gradient(to bottom right, var(--color-2) 50%, var(--color-1));
         -webkit-background-clip: text;
         background-clip: text;
         --color-1: #389BF2;
@@ -509,12 +516,22 @@ button.copy[title="Copy Code"] {
             border: 1px solid #47caff80;
             max-width: 200px;
             max-height: 200px;
+            pointer-events: none;;
         }
         .image-bg {
             filter: blur(5px);
-            background-image: linear-gradient(-45deg, #bd34fe 40%, #47caff 60%);
+            background-image: linear-gradient(-45deg, var(--purple-2) 40%, var(--blue) 60%);
+            transform-origin: center;
+            transform: rotate(0deg);
+            top: -5px;
+            left: -5px;
             width: 210px;
             height: 210px;
+            animation: spin 5s linear infinite;
+            animation-play-state: paused;
+            &:hover {
+                animation-play-state: running;
+            }
         }
     }
 }
@@ -551,6 +568,11 @@ button.copy[title="Copy Code"] {
             .image-bg {
                 width: 158px;
                 height: 158px;
+                top: calc(50% - 158px / 2);
+                left: calc(50% - 158px / 2);
+                transform: translate(-50%, -50%) rotate(0deg);
+                animation-play-state: running;
+                animation-duration: 10s;
             }
         }
     }
@@ -616,8 +638,75 @@ button.copy[title="Copy Code"] {
 .VPSocialLink {
     
     margin: 3px;
+    transition: background-color 0.25s !important;
+    border-radius: 9999px;
 }
 .VPSocialLink:hover {
     background-color: var(--vp-c-gray-3);
-    border-radius: 9999px;
+}
+
+#VPContent .NotFound {
+    text-wrap: balance;
+    text-align: center;
+    padding: 20px;
+}
+
+.VPHomeFeatures .VPFeature article.box {
+    padding: 24px;
+}
+
+.VPHomeFeatures .VPFeature, .vp-doc .article-group {
+    
+    position: relative;
+    border: solid 2px transparent;
+    background-clip: padding-box;
+    &:hover {
+        border-color: transparent !important;
+    }
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0; right: 0; bottom: 0; left: 0;
+        z-index: -1;
+        border-radius: inherit;
+        margin: -2px;
+        opacity: 0;
+        background: linear-gradient(to top left, var(--purple) calc(50% - 10px), var(--blue) calc(50% + 10px));
+        transition: opacity 0.25s;
+    }
+    &:hover:before {
+        opacity: 0.75;
+    }
+}
+
+.VPHomeFeatures .VPFeature {
+    &:after {
+        content: '';
+        position: absolute;
+        top: 0; right: 0; bottom: 0; left: 0;
+        z-index: 1;
+        border-radius: inherit;
+        margin: 0px;
+        opacity: 0;
+        background: linear-gradient(to top left, var(--purple) 40%, var(--blue) 60%);
+        transition: opacity 0.25s;
+        pointer-events: none;
+    }
+    &:hover:before {
+        opacity: 0.85;
+    }
+    &:hover:after {
+        opacity: 0.1;
+    }
+}
+
+/* Width must be the same as border width, to not have dividers or other components go beyond the apparent edges */
+.VPHome .vp-doc.container > div {
+    padding: 0 2px;
+}
+
+@media (max-width: 639px) {
+    .VPHome {
+        margin-bottom: 44px !important;
+    }
 }
