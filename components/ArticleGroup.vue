@@ -2,8 +2,8 @@
     <div class="article-group">
         <span class="title">{{ title }}</span>
         <div class="articles">
-            <span class="article" v-for="(name, key) in articles" :key="key">
-                <a :href="`/${key}`">{{ name }}</a>
+            <span class="article" v-for="article in articles" :key="article.url">
+                <a :href="`/${article.url}`">{{ article.title }}</a>
             </span>
         </div>
         <!-- <ul>
@@ -22,7 +22,7 @@ const props = defineProps({
         required: true
     },
     articles: {
-        type: Object,
+        type: Array,
         required: true
     }
 });
@@ -32,10 +32,11 @@ const props = defineProps({
 <style scoped>
 .article-group {
     background-color: var(--vp-c-bg-soft);
+    flex: 1 0 300px;
     padding: 0px 24px;
     border-radius: 12px;
-    width: 100%;
     max-width: 400px;
+    width: 400px;
     display: flex;
     flex-direction: column;
 }
@@ -66,5 +67,16 @@ const props = defineProps({
 .article {
     text-align: center;
     font-size: 15px;
+}
+
+a {
+    font-weight: 500;
+    color: var(--vp-c-brand-1);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color .25s,opacity .25s;
+    &:hover {
+        color: var(--vp-c-brand-2);
+    }
 }
 </style>

@@ -475,7 +475,7 @@ button.copy[title="Copy Code"] {
     }
 }
 
-.VPHome .VPHomeFeatures {
+.VPHomeFeatures {
     article img.VPImage {
         width: 100%;
         height: auto;
@@ -488,18 +488,18 @@ button.copy[title="Copy Code"] {
     }
 }
 
-.VPHome .VPHomeFeatures .item.grid-6 {
+.VPHomeFeatures .item.grid-6 {
     width: calc(100% / 1);
     max-width: 500px;
 }
 @media (min-width: 850px) {
-    .VPHome .VPHomeFeatures .item.grid-6 {
+    .VPHomeFeatures .item.grid-6 {
         width: calc(100% / 2);
     }
 }
 
 @media (min-width: 1280px) {
-    .VPHome .VPHomeFeatures .item.grid-6 {
+    .VPHomeFeatures .item.grid-6 {
         width: calc(100% / 3);
     }
 }
@@ -539,15 +539,12 @@ button.copy[title="Copy Code"] {
             background-image: linear-gradient(-45deg, var(--purple-2) 40%, var(--blue) 60%);
             transform-origin: center;
             transform: rotate(0deg);
-            top: -5px;
-            left: -5px;
+            top: calc(50% - 210px / 2);
+            left: calc(50% - 210px / 2);
             width: 210px;
             height: 210px;
-            animation: spin 5s linear infinite;
-            animation-play-state: paused;
-            &:hover {
-                animation-play-state: running;
-            }
+            transform: translate(-50%, -50%) rotate(0deg);
+            animation: spin 10s linear infinite;
         }
     }
 }
@@ -568,6 +565,14 @@ button.copy[title="Copy Code"] {
 
             .image-container {
                 transform: translateY(-4px);
+            }
+            
+            .image-bg {
+                animation-duration: 5s;
+                animation-play-state: paused;
+                &:hover {
+                    animation-play-state: running;
+                }
             }
         }
     }
@@ -595,9 +600,6 @@ button.copy[title="Copy Code"] {
                 height: 158px;
                 top: calc(50% - 158px / 2);
                 left: calc(50% - 158px / 2);
-                transform: translate(-50%, -50%) rotate(0deg);
-                animation-play-state: running;
-                animation-duration: 10s;
             }
         }
     }
@@ -663,11 +665,31 @@ button.copy[title="Copy Code"] {
 .VPSocialLink {
     
     margin: 3px;
-    transition: background-color 0.25s !important;
+    /* transition: background-color 0.25s !important; */
     border-radius: 9999px;
+
+    --c0: transparent;
+    --c1: transparent;
+
+    background: linear-gradient(to bottom right, var(--c0) 30%, var(--c1) 70%);
+    /* background-color: transparent !important; */
+    transition: --c0 0.25s, --c1 0.25s !important;
+
 }
-.VPSocialLink:hover {
+/* .VPSocialLink:hover {
     background-color: var(--vp-c-gray-3);
+} */
+.VPSocialLinks .VPSocialLink:nth-child(1):hover {
+    --c0: #b4b4b468;
+    --c1: #74747468;
+}
+.VPSocialLinks .VPSocialLink:nth-child(2):hover {
+    --c0: #4abaff68;
+    --c1: #4989ff68;
+}
+.VPSocialLinks .VPSocialLink:nth-child(3):hover {
+    --c0: #ff2c5370;
+    --c1: #c41d3b70;
 }
 
 #VPContent .NotFound {
@@ -680,7 +702,7 @@ button.copy[title="Copy Code"] {
     padding: 24px;
 }
 
-.VPHomeFeatures .VPFeature, .vp-doc .article-group {
+.VPHomeFeatures .VPFeature, .article-group {
     
     position: relative;
     border: solid 2px transparent;
@@ -695,7 +717,7 @@ button.copy[title="Copy Code"] {
         z-index: -1;
         border-radius: inherit;
         margin: -2px;
-        opacity: 0;
+        opacity: 0; 
         background: linear-gradient(to top left, var(--purple) calc(50% - 10px), var(--blue) calc(50% + 10px));
         transition: opacity 0.25s;
     }
@@ -713,7 +735,7 @@ button.copy[title="Copy Code"] {
         border-radius: inherit;
         margin: 0px;
         opacity: 0;
-        background: linear-gradient(to top left, var(--purple) 40%, var(--blue) 60%);
+        background: linear-gradient(to top left, var(--purple) 30%, var(--blue) 70%);
         transition: opacity 0.25s;
         pointer-events: none;
     }
@@ -736,7 +758,7 @@ button.copy[title="Copy Code"] {
         --c0: var(--vp-button-alt-bg);
         --c1: var(--vp-button-alt-bg);
 
-        background: linear-gradient(to bottom right, var(--c0) 40%, var(--c1) 60%);
+        background: linear-gradient(to bottom right, var(--c0) 30%, var(--c1) 70%);
         background-color: transparent !important;
         transition: --c0 0.25s, --c1 0.25s;
 
@@ -769,4 +791,44 @@ button.copy[title="Copy Code"] {
 
 .VPDoc:not(.has-aside) .header-anchor {
     display: none;
+}
+
+.VPDoc > .container > .content {
+    padding-bottom: 32px;
+}
+
+.VPDoc > .container > .aside {
+    /* border: 1px solid yellow; */
+    position: sticky;
+    top: 0;
+    margin-bottom: calc(46px + 64px - 4px);
+    margin-top: calc(-1 * (var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + var(--vp-doc-top-height, 0px) + 48px));
+    max-height: 100vh;
+    height: auto;
+    .aside-container {
+        position: sticky;
+        /* border: 1px solid red; */
+        height: auto;
+        max-height: 100vh;
+
+        .aside-content {
+            min-height: 0;
+            /* border: 1px solid lime; */
+        }
+    }
+    .aside-curtain {
+        position: absolute;
+        /* border: 1px solid magenta; */
+    }
+}
+
+.VPDoc {
+    padding-bottom: 0 !important;
+
+    .all-articles {
+
+        .VPFeatures, .other-articles-container-wrapper {
+            padding: 0 !important;
+        }
+    }
 }

@@ -171,7 +171,7 @@ export default defineConfig({
         
         const pageTitle = pageData.title || pageData.frontmatter.title || "Zezombye's Blog";
         const pageDescription = isHomePage ? "Programming, self-improvement, and various stuff" : pageData.frontmatter.description || "Zezombye's Blog";
-        const pageImage = pageData.frontmatter.image ? "https://zez.dev/"+pageData.frontmatter.image.replace(".svg", ".jpg") : "https://zez.dev/pfp.png";
+        const pageImage = pageData.frontmatter.image ? "https://zez.dev/"+pageData.frontmatter.image.replace(".svg", ".jpg") : "https://zez.dev/pfp_200x200.png";
 
         pageData.frontmatter.head ??= [];
 
@@ -197,7 +197,7 @@ export default defineConfig({
                 {
                     find: /^.*\/VPDocAside.vue$/,
                     replacement: fileURLToPath(new URL('../components/CustomVPDocAside.vue', import.meta.url))
-                }
+                },
             ]
         }
     },
