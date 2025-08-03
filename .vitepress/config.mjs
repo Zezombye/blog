@@ -191,16 +191,6 @@ export default defineConfig({
             }
         }
     },
-    vite: {
-        resolve: {
-            alias: [
-                {
-                    find: /^.*\/VPDocAside.vue$/,
-                    replacement: fileURLToPath(new URL('../components/CustomVPDocAside.vue', import.meta.url))
-                },
-            ]
-        }
-    },
     sitemap: {
         hostname: "https://zez.dev",
     }

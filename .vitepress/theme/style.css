@@ -832,3 +832,7 @@ button.copy[title="Copy Code"] {
         }
     }
 }
+
+.VPHomeFeatures .item:has(> .VPFeature[href="/404"]) {
+    display: none;
+}

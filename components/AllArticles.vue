@@ -1,7 +1,11 @@
 <template>
     <div class="all-articles">
         <h2 v-if="page.frontmatter.layout !== 'home'">Other articles</h2>
-        <VPFeatures class="VPHomeFeatures" :features="featuredArticles.filter(article => article.link !== `/${currentPagePath}`)"/>
+        <VPFeatures class="VPHomeFeatures" :features="filteredFeaturedArticles2"/>
+        <div class="other-articles-features-wrapper">
+            <VPFeatures class="VPHomeFeatures features-row" :features="filteredFeaturedArticles.slice(0, 3)"/>
+            <VPFeatures class="VPHomeFeatures features-row" :features="filteredFeaturedArticles.slice(3)"/>
+        </div>
         <div class="other-articles-container-wrapper">
             <div class="other-articles-container">
                 <ArticleGroup title="Other projects" :articles="otherProjectsArticles.filter(article => article.url !== currentPagePath)"/>
@@ -15,12 +19,12 @@
 
 import { VPFeatures } from 'vitepress/theme';
 import { useData } from 'vitepress';
+import { computed } from 'vue';
 
-const data = useData();
+const { page } = useData();
 
-const page = data.page.value;
-let currentPagePath = null;//page.relativePath.replace(".md", "");
-console.log("currentPagePath:", currentPagePath);
+const currentPagePath = computed(() => page.value.relativePath.replace(".md", ""));
+console.log("currentPagePath:", currentPagePath.value);
 console.log(page);
 
 
@@ -70,6 +74,29 @@ let featuredArticles = [
     }
 ];
 
+//If width >= 1280px, articles must be shown 3 per row, but the rows must be kept (first row is overwatch, second row is self-improvement).
+//Use a dummy article to force the grid to be 3 per row and have all articles the same size, while potentially having the first row have 2 articles and the second row have 3 articles.
+const filteredFeaturedArticles = computed(() => featuredArticles.map(article => {
+    console.log(article, `/${currentPagePath.value}`);
+    if (article.link === `/${currentPagePath.value}`) {
+        return {
+            ...article,
+            link: "/404",
+        };
+    }
+    return article;
+}));
+
+//If width < 1280px, the normal VPHomeFeatures is shown, but if there are only 5 articles, the grid gets all ugly (4 per row instead of 2).
+//Add a dummy article at the end to make it item.grid-6.
+const filteredFeaturedArticles2 = computed(() => {
+    let result = featuredArticles.filter(article => article.link !== `/${currentPagePath.value}`);
+    if (result.length < 6) {
+        result.push({link: "/404", title: "Placeholder", details: "You shouldn't see this."});
+    }
+    return result;
+})
+
 let otherProjectsArticles = [
     {url: "chariotwars", title: "Chariot Wars"},
     {url: "sokoban", title: "Sokoban"},
@@ -84,6 +111,25 @@ let otherEssaysArticles = [
 </script>
 
 <style scoped>
+
+.other-articles-features-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.VPHomeFeatures.features-row {
+    display: none;
+}
+@media (min-width: 1280px) {
+    .VPHomeFeatures {
+        display: none;
+    }
+    .VPHomeFeatures.features-row {
+        display: unset;
+    }
+}
 
 h2 {
     @media (min-width: 960px) {
