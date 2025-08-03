@@ -25,7 +25,7 @@ const { page } = useData();
 
 const currentPagePath = computed(() => page.value.relativePath.replace(".md", ""));
 console.log("currentPagePath:", currentPagePath.value);
-console.log(page);
+//console.log(page);
 
 
 let featuredArticles = [
@@ -77,7 +77,7 @@ let featuredArticles = [
 //If width >= 1280px, articles must be shown 3 per row, but the rows must be kept (first row is overwatch, second row is self-improvement).
 //Use a dummy article to force the grid to be 3 per row and have all articles the same size, while potentially having the first row have 2 articles and the second row have 3 articles.
 const filteredFeaturedArticles = computed(() => featuredArticles.map(article => {
-    console.log(article, `/${currentPagePath.value}`);
+    //console.log(article, `/${currentPagePath.value}`);
     if (article.link === `/${currentPagePath.value}`) {
         return {
             ...article,

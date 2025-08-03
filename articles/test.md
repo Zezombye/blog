@@ -1,5 +1,6 @@
 ---
 defaultHighlightLang: js
+aside: false
 ---
 
 <script setup>

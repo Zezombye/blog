@@ -16,6 +16,12 @@ const currentPagePath = computed(() => page.value.relativePath.replace(".md", ""
 
 const currentArticle = computed(() => articles.find(article => article.url === "/"+currentPagePath.value));
 //console.log(currentArticle.value.excerpt)
-const currentArticleTitleAnchorUrl = computed(() => currentArticle.value.excerpt.match(/<a class="header-anchor" href="([^"]+)"/)[1]);
+const currentArticleTitleAnchorUrl = computed(() => {
+    //console.log("currentArticle.value", currentArticle.value);
+    if (!currentArticle.value.excerpt.match(/<a class="header-anchor" href="([^"]+)"/)) {
+        throw new Error("No anchor found in current article excerpt: current article is " + currentArticle.value.url);
+    }
+    return currentArticle.value.excerpt.match(/<a class="header-anchor" href="([^"]+)"/)[1]
+});
 
 </script>
