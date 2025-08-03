@@ -830,9 +830,28 @@ button.copy[title="Copy Code"] {
         .VPFeatures, .other-articles-container-wrapper {
             padding: 0 !important;
         }
+        .other-articles-container-wrapper {
+            max-width: 1152px;
+        }
     }
 }
 
 .VPHomeFeatures .item:has(> .VPFeature[href="/404"]) {
     display: none;
+}
+
+button.btn {
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 5px;
+    background-color: var(--vp-code-bg);
+    transition: border-color .25s;
+    padding: 0px 8px;
+
+    &:hover {
+        border-color: var(--vp-c-brand-1);
+    }
+}
+
+h1, h2, h3, h4 {
+    scroll-margin-top: calc(var(--vp-nav-height) + 20px);
 }

@@ -60,7 +60,7 @@ This, really, is what the problem of finding love boils down to. The limiting fa
 
 This leads to the following, very obvious realizations:
 
-#### 1. **Criteria for a romantic partner must be optimized to last 60+ years.**
+#### 1. Criteria for a romantic partner must be optimized to last 60+ years.
 
 This means optimizing as little as possible for appearance. Many people hold criteria like height, money, or beauty as dealbreakers. Although physical attraction is required (else we would all be bisexual), you need to make it matter at little as possible. In the end, we all grow old and wrinkle, and there is an effect you probably experienced yourself where, when you are attracted to someone, their attractiveness goes up tenfold and you only have eyes for them.
 
@@ -76,7 +76,7 @@ Additional criteria to optimize for are:
 
 Just like, when choosing your co-founder for your startup, physical beauty won’t be an issue. It will be whether they are mature enough to handle running a business.
 
-#### 2. **When trying out a potential romantic partner, it must be determined as soon as possible whether that partner is suitable.**
+#### 2. When trying out a potential romantic partner, it must be determined as soon as possible whether that partner is suitable.
 
 This means going through the [fundamentals](/fundamentals) as soon as possible.
 
