@@ -138,12 +138,11 @@ h2 {
     @media (min-width: 1280px) {
         max-width: 1104px;
     }
-    border-top: 1px solid var(--vp-c-divider); 
-    padding-top: 44px; 
-    margin-top: 44px;
-    @media (max-width: 959px) {
-        margin-top: 12px;
+    @media (min-width: 960px) {
+        border-top: 1px solid var(--vp-c-divider); 
+        margin-top: 44px;
     }
+    padding-top: 44px; 
     width: 100%;
     text-align: center;
     font-size: 32px;

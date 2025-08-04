@@ -472,6 +472,7 @@ button.copy[title="Copy Code"] {
 
     .tagline {
         text-wrap: balance;
+        /* color: var(--vp-c-text-1); */
     }
 }
 
@@ -576,15 +577,19 @@ button.copy[title="Copy Code"] {
             }
         }
     }
+}
 
-    .VPSocialLinks {
-        display: flex !important;
-        align-items: center;
-    }
 
-    .VPFlyout.VPNavBarExtra {
-        display: none !important;
+.VPSocialLinks {
+    display: flex !important;
+    align-items: center;
+    @media (max-width: 767px) {
+        margin-right: 8px !important;
     }
+}
+
+.VPFlyout.VPNavBarExtra, .VPNavBarHamburger {
+    display: none !important;
 }
 
 @media(max-width: 639px) {
@@ -855,3 +860,60 @@ button.btn {
 h1, h2, h3, h4 {
     scroll-margin-top: calc(var(--vp-nav-height) + 20px);
 }
+
+/* Don't make the navbar scroll on the homepage */
+@media (min-width: 960px) {
+
+    .VPNav:has( > .VPNavBar.home) {
+        position: absolute;
+    }
+    .VPNavBar.home {
+        background-color: transparent !important;
+        .divider, .divider-line {
+            background-color: transparent !important;
+        }
+    }
+}
+
+
+#VPContent, footer.VPFooter {
+    backdrop-filter: contrast(90%) brightness(50%);
+    background-color: #161618b0;
+    border: none !important;
+}
+@media (max-width: 959px) {
+    .VPNavBar {
+        backdrop-filter: contrast(90%) brightness(50%);
+        background-color: #161618b0;
+    }
+    #VPContent:not(.is-home) .VPDoc {
+        padding-left: 0;
+        padding-right: 0;
+        > .container, > .all-articles {
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+    }
+}
+body {
+    background-image: url("/wallpaper.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/* Turns the page itself transparent. Disabled as it distracts too much from the content */
+/*.VPHomeFeatures .VPFeature, .article-group {
+    background-color: #202127C0 !important;
+    &::before {
+        -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+        mask-composite: exclude;
+        border: 2px solid transparent;
+        background: linear-gradient(to top left, var(--purple) calc(50% - 10px), var(--blue) calc(50% + 10px)) border-box;
+    }
+}
+
+.VPDoc > div.container {
+    background-color: #1b1b1fB0 !important;
+}*/
