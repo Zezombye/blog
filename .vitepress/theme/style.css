@@ -877,14 +877,15 @@ h1, h2, h3, h4 {
 
 
 #VPContent, footer.VPFooter {
-    backdrop-filter: contrast(90%) brightness(50%);
-    background-color: #161618b0;
+    /* backdrop-filter: contrast(100%) brightness(100%); */
+    background-color: #16161890;
     border: none !important;
 }
 @media (max-width: 959px) {
     .VPNavBar {
-        backdrop-filter: contrast(90%) brightness(50%);
-        background-color: #161618b0;
+        /* backdrop-filter: contrast(90%) brightness(50%);
+        background-color: #161618b0; */
+        background-color: #16161890;
     }
     #VPContent:not(.is-home) .VPDoc {
         padding-left: 0;
