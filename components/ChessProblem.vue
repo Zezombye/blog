@@ -118,6 +118,10 @@ const props = defineProps({
         type: Boolean,
         default: true,
     },
+    moveDelay: {
+        type: Number,
+        default: 500,
+    },
 });
 
 const { fen, orientation, arrows } = toRefs(props);
@@ -209,7 +213,7 @@ async function onMove(move) {
             }
             boardApi.setShapes(shapes);
             nbMovesMade.value++;
-            await new Promise(resolve => setTimeout(resolve, 500));
+            await new Promise(resolve => setTimeout(resolve, props.moveDelay));
             if (nbMovesMade.value < moves.length) {
                 boardApi.setShapes([]);
                 boardApi.move(moves[nbMovesMade.value]);

@@ -39,7 +39,7 @@ The opponent continues his attack with a check. Opportunity lost. Again. You bla
 
 Mate in 1.
 
-<ChessProblem fen="1r3rk1/8/2pN1pQ1/p1npp1p1/b7/q1P1P1R1/3N1P1P/1R2K3 b - - 0 20" moves="Kh8 Rh3" orientation="black" :displaySuccessIcon="false"/>
+<ChessProblem fen="1r3rk1/8/2pN1pQ1/p1npp1p1/b7/q1P1P1R1/3N1P1P/1R2K3 b - - 0 20" moves="Kh8 Rh3" orientation="black" :displaySuccessIcon="false" :moveDelay="250"/>
 
 Checkmate.
 

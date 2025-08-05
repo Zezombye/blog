@@ -173,6 +173,8 @@ export default defineConfig({
         const pageDescription = isHomePage ? "Programming, self-improvement, and various stuff" : pageData.frontmatter.description || "Zezombye's Blog";
         const pageImage = pageData.frontmatter.image ? "https://zez.dev/"+pageData.frontmatter.image.replace(".svg", ".jpg") : "https://zez.dev/pfp_200x200.png";
 
+        const relativePath = isHomePage ? "" : pageData.relativePath.replace(/\.md$/, "");
+
         pageData.frontmatter.head ??= [];
 
         pageData.frontmatter.head.push(
@@ -184,6 +186,7 @@ export default defineConfig({
             ["meta", { name: "twitter:card", content: pageData.frontmatter.image ? "summary_large_image" : "summary"}],
             ["meta", { property: "og:image", content: pageImage }],
             ["meta", { name: "twitter:image", content: pageImage }],
+            ["link", { rel: "canonical", href: `https://zez.dev/${relativePath}` }],
         );
         if (isHomePage) {
             return {
