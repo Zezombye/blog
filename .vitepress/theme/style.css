@@ -911,7 +911,8 @@ h1, h2, h3, h4 {
         }
     }
 }
-body::before {
+/* https://stackoverflow.com/a/55360370/4851350 */
+#app::before {
     background-image: url("/wallpaper.jpg");
     background-size: cover;
     background-position: center;
@@ -924,7 +925,7 @@ body::before {
     height: 100vh;
     content: "";
 }
-#app {
+#app > .Layout {
     margin-top: -100vh;
     background-color: #16161890 !important;
     backdrop-filter: contrast(100%) brightness(70%);
