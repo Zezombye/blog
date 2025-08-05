@@ -878,14 +878,15 @@ h1, h2, h3, h4 {
 
 #VPContent, footer.VPFooter {
     /* backdrop-filter: contrast(100%) brightness(100%); */
-    background-color: #16161890;
+    /*background-color: #16161890;*/
+    background-color: transparent !important;
     border: none !important;
 }
 @media (max-width: 959px) {
     .VPNavBar {
         /* backdrop-filter: contrast(90%) brightness(50%);
         background-color: #161618b0; */
-        background-color: #16161890;
+        background-color: transparent;
     }
     #VPContent:not(.is-home) .VPDoc {
         padding-left: 0;
@@ -896,12 +897,20 @@ h1, h2, h3, h4 {
         }
     }
 }
-body {
+html {
     background-image: url("/wallpaper.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    z-index: -10;
+    position: relative;
+}
+body {
+    background-color: #16161890 !important;
+    backdrop-filter: contrast(100%) brightness(70%);
+    z-index: -9;
+    position: relative;
 }
 
 /* Turns the page itself transparent. Disabled as it distracts too much from the content */
