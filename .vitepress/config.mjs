@@ -6,8 +6,6 @@ import highlightLanguage from './highlight-language.json';
 import { typographicReplacerPlugin } from './markdown-it-typographic-replacer.js';
 import { markdownItFancyListPlugin } from './markdown-it-fancy-lists.ts';
 import { fixPunctuationWrapPlugin } from './markdown-it-fix-punctuation-wrap.js';
-import * as fs from 'node:fs';
-import { fileURLToPath } from 'node:url';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -109,7 +107,6 @@ export default defineConfig({
             });
             md.use(markdownItFancyListPlugin);
             md.use(inlineHighlightPlugin);
-            //md.use(blockHighlightPlugin);
             md.use(typographicReplacerPlugin);
             md.use(fixPunctuationWrapPlugin);
             md.set({ breaks: true });

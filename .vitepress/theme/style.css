@@ -43,6 +43,17 @@
  *   in custom container, badges, etc.
  * -------------------------------------------------------------------------- */
 
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    src: url('/inter-roman-latin-modified.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Inter';
+    font-style: italic;
+    src: url('/inter-italic-latin-modified.woff2') format('woff2');
+}
+
 @keyframes spin {
     from {
         transform: rotate(0deg);
@@ -967,4 +978,17 @@ h1, h2, h3, h4 {
 
 .VPDoc p:has(> img[inline-block]) {
     text-align: center;
+}
+
+.typographic-fix-apos {
+    color: transparent;
+    position: relative;
+    &::before {
+        content: "’";
+        color: var(--vp-c-text-1);;
+        visibility: visible;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
 }

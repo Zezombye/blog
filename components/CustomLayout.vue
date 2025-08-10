@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import DefaultTheme from 'vitepress/theme'
+import DefaultTheme from 'vitepress/theme-without-fonts'
 import AllArticles from './AllArticles.vue';
 import AsideTitle from './AsideTitle.vue';
 const Layout = DefaultTheme.Layout;

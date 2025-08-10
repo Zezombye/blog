@@ -17,7 +17,7 @@
 
 <script setup>
 
-import { VPFeatures } from 'vitepress/theme';
+import { VPFeatures } from 'vitepress/theme-without-fonts';
 import { useData } from 'vitepress';
 import { computed } from 'vue';
 

@@ -1,6 +1,6 @@
 // https://vitepress.dev/guide/custom-theme
 import { h } from 'vue'
-import DefaultTheme from 'vitepress/theme'
+import DefaultTheme from 'vitepress/theme-without-fonts'
 import Footnote from '../../components/Footnote.vue'
 import CustomLayout from '../../components/CustomLayout.vue'
 import './style.css'

@@ -8,7 +8,27 @@ import ChessProblem from "../components/ChessProblem.vue"
 
 </script>
 
-Punctuation after math equations, such as $R = 0 + 1 + 2 + 3 + 4 + 5 + 6$, should not have line breaks.
+**Typographic "garbage":** "normal quotes", “quotes”, prime′, 'normal apos', don't, ‘apos’, don’t, dash normal - u+2012 ‒ u+2013 – u+2014 — u+2015 ―, … ellipsis ... normal
+
+don't |
+don’t |
+’A’ |
+'A' |
+‘A’ |
+“AZER” |
+"AZER" |
+”AZER” |
+
+- ***“Aquotes”, "Aquotes"***, prime′, ‘apos’, dash u+2012 ‒ u+2013 – u+2014 — u+2015 ―, … ellipsis
+
+`“quotes”, prime′, ‘apos’, dash u+2012 ‒ u+2013 – u+2014 — u+2015 ―, … ellipsis`
+
+```
+“quotes”, prime′, ‘apos’, dash u+2012 ‒ u+2013 – u+2014 — u+2015 ―, … ellipsis
+```
+
+
+Punctuation after math equations, such as $R = 0 + 1 + 2 + 3 + 4 + 5 + 6$, shouldn't have line breaks.
 
 The bits marked with `§orange§x`{hl} are then retrieved and concatenated together to form the final number. For example:
 - The “ඞ” character is the number `0x0D9E`, which in binary is "`1101 1001 1110`{txt}".
@@ -58,16 +78,6 @@ break
 Url: https://zez.dev/overpy(owo)reza, (https://zez.dev/overpy(owo)reza)
 
 Emoji: :) :100: soon:tm: 3 x 4
-
-Typographic garbage: “quotes”, prime′, ‘apos’, dash u+2012 ‒ u+2013 – u+2014 — u+2015 ―, … ellipsis
-
-- ***“quotes”***, prime′, ‘apos’, dash u+2012 ‒ u+2013 – u+2014 — u+2015 ―, … ellipsis
-
-`“quotes”, prime′, ‘apos’, dash u+2012 ‒ u+2013 – u+2014 — u+2015 ―, … ellipsis`
-
-```
-“quotes”, prime′, ‘apos’, dash u+2012 ‒ u+2013 – u+2014 — u+2015 ―, … ellipsis
-```
 
 Inline code: `A = B*C+D`{scala} became `Set Global Variable(A, Add(Multiply(Global Variable(B), Global Variable(C)), Global Variable(D)))`{scala}.
 
