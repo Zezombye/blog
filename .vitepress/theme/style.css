@@ -98,6 +98,8 @@
     --vp-code-line-height: 1.5;
     --vp-code-color: #E1E4E8;
     --vp-c-divider: #595962;
+
+    --vp-c-text-1_5: #a8a8b5;
 }
 
 /**
@@ -287,7 +289,7 @@ body, .vp-doc p {
         margin-bottom: 44px;
     }
 
-    strong, b {
+    strong, b, strong a {
         font-weight: 800;
     }
 
@@ -296,6 +298,10 @@ body, .vp-doc p {
     }
     ol[type="a_upper"] {
         list-style-type: upper-alpha;
+    }
+
+    blockquote {
+        color: var(--vp-c-text-1_5);
     }
 
 }
@@ -691,8 +697,8 @@ button.copy[title="Copy Code"] {
     --c1: #74747468;
 }
 .VPSocialLinks .VPSocialLink:nth-child(2):hover {
-    --c0: #4abaff68;
-    --c1: #4989ff68;
+    --c0: #4abaff70;
+    --c1: #4989ff70;
 }
 .VPSocialLinks .VPSocialLink:nth-child(3):hover {
     --c0: #ff2c5370;
@@ -921,10 +927,12 @@ h1, h2, h3, h4 {
     top: 0;
     width: 100%;
     height: 100vh;
+    height: 100lvh;
     content: "";
 }
 #app > .Layout {
     margin-top: -100vh;
+    margin-top: -100lvh;
     background-color: #16161890 !important;
     backdrop-filter: contrast(100%) brightness(70%);
 }
@@ -943,3 +951,20 @@ h1, h2, h3, h4 {
 .VPDoc > div.container {
     background-color: #1b1b1fB0 !important;
 }*/
+
+/* Images at the top of a H2 section */
+@media (min-width: 640px) {
+    .VPDoc figure:has(> img[side-h2-image]) {
+        float: right;
+        margin-top: calc(var(--vp-paragraph-gap) - 16px);
+        margin-left: 32px;
+    }
+}
+
+.VPDoc img[inline-block] {
+    display: inline-block;
+}
+
+.VPDoc p:has(> img[inline-block]) {
+    text-align: center;
+}

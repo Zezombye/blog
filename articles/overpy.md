@@ -169,7 +169,7 @@ By using simple recursion, we can turn that into a tree:
 1. Find the operator with the *lowest* priority. Here, it is the `=` operator. This is where tokenizing becomes useful: it is very easy to distinguish the `=` operator from the `==` operator, or from a `=` character in a string/comment.
 2. Find the pseudo-function for that operator. Here, it is `__assignTo__()`.
 3. Split the tokens around that operator. We get `eventPlayer.power` and `globalPower*1.5+30`.
-4. Repeat from step 1 with each side of the split (separately). For example, we will repeat the algorithm with `globalPower*1.5+30`, where the lowest priority operator is "+".
+4. Repeat from step 1 with each side of the split (separately). For example, we will repeat the algorithm with `globalPower*1.5+30`, where the lowest priority operator is `+`.
 5. Add the results from each side of the split as arguments for the pseudo-function, and return the pseudo-function.
 
 The final result is:

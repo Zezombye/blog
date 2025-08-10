@@ -8,8 +8,8 @@
         </div>
         <div class="other-articles-container-wrapper">
             <div class="other-articles-container">
-                <ArticleGroup title="Other projects" :articles="otherProjectsArticles.filter(article => article.url !== currentPagePath)"/>
                 <ArticleGroup title="Other essays" :articles="otherEssaysArticles.filter(article => article.url !== currentPagePath)"/>
+                <ArticleGroup title="Misc stuff" :articles="otherProjectsArticles.filter(article => article.url !== currentPagePath)"/>
             </div>
         </div>
     </div>
@@ -97,15 +97,16 @@ const filteredFeaturedArticles2 = computed(() => {
     return result;
 })
 
-let otherProjectsArticles = [
-    {url: "chariotwars", title: "Chariot Wars"},
-    {url: "sokoban", title: "Sokoban"},
-    {url: "setupscripts", title: "Linux/Windows Setup Scripts"}
-];
 
 let otherEssaysArticles = [
     {url: "noproof", title: "There is no known proof for God"},
     {url: "pascalswager", title: "Refuting Pascal's Wager"}
+];
+
+let otherProjectsArticles = [
+    {url: "projects", title: "Projects I've made"},
+    {url: "books", title: "Books I recommend"},
+    {url: "setupscripts", title: "Linux/Windows Setup Scripts"}
 ];
 
 </script>

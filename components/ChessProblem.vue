@@ -2,7 +2,7 @@
     <div class="chessproblem">
         <div class="wrapper">
             <div class="disable-overlay" v-if="isBoardDisabled"></div>
-            <TheChessboard :board-config="boardConfig" @board-created="onBoardCreated" @move="onMove" @checkmate="onCheckmate" />
+            <TheChessboard :board-config="boardConfig" @board-created="onBoardCreated" @move="onMove" />
         </div>
         <figcaption v-if="caption || captions.length > 0">
             <template v-if="captions.length > 0"><span v-if="nbMovesMade === moves.length" class="success-icon">✓ </span>{{ captions[nbMovesMade === moves.length ? Math.ceil(moves.length/2) : Math.max(0, Math.floor(nbMovesMade/2))] }}</template>

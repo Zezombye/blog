@@ -8,9 +8,12 @@ import ChessProblem from "../components/ChessProblem.vue"
 
 </script>
 
-The bits marked with `§blue§x`{hl} are then retrieved and concatenated together to form the final number. For example:
-- The “ඞ” character is the number `0x0D9E`, which in binary is `1101 1001 1110`{txt}
-- The UTF-8 binary representation of it is `1110§blue§0000 §reset§10§blue§110110 §reset§10§blue§011110`{hl}
+Punctuation after math equations, such as $R = 0 + 1 + 2 + 3 + 4 + 5 + 6$, should not have line breaks.
+
+The bits marked with `§orange§x`{hl} are then retrieved and concatenated together to form the final number. For example:
+- The “ඞ” character is the number `0x0D9E`, which in binary is "`1101 1001 1110`{txt}".
+- The UTF-8 binary representation of it is `1110§orange§0000 §reset§10§orange§110110 §reset§10§orange§011110`{hl}.
+- The UTF-8 binary representation of it is `11100116515698468465165316359861698469846546516891681011110`{hl}.
 - This yields `0000 1101 1001 1110`{txt} which is indeed the number in Unicode
 - `some §red§red§reset§ text`{hl}
 - `§blue§blue §reset§vs §lightblue§light blue`{hl}
@@ -37,6 +40,7 @@ else:
 # some very long commnet ijofdmsq ijofq iojqfsio jdmijfo qisdmjo fimoqsjdf mioqsjfimo qsiodfmj omsiqdjf miosqsoidj fmq
 No indent {
     #some very long comment fdsqpoijfdsq iojpdsqf fpoidjsdfqpoi jsqpiodjf ipojdifpojq piodfpoi jdsqpidofjs fpdisoqjdsfqpio
+    result = add(a,b)*3 #will actually yielddsfqfqdsfdsqfdqsqfdsfdsqfqdsfdqs a+b*3 which is a+(b*3), not (a+b)*3
 
     /* multiline comments should also properly get wrapped. dfsjmqosqdfifdsqmfosdqdfismoqdfsq
        fgdmgjfdsgsidfjgfdmjiogdf oimjsdmfgoijfdsmio sgiomjds oijfsdmoi jsdmoijgmsdfggfdsgfsdgfsdgfdgsdfgfdoijmgifoj */
@@ -47,8 +51,6 @@ No indent {
     }
 }
 ```
-
-<ChessProblem fen="3r1r2/p4nkp/2p3p1/2n1p3/2B1P3/P1N5/6PP/3R1RK1 w - - 2 25" moves="Rxf7 Rxf7 Rxd8" caption="White to win in %moves%"/>
 
 Normal  line
 break

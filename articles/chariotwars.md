@@ -13,7 +13,7 @@ import chariotwars from "../casio-emulator/chariotwars.js"
 
 <CalcEmulator :program="chariotwars"/>
 
-Game [I made in 2016](https://www.planet-casio.com/Fr/programmes/programme3150-1-chariotwars-zezombye-jeux-actionsport.html) for a game jam with the Ancient Rome theme. Unfortunately, it couldn't compete with the masterpiece that was [Arena](https://www.planet-casio.com/Fr/programmes/programme3152-1-arena-lephenixnoir-jeux-add-ins.html) that straight up used a custom game engine with grayscale.
+Game [I made in 2016](https://www-planet--casio-com.translate.goog/Fr/programmes/programme3150-1-chariotwars-zezombye-jeux-actionsport.html?_x_tr_sl=fr&_x_tr_tl=en&_x_tr_hl=fr&_x_tr_pto=wapp) for a game jam with the Ancient Rome theme. Unfortunately, it couldn't compete with the masterpiece that was [Arena](https://www-planet--casio-com.translate.goog/Fr/programmes/programme3152-1-arena-lephenixnoir-jeux-add-ins.html?_x_tr_sl=fr&_x_tr_tl=en&_x_tr_hl=fr&_x_tr_pto=wapp) which straight up used a custom game engine with grayscale.
 
 The main mechanic is button spamming `[EXE]` (Enter/Shift on PC) to push opponents.
 **The gauge in the bottom right must be in the middle for the push to work.**

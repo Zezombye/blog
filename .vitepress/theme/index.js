@@ -6,6 +6,7 @@ import CustomLayout from '../../components/CustomLayout.vue'
 import './style.css'
 import ArticleGroup from '../../components/ArticleGroup.vue'
 import AllArticles from '../../components/AllArticles.vue'
+import YoutubeVideo from '../../components/YoutubeVideo.vue'
 
 /** @type {import('vitepress').Theme} */
 export default {
@@ -15,5 +16,6 @@ export default {
     app.component('Footnote', Footnote)
     app.component('ArticleGroup', ArticleGroup)
     app.component("AllArticles", AllArticles)
+    app.component("YoutubeVideo", YoutubeVideo)
   }
 }

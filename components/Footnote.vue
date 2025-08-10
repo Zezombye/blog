@@ -9,7 +9,7 @@
 
 <script>
 
-import { fixTypography } from "../.vitepress/typographicReplacer.js";
+import { fixTypography } from "../.vitepress/markdown-it-typographic-replacer.js";
 
 export default {
     name: 'Footnote',
