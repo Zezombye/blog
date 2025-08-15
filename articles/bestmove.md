@@ -9,7 +9,7 @@ import ChessProblem from "../components/ChessProblem.vue"
 
 ![](/bestmove-hero.png)
 
-Imagine you have a supermegagigabrain. 400 IQ. 6000 elo. Stockfish ain’t got nothing on you. Let alone Magnus Carlsen, the world chess champion; he’s barely 3000 elo.
+Imagine you have a supermegagigabrain. 400 IQ. 6000 elo. Stockfish ain’t got nothing on you. Let alone Magnus Carlsen, the chess world champion; he’s barely 3000 elo.
 
 You decide to take on the world title. After a dozen moves, you arrive at this position.
 

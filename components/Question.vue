@@ -4,7 +4,7 @@
 
 <script setup>
 
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 
 const props = defineProps({
     id: {
@@ -19,11 +19,13 @@ const props = defineProps({
 
 const isChecked = ref(false);
 
-//Sync with local storage
-const storedValue = localStorage.getItem("fundamentals-q-"+props.id);
-if (storedValue !== null) {
-    isChecked.value = storedValue === "true";
-}
+onMounted(() => {
+    //Initialize the checkbox state from local storage
+    const storedValue = localStorage.getItem("fundamentals-q-"+props.id);
+    if (storedValue !== null) {
+        isChecked.value = storedValue === "true";
+    }
+});
 watch(isChecked, (newValue) => {
     localStorage.setItem("fundamentals-q-"+props.id, newValue);
 });

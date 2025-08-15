@@ -10,9 +10,10 @@ export default async (request: Request, context: Context) => {
         "favicon.png",
         "favicon.png",
         "favicon.png",
+        "favicon.png",
         "favicon_180.png",
-        "favicon_270.png",
-        "favicon_90.png",
+        //"favicon_270.png",
+        //"favicon_90.png",
     ]
     return Response.redirect("/"+faviconFiles[Math.floor(Math.random() * faviconFiles.length)], 302);
 };
