@@ -152,7 +152,7 @@ Published: ${this.formatDate(video.publishedAt)}`
 .table-body {
     max-height: 300px;
     min-height: 300px;
-    overflow-y: auto;
+    overflow-y: scroll;
 }
 
 .table-row {
