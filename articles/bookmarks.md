@@ -4,7 +4,7 @@ aside: false
 
 # Useful websites
 
-Time: 2025-08-15 15:41:39
+Time: 2025-08-15 20:30:43
 
 - **Blog**
   - [MathJax basic tutorial and quick reference](https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference) [math.meta.stackexchange.com]
