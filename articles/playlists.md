@@ -1,4 +1,3 @@
-
 <script setup>
 import YtPlaylist from '../components/YtPlaylist.vue'
 </script>
@@ -1425,6 +1424,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;Q1I7ZdCB0zc&quot;,
         &quot;publishedAt&quot;: &quot;2024-11-17T04:24:19Z&quot;,
         &quot;songHash&quot;: &quot;Derdian - Silent Hope&quot;
+    },
+    {
+        &quot;title&quot;: &quot;War Of The Gods&quot;,
+        &quot;channelName&quot;: &quot;Derdian&quot;,
+        &quot;channelId&quot;: &quot;UCmdrjl3147JYoJHQVGfP7Ew&quot;,
+        &quot;id&quot;: &quot;fuvIMO0gXv0&quot;,
+        &quot;publishedAt&quot;: &quot;2025-08-15T20:35:04Z&quot;,
+        &quot;songHash&quot;: &quot;Derdian - War Of The Gods&quot;
     },
     {
         &quot;title&quot;: &quot;Are You Ready&quot;,
@@ -3091,6 +3098,22 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Helloween - Windmill&quot;
     },
     {
+        &quot;title&quot;: &quot;holyhell-apocalypse&quot;,
+        &quot;channelName&quot;: &quot;wolfkai26&quot;,
+        &quot;channelId&quot;: &quot;UCbx7avQ9Vi45_aYQV7-Ao9A&quot;,
+        &quot;id&quot;: &quot;xfxue_zMb7A&quot;,
+        &quot;publishedAt&quot;: &quot;2025-04-21T13:59:10Z&quot;,
+        &quot;songHash&quot;: &quot;Holyhell - Apocalypse&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Holyhell Revelations (lyrics)&quot;,
+        &quot;channelName&quot;: &quot;Евгений Горбань&quot;,
+        &quot;channelId&quot;: &quot;UCKVCVPGOiLJww4cuw-oUgfw&quot;,
+        &quot;id&quot;: &quot;ywtt_eaZQeg&quot;,
+        &quot;publishedAt&quot;: &quot;2025-04-16T06:25:16Z&quot;,
+        &quot;songHash&quot;: &quot;Holyhell - Revelations&quot;
+    },
+    {
         &quot;title&quot;: &quot;HolyHell - \&quot;The Fall\&quot; (lyrics)&quot;,
         &quot;channelName&quot;: &quot;Sav2TSO&quot;,
         &quot;channelId&quot;: &quot;UCORIFggAjoOGrkt5b1v6aLA&quot;,
@@ -3099,28 +3122,12 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Holyhell - The Fall&quot;
     },
     {
-        &quot;title&quot;: &quot;Holyhell Revelations (lyrics)&quot;,
-        &quot;channelName&quot;: &quot;Евгений Горбань&quot;,
-        &quot;channelId&quot;: &quot;UCKVCVPGOiLJww4cuw-oUgfw&quot;,
-        &quot;id&quot;: &quot;ywtt_eaZQeg&quot;,
-        &quot;publishedAt&quot;: &quot;2025-04-16T06:25:16Z&quot;,
-        &quot;songHash&quot;: &quot;Holyhell Revelations&quot;
-    },
-    {
         &quot;title&quot;: &quot;Holyhell- Wings of Light&quot;,
         &quot;channelName&quot;: &quot;32death32&quot;,
         &quot;channelId&quot;: &quot;UCuH6GtKehEHaheDHApjI6iA&quot;,
         &quot;id&quot;: &quot;SrmSTJYWiBs&quot;,
         &quot;publishedAt&quot;: &quot;2025-04-23T11:28:08Z&quot;,
-        &quot;songHash&quot;: &quot;Holyhell- Wings Of Light&quot;
-    },
-    {
-        &quot;title&quot;: &quot;holyhell-apocalypse&quot;,
-        &quot;channelName&quot;: &quot;wolfkai26&quot;,
-        &quot;channelId&quot;: &quot;UCbx7avQ9Vi45_aYQV7-Ao9A&quot;,
-        &quot;id&quot;: &quot;xfxue_zMb7A&quot;,
-        &quot;publishedAt&quot;: &quot;2025-04-21T13:59:10Z&quot;,
-        &quot;songHash&quot;: &quot;Holyhell-Apocalypse&quot;
+        &quot;songHash&quot;: &quot;Holyhell - Wings Of Light&quot;
     },
     {
         &quot;title&quot;: &quot;The Reason&quot;,
@@ -6568,7 +6575,7 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;channelId&quot;: &quot;UC6Z4K_QenJ10F_BpgdzkVWg&quot;,
         &quot;id&quot;: &quot;p4Z96WwZrL0&quot;,
         &quot;publishedAt&quot;: &quot;2025-02-12T13:19:44Z&quot;,
-        &quot;songHash&quot;: &quot;Simon Viklund Break The Rules&quot;
+        &quot;songHash&quot;: &quot;Simon Viklund - Break The Rules&quot;
     },
     {
         &quot;title&quot;: &quot;Anywhere Else but Here&quot;,
@@ -8643,14 +8650,6 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;U2 - With Or Without You&quot;
     },
     {
-        &quot;title&quot;: &quot;Utopia (feat. Chris Jones)&quot;,
-        &quot;channelName&quot;: &quot;Evanescence &amp; Within Temptation Channel&quot;,
-        &quot;channelId&quot;: &quot;UC3a0lzV590EuG3MHWnmGQLw&quot;,
-        &quot;id&quot;: &quot;AtlMrsbyVBQ&quot;,
-        &quot;publishedAt&quot;: &quot;2024-11-17T06:03:42Z&quot;,
-        &quot;songHash&quot;: &quot;Utopia&quot;
-    },
-    {
         &quot;title&quot;: &quot;Ain&apos;t Talkin&apos; &apos;Bout Love (2015 Remaster)&quot;,
         &quot;channelName&quot;: &quot;Van Halen - Topic&quot;,
         &quot;channelId&quot;: &quot;UCPi7wU0ppI6ad7EEpHs7lHg&quot;,
@@ -8721,14 +8720,6 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;UV8TkLJlFYA&quot;,
         &quot;publishedAt&quot;: &quot;2024-11-17T09:21:58Z&quot;,
         &quot;songHash&quot;: &quot;Vivaldi - Four Seasons&quot;
-    },
-    {
-        &quot;title&quot;: &quot;War Of The Gods&quot;,
-        &quot;channelName&quot;: &quot;Derdian&quot;,
-        &quot;channelId&quot;: &quot;UCmdrjl3147JYoJHQVGfP7Ew&quot;,
-        &quot;id&quot;: &quot;fuvIMO0gXv0&quot;,
-        &quot;publishedAt&quot;: &quot;2025-05-20T14:27:40Z&quot;,
-        &quot;songHash&quot;: &quot;War Of The Gods&quot;
     },
     {
         &quot;title&quot;: &quot;Godless Run&quot;,
@@ -9221,7 +9212,7 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;channelId&quot;: &quot;UCEVndLRqBDNcZhBdWo5oepg&quot;,
         &quot;id&quot;: &quot;d5kKqa7hiak&quot;,
         &quot;publishedAt&quot;: &quot;2024-12-15T18:07:54Z&quot;,
-        &quot;songHash&quot;: &quot;Master Boot Record - C - Copy A - V&quot;
+        &quot;songHash&quot;: &quot;Master Boot Record - C Copy A V&quot;
     },
     {
         &quot;title&quot;: &quot;MASTER BOOT RECORD \&quot;Direct Memory Access\&quot; [Full Album - 2018]&quot;,
@@ -9755,6 +9746,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;Xwy-3aI435o&quot;,
         &quot;publishedAt&quot;: &quot;2024-12-08T20:08:27Z&quot;,
         &quot;songHash&quot;: &quot;Creedence Clearwater Revival - Have You Ever Seen The Rain&quot;
+    },
+    {
+        &quot;title&quot;: &quot;War Of The Gods&quot;,
+        &quot;channelName&quot;: &quot;Derdian&quot;,
+        &quot;channelId&quot;: &quot;UCmdrjl3147JYoJHQVGfP7Ew&quot;,
+        &quot;id&quot;: &quot;fuvIMO0gXv0&quot;,
+        &quot;publishedAt&quot;: &quot;2025-08-15T20:35:06Z&quot;,
+        &quot;songHash&quot;: &quot;Derdian - War Of The Gods&quot;
     },
     {
         &quot;title&quot;: &quot;Hold on to Memories&quot;,
@@ -11533,14 +11532,6 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;U2 - With Or Without You&quot;
     },
     {
-        &quot;title&quot;: &quot;War Of The Gods&quot;,
-        &quot;channelName&quot;: &quot;Derdian&quot;,
-        &quot;channelId&quot;: &quot;UCmdrjl3147JYoJHQVGfP7Ew&quot;,
-        &quot;id&quot;: &quot;fuvIMO0gXv0&quot;,
-        &quot;publishedAt&quot;: &quot;2025-05-20T14:27:41Z&quot;,
-        &quot;songHash&quot;: &quot;War Of The Gods&quot;
-    },
-    {
         &quot;title&quot;: &quot;All I Need&quot;,
         &quot;channelName&quot;: &quot;Within Temptation - Topic&quot;,
         &quot;channelId&quot;: &quot;UCeWkbf3RIeKRs8THlxPlUUA&quot;,
@@ -12058,3 +12049,4 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Steve Vai - For The Love Of God&quot;
     }
 ]"/>
+
