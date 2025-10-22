@@ -118,13 +118,14 @@ fi
 
 export PYTHONDONTWRITEBYTECODE=1
 
-#Automatically display column names in sqlite cli
-#Unfortunately we can't add column to the prompt as sqlite is compiled with editline, not readline
-#.prompt "[92msqlite[0m> " "[36m   ...[0m> "
+#Automatically display column names in sqlite cli and add color to prompt
+#Unfortunately max sqlite prompt length is 18 chars (including escape chars) so we can only have 5 chars max displayed
 cat << EOF > ~/.sqliterc
 --Note: this is automatically generated and overwritten by .bashrc
 .headers ON
 .mode columns
+.nullvalue <NULL>
+.prompt "[92msql[0m> " "[36m...[0m> "
 EOF
 
 cat << EOF > ~/.vimrc
