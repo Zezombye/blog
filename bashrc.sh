@@ -128,6 +128,13 @@ cat << EOF > ~/.sqliterc
 .prompt "[92msql[0m> " "[36m...[0m> "
 EOF
 
+#Add color to mongodb prompt. Disabled as I don't use mongodb cli
+#cat << EOF > ~/.mongorc.js
+#//Note: this is automatically generated and overwritten by .bashrc
+#prompt = () => "\u001b[92m"+db.getName()+"\u001b[0m>";
+#EOF
+
+
 cat << EOF > ~/.vimrc
 "Note: this is automatically generated and overwritten by .bashrc
 
