@@ -39,75 +39,51 @@ $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $true
 
 $isAdmin = (New-Object Security.Principal.WindowsPrincipal ([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
-if ($isAdmin) {
-    echo "Running as Administrator"
-} else {
-    echo "Running as standard user. Some tweaks may not be applied."
-}
+if ($isAdmin) {echo "Running as Administrator"} else {echo "Running as standard user. Some tweaks may not be applied."}
+
 $isWindows11 = ((Get-CimInstance -ClassName Win32_OperatingSystem).Version -ge "10.0.22000")
-if ($isWindows11) {
-    echo "Detected Windows 11"
-} else {
-    echo "Detected Windows 10 or lower"
-}
+if ($isWindows11) {echo "Detected Windows 11"} else {echo "Detected Windows 10 or lower"}
 
 $needsExplorerRestart = $false
 $needsSignOut = $false
 $needsAdmin = $false
 
-if (-not (Test-Path "HKU:")) {
-    New-PSDrive HKU Registry HKEY_USERS | Out-Null
-}
-if (-not (Test-Path "HKCR:")) {
-    New-PSDrive -Name "HKCR" -PSProvider Registry -Root "HKEY_CLASSES_ROOT" | Out-Null
-}
+if (-not (Test-Path "HKU:")) {New-PSDrive HKU Registry HKEY_USERS | Out-Null}
+if (-not (Test-Path "HKCR:")) {New-PSDrive -Name "HKCR" -PSProvider Registry -Root "HKEY_CLASSES_ROOT" | Out-Null}
 
 function grantRegKeyPermissions {
+    param ([string]$regPath)
 
-    param (
-        [string]$regPath
-    )
-
-    $AddACL = New-Object System.Security.AccessControl.RegistryAccessRule ("Builtin\Administrators","FullControl","Allow")
     $AddACL = New-Object System.Security.AccessControl.RegistryAccessRule ("Builtin\Administrators","FullControl","ContainerInherit,ObjectInherit","None","Allow")
-    $owner = [System.Security.Principal.NTAccount]"Administrators"
-
     if ($regPath.startswith("HKCR:", "CurrentCultureIgnoreCase")) {
         $regPath = $regPath.Substring(5)
         $keyCR = [Microsoft.Win32.Registry]::ClassesRoot.OpenSubKey("$regPath",[Microsoft.Win32.RegistryKeyPermissionCheck]::ReadWriteSubTree,[System.Security.AccessControl.RegistryRights]::takeownership)
+    } else {
+        throw "Unsupported hive for granting permissions to '$regPath'"
     }
-    # Get a blank ACL since you don't have access and need ownership
     $aclCR = $keyCR.GetAccessControl([System.Security.AccessControl.AccessControlSections]::None)
-    $aclCR.SetOwner($owner)
+    $aclCR.SetOwner([System.Security.Principal.NTAccount]"Administrators")
     $keyCR.SetAccessControl($aclCR)
-
-    # Get the acl and modify it
     $aclCR = $keyCR.GetAccessControl()
     $aclCR.SetAccessRule($AddACL)
     $keyCR.SetAccessControl($aclCR)
     $keyCR.Close()
-
 }
 
 function applyRegEdits {
+    #Generic function to edit/remove keys and properties, and check if the changes are already applied
     param (
         [string]$Title,
         [Parameter(Mandatory=$true)]
         [array]$Modifications
     )
-    
-    #echo ($modifications | convertto-json)
-
     #Fix for the array unrolling behavior
     if ($modifications[0] -is [string]) {
         $Modifications = @(,$Modifications)
     }
 
-    #echo ($modifications | convertto-json)
-
     $areModificationsRequired = $false
 
-    #echo $Title
     $titleParts = $Title -split " ", 2
     $lowercaseTitle = $titleParts[0].ToLower() + " " + $titleParts[1]
     $titleParts[0] = switch ($titleParts[0]) {
@@ -125,23 +101,17 @@ function applyRegEdits {
     $lowercasePastTenseTitle = $titleParts[0].ToLower() + " " + $titleParts[1]
 
     foreach ($mod in $Modifications) {
-
-        #echo "Mod: $(echo $mod | convertto-json)"
-
         $action = $mod[0]
         if (@("RemoveKey","NewKey","RemoveProperty","SetProperty") -notcontains $action) {
             throw "Unknown action '$action'"
         }
         $key = $mod[1]
-        if (-not ($key)) {
-            throw "No key specified for action '$action'"
-        }
+        if (-not ($key)) {throw "No key specified for action '$action'"}
         $key = $key.replace("/", "\")
         $pathParts = $key -split "\\", 2
         $hiveName = $pathParts[0].TrimEnd(':') # Remove colon (HKCU: -> HKCU)
         $subKeyPath = if ($pathParts.Count -gt 1) { $pathParts[1] } else { "" }
 
-        # Get the .NET Root Hive
         $rootKey = switch ($hiveName) {
             { $_ -eq "HKCR" } { [Microsoft.Win32.Registry]::ClassesRoot }
             { $_ -eq "HKCU" } { [Microsoft.Win32.Registry]::CurrentUser }
@@ -154,12 +124,8 @@ function applyRegEdits {
         if ($action -eq "RemoveKey") {
             $additionalParams = $mod[2]
             
-            # Idempotency: Check if key exists
             $existingKey = $rootKey.OpenSubKey($subKeyPath, $false)
-            if ($existingKey -eq $null) {
-                #echo "Key '$key' is already removed"
-                continue
-            }
+            if ($existingKey -eq $null) {continue}
             $existingKey.Close()
             
         } elseif ($action -eq "RemoveProperty") {
@@ -167,61 +133,38 @@ function applyRegEdits {
             if (-not ($property)) { throw "No property specified for action '$action'" }
             $additionalParams = $mod[3]
 
-            # Idempotency: Check if key and property exist
             $existingKey = $rootKey.OpenSubKey($subKeyPath, $false)
-            if ($existingKey -eq $null) { 
-                #echo "Key '$key' does not exist, so property '$property' is already removed"
-                continue
-            }
+            if ($existingKey -eq $null) {continue}
             
             $existingValue = $existingKey.GetValue($property)
             $existingKey.Close()
-
-            if ($existingValue -eq $null) {
-                #echo "Property '$property' in key '$key' is already removed"
-                continue
-            }
+            if ($existingValue -eq $null) {continue}
             
-
-
         } elseif ($action -eq "NewKey") {
             $additionalParams = $mod[2]
             
-            # Idempotency: Check if key exists
             $existingKey = $rootKey.OpenSubKey($subKeyPath, $false)
             if ($existingKey -ne $null) {
                 $existingKey.Close()
-                #echo "Key '$key' already exists"
                 continue
             }
-
 
         } elseif ($action -eq "SetProperty") {
             $property = $mod[2]
             if (-not ($property)) { throw "No property specified for action '$action'" }
-            if ($property -eq "(default)") {
-                $property = ""
-            }
+            if ($property -eq "(default)") {$property = ""}
             $value = $mod[3]
             if ($null -eq $value) { throw "No value specified for action '$action'" }
             $additionalParams = $mod[4]
 
-            # Idempotency: Check if value matches
             $existingKey = $rootKey.OpenSubKey($subKeyPath, $false)
             if ($existingKey -ne $null) {
                 $existingValue = $existingKey.GetValue($property)
                 $existingKey.Close()
-                # Basic comparison
                 if ($existingValue.getType().Name -eq "Byte[]") {
-                    if (@(Compare-Object $existingValue $value -SyncWindow 0).Length -eq 0) {
-                        continue
-                    }
-                } elseif ($existingValue -eq $value) {
-                    #echo "Property '$property' in key '$key' already set to '$value'"
-                    continue
-                } 
+                    if (@(Compare-Object $existingValue $value -SyncWindow 0).Length -eq 0) {continue}
+                } elseif ($existingValue -eq $value) {continue} 
             }
-            
         }
         
         if ($hiveNameNeedsAdmin -and -not $isAdmin) {
@@ -236,23 +179,17 @@ function applyRegEdits {
         $areModificationsRequired = $true
 
         if ($action -eq "RemoveKey") {
-            #echo "subKeyPath: '$subKeyPath'"
             $rootKey.DeleteSubKeyTree($subKeyPath)
-            #Write-Host "  [-] Removed Key '$key'" -ForegroundColor Gray
 
         } elseif ($action -eq "RemoveProperty") {
             $rwKey = $rootKey.OpenSubKey($subKeyPath, $true)
             $rwKey.DeleteValue($property)
             $rwKey.Close()
-            #Write-Host "  [-] Removed Property '$property' from '$key'" -ForegroundColor Gray
 
         } elseif ($action -eq "NewKey") {
             $rootKey.CreateSubKey($subKeyPath).Close()
-            #Write-Host "  [+] Created Key '$key'" -ForegroundColor Gray
 
         } elseif ($action -eq "SetProperty") {
-
-            # Determine Registry Value Type
             $regKind = [Microsoft.Win32.RegistryValueKind]::String # Default
             if ($value -is [int]) {
                 $regKind = [Microsoft.Win32.RegistryValueKind]::DWord
@@ -274,10 +211,7 @@ function applyRegEdits {
             $rwKey = $rootKey.CreateSubKey($subKeyPath, $true)
             $rwKey.SetValue($property, $value, $regKind)
             $rwKey.Close()
-            
-            #Write-Host "  [+] Set key '$key' Property: $property = $value" -ForegroundColor Gray
         }
-
     }
 
     if ($areModificationsRequired) {
@@ -309,7 +243,7 @@ applyRegEdits "Disable bing search in search menu" @(
     @("SetProperty", "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search", "BingSearchEnabled", 0)
 )
 
-# Explorer context menu
+# Cleanup Explorer context menu
 
 applyRegEdits "Remove Visual Studio from Explorer context menu" @(
     @("RemoveKey", "HKCR:\Directory\Background\shell\AnyCode"),
@@ -330,19 +264,6 @@ applyRegEdits "Remove 'Edit with Paint 3D' from Explorer context menu" @(
     @("RemoveKey", "HKCR:\SystemFileAssociations\.tiff\Shell\3D Edit")
 )
 
-applyRegEdits "Set 'Set as desktop wallpaper' to shift + right click only" @(
-    @("SetProperty", "HKCR:\SystemFileAssociations\.bmp\Shell\setdesktopwallpaper", "Extended", ""),
-    @("SetProperty", "HKCR:\SystemFileAssociations\.dib\Shell\setdesktopwallpaper", "Extended", ""),
-    @("SetProperty", "HKCR:\SystemFileAssociations\.gif\Shell\setdesktopwallpaper", "Extended", ""),
-    @("SetProperty", "HKCR:\SystemFileAssociations\.jfif\Shell\setdesktopwallpaper", "Extended", ""),
-    @("SetProperty", "HKCR:\SystemFileAssociations\.jpe\Shell\setdesktopwallpaper", "Extended", ""),
-    @("SetProperty", "HKCR:\SystemFileAssociations\.jpeg\Shell\setdesktopwallpaper", "Extended", ""),
-    @("SetProperty", "HKCR:\SystemFileAssociations\.jpg\Shell\setdesktopwallpaper", "Extended", ""),
-    @("SetProperty", "HKCR:\SystemFileAssociations\.png\Shell\setdesktopwallpaper", "Extended", ""),
-    @("SetProperty", "HKCR:\SystemFileAssociations\.tif\Shell\setdesktopwallpaper", "Extended", ""),
-    @("SetProperty", "HKCR:\SystemFileAssociations\.tiff\Shell\setdesktopwallpaper", "Extended", ""),
-    @("SetProperty", "HKCR:\SystemFileAssociations\.wdp\Shell\setdesktopwallpaper", "Extended", "")
-)
 
 applyRegEdits "Remove 'Share' / 'Give access to' from Explorer context menu" @(
     @("RemoveKey", "HKCR:\*\shellex\ContextMenuHandlers\ModernSharing"),
@@ -374,41 +295,6 @@ applyRegEdits "Remove WizTree from Explorer context menu" @(
 applyRegEdits "Remove 'Open Git GUI here' from Explorer context menu" @(
     @("RemoveKey", "HKCR:\directory\shell\git_gui"),
     @("RemoveKey", "HKCR:\directory\background\shell\git_gui")
-)
-
-applyRegEdits "Display 'Open Powershell here' in Explorer context menu without shift" @(
-    @("RemoveProperty", "HKCR:\Directory\shell\Powershell", "Extended", @{grantPermissions=$true}),
-    @("RemoveProperty", "HKCR:\Directory\background\shell\Powershell", "Extended", @{grantPermissions=$true})
-)
-
-#As https://superuser.com/a/1131932/1068224 points out, the default "Copy as Path" menu is hardcoded to only display on shift+right click.
-#The only workaround is to create a Shell entry instead of a ShellEx entry.
-#If we remove the existing ShellEx entry, the Shell entry stops working (why? idk.)
-#I did not find a way to remove or hide that entry, so unfortunately there are two "Copy as Path" entries on shift + right click.
-#Remove-Item -LiteralPath "HKCR:\AllFilesystemObjects\shellex\ContextMenuHandlers\CopyAsPathMenu"
-applyRegEdits "Display 'Copy as Path' in Explorer context menu without shift" @(
-    @("SetProperty", "HKCR:\AllFilesystemObjects\shell\windows.copyaspath", "(default)", "@shell32.dll,-30328"),
-    @("SetProperty", "HKCR:\AllFilesystemObjects\shell\windows.copyaspath", "InvokeCommandOnSelection", 1),
-    @("SetProperty", "HKCR:\AllFilesystemObjects\shell\windows.copyaspath", "VerbHandler", "{f3d06e7c-1e45-4a26-847e-f9fcdee59be0}"),
-    @("SetProperty", "HKCR:\AllFilesystemObjects\shell\windows.copyaspath", "Position", "Bottom")
-)
-
-
-#https://winaero.com/find-your-current-wallpaper-image-path-in-windows-10/
-$getCurrentWallpaperCommand = @'
-    $data = (Get-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "TranscodedImageCache" -ErrorAction SilentlyContinue).TranscodedImageCache
-    if ($data -and $data.Count -gt 24) {
-        $path = [System.Text.Encoding]::Unicode.GetString($data, 24, $data.Length - 24)
-        $path = $path.Trim([char]0)
-        Start-Process "explorer.exe" -ArgumentList "/select,`"$path`""
-    }
-'@
-$encodedCommand = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($getCurrentWallpaperCommand))
-$viewWallpaperLocation = if ((Get-WinSystemLocale).Name -eq "fr-FR") { "Voir l'emplacement du fond d'écran" } else { "View wallpaper location" }
-applyRegEdits "Add 'View wallpaper location' to Desktop context menu" @(
-    @("SetProperty", "HKCR:\DesktopBackground\Shell\DesktopWallpaperLocation", "(default)", "$viewWallpaperLocation"),
-    @("SetProperty", "HKCR:\DesktopBackground\Shell\DesktopWallpaperLocation", "Icon", "imageres.dll,-5346"),
-    @("SetProperty", "HKCR:\DesktopBackground\Shell\DesktopWallpaperLocation\command", "(default)", "conhost.exe --headless powershell.exe -NoProfile -WindowStyle Hidden -EncodedCommand $encodedCommand")
 )
 
 applyRegEdits "Remove 'Restore previous versions' from Explorer context menu" @(
@@ -450,6 +336,56 @@ applyRegEdits "Remove 'New -> Contact' from Explorer context menu" @(
     @("RemoveKey", "HKCR:\.contact\ShellNew")
 )
 
+# Add useful stuff to Explorer context menu
+
+applyRegEdits "Set 'Set as desktop wallpaper' to shift + right click only" @(
+    @("SetProperty", "HKCR:\SystemFileAssociations\.bmp\Shell\setdesktopwallpaper", "Extended", ""),
+    @("SetProperty", "HKCR:\SystemFileAssociations\.dib\Shell\setdesktopwallpaper", "Extended", ""),
+    @("SetProperty", "HKCR:\SystemFileAssociations\.gif\Shell\setdesktopwallpaper", "Extended", ""),
+    @("SetProperty", "HKCR:\SystemFileAssociations\.jfif\Shell\setdesktopwallpaper", "Extended", ""),
+    @("SetProperty", "HKCR:\SystemFileAssociations\.jpe\Shell\setdesktopwallpaper", "Extended", ""),
+    @("SetProperty", "HKCR:\SystemFileAssociations\.jpeg\Shell\setdesktopwallpaper", "Extended", ""),
+    @("SetProperty", "HKCR:\SystemFileAssociations\.jpg\Shell\setdesktopwallpaper", "Extended", ""),
+    @("SetProperty", "HKCR:\SystemFileAssociations\.png\Shell\setdesktopwallpaper", "Extended", ""),
+    @("SetProperty", "HKCR:\SystemFileAssociations\.tif\Shell\setdesktopwallpaper", "Extended", ""),
+    @("SetProperty", "HKCR:\SystemFileAssociations\.tiff\Shell\setdesktopwallpaper", "Extended", ""),
+    @("SetProperty", "HKCR:\SystemFileAssociations\.wdp\Shell\setdesktopwallpaper", "Extended", "")
+)
+
+applyRegEdits "Display 'Open Powershell here' in Explorer context menu without shift" @(
+    @("RemoveProperty", "HKCR:\Directory\shell\Powershell", "Extended", @{grantPermissions=$true}),
+    @("RemoveProperty", "HKCR:\Directory\background\shell\Powershell", "Extended", @{grantPermissions=$true})
+)
+
+#As https://superuser.com/a/1131932/1068224 points out, the default "Copy as Path" menu is hardcoded to only display on shift+right click.
+#The only workaround is to create a Shell entry instead of a ShellEx entry.
+#If we remove the existing ShellEx entry, the Shell entry stops working (why? idk.)
+#I did not find a way to remove or hide that entry, so unfortunately there are two "Copy as Path" entries on shift + right click.
+#Remove-Item -LiteralPath "HKCR:\AllFilesystemObjects\shellex\ContextMenuHandlers\CopyAsPathMenu"
+applyRegEdits "Display 'Copy as Path' in Explorer context menu without shift" @(
+    @("SetProperty", "HKCR:\AllFilesystemObjects\shell\windows.copyaspath", "(default)", "@shell32.dll,-30328"),
+    @("SetProperty", "HKCR:\AllFilesystemObjects\shell\windows.copyaspath", "InvokeCommandOnSelection", 1),
+    @("SetProperty", "HKCR:\AllFilesystemObjects\shell\windows.copyaspath", "VerbHandler", "{f3d06e7c-1e45-4a26-847e-f9fcdee59be0}"),
+    @("SetProperty", "HKCR:\AllFilesystemObjects\shell\windows.copyaspath", "Position", "Bottom")
+)
+
+#https://winaero.com/find-your-current-wallpaper-image-path-in-windows-10/
+$getCurrentWallpaperCommand = @'
+    $data = (Get-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "TranscodedImageCache" -ErrorAction SilentlyContinue).TranscodedImageCache
+    if ($data -and $data.Count -gt 24) {
+        $path = [System.Text.Encoding]::Unicode.GetString($data, 24, $data.Length - 24)
+        $path = $path.Trim([char]0)
+        Start-Process "explorer.exe" -ArgumentList "/select,`"$path`""
+    }
+'@
+$encodedCommand = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($getCurrentWallpaperCommand))
+$viewWallpaperLocation = if ((Get-WinSystemLocale).Name -eq "fr-FR") { "Voir l'emplacement du fond d'écran" } else { "View wallpaper location" }
+applyRegEdits "Add 'View wallpaper location' to Desktop context menu" @(
+    @("SetProperty", "HKCR:\DesktopBackground\Shell\DesktopWallpaperLocation", "(default)", "$viewWallpaperLocation"),
+    @("SetProperty", "HKCR:\DesktopBackground\Shell\DesktopWallpaperLocation", "Icon", "imageres.dll,-5346"),
+    @("SetProperty", "HKCR:\DesktopBackground\Shell\DesktopWallpaperLocation\command", "(default)", "conhost.exe --headless powershell.exe -NoProfile -WindowStyle Hidden -EncodedCommand $encodedCommand")
+)
+
 #https://superuser.com/questions/920267/shellnew-icon-for-file-type
 applyRegEdits "Add 'New -> File' to Explorer context menu" @(
     @("SetProperty", "HKCR:\.", "(default)", "No Extension"),
@@ -464,21 +400,13 @@ function setExplorerQuickAccessRibbon {
     $path = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Ribbon'
     $valueName = 'QatItems'
 
-    # Read binary and decode as UTF-8
     $raw = (Get-ItemProperty -Path $path -Name $valueName).$valueName
     $xmlText = [Text.Encoding]::UTF8.GetString($raw)
-
-    # Load XML
     [xml]$xml = $xmlText
-
-    # Namespace handling
     $ns = New-Object System.Xml.XmlNamespaceManager($xml.NameTable)
     $ns.AddNamespace('siq', 'http://schemas.microsoft.com/windows/2009/ribbon/qat')
-
-    # Shared controls node
     $shared = $xml.SelectSingleNode('//siq:sharedControls', $ns)
 
-    # Ensure both controls exist
     $idsToEnsure = 'siq:12301','siq:12303'
     $areModificationsRequired = $false
 
@@ -498,11 +426,8 @@ function setExplorerQuickAccessRibbon {
         return
     }
 
-    # Serialize back to UTF-8 binary
     $updated = $xml.OuterXml
     $bytes = [Text.Encoding]::UTF8.GetBytes($updated)
-
-    # Write registry value
     Set-ItemProperty -Path $path -Name $valueName -Value $bytes -Type Binary
     echo "Added Powershell to Explorer Quick Access ribbon"
 }
@@ -570,9 +495,7 @@ if ($isWindows11) {
     )
 
     function rgbToHex {
-        param (
-            [int[]]$rgb
-        )
+        param ([int[]]$rgb)
         return ('#{0:X2}{1:X2}{2:X2}' -f $rgb[0], $rgb[1], $rgb[2])
     }
     $terminalSettings = @"
@@ -586,25 +509,19 @@ if ($isWindows11) {
         "copyOnSelect": false,
         "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
         "initialRows": $consoleHeight,
-        "keybindings": [
-            {
-                "id": "Terminal.CopyToClipboard",
-                "keys": "ctrl+c"
-            },
-            {
-                "id": "Terminal.PasteFromClipboard",
-                "keys": "ctrl+v"
-            },
-            {
-                "id": "Terminal.DuplicatePaneAuto",
-                "keys": "alt+shift+d"
-            }
-        ],
-        "newTabMenu": [
-            {
-                "type": "remainingProfiles"
-            }
-        ],
+        "keybindings": [{
+            "id": "Terminal.CopyToClipboard",
+            "keys": "ctrl+c"
+        },{
+            "id": "Terminal.PasteFromClipboard",
+            "keys": "ctrl+v"
+        },{
+            "id": "Terminal.DuplicatePaneAuto",
+            "keys": "alt+shift+d"
+        }],
+        "newTabMenu": [{
+            "type": "remainingProfiles"
+        }],
         "newTabPosition": "afterCurrentTab",
         "profiles": {
             "defaults": {
@@ -619,81 +536,71 @@ if ($isWindows11) {
                 "padding": "2",
                 "useAcrylic": false
             },
-            "list": [
-                {
-                    "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
-                    "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
-                    "hidden": false,
-                    "name": "Windows PowerShell"
-                },
-                {
-                    "commandline": "%SystemRoot%\\System32\\cmd.exe",
-                    "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
-                    "hidden": false,
-                    "name": "Invite de commandes"
-                },
-                {
-                    "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
-                    "hidden": false,
-                    "name": "Azure Cloud Shell",
-                    "source": "Windows.Terminal.Azure"
-                },
-                {
-                    "guid": "{d667c8f4-340a-5a02-83e8-de231666da94}",
-                    "hidden": false,
-                    "name": "Developer Command Prompt for VS 2022",
-                    "source": "Windows.Terminal.VisualStudio"
-                },
-                {
-                    "guid": "{405e1125-8357-5c2f-a026-d3f69f4efbb2}",
-                    "hidden": false,
-                    "name": "Developer PowerShell for VS 2022",
-                    "source": "Windows.Terminal.VisualStudio"
-                }
-            ]
+            "list": [{
+                "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "hidden": false,
+                "name": "Windows PowerShell"
+            },{
+                "commandline": "%SystemRoot%\\System32\\cmd.exe",
+                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                "hidden": false,
+                "name": "Invite de commandes"
+            },{
+                "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+                "hidden": false,
+                "name": "Azure Cloud Shell",
+                "source": "Windows.Terminal.Azure"
+            },{
+                "guid": "{d667c8f4-340a-5a02-83e8-de231666da94}",
+                "hidden": false,
+                "name": "Developer Command Prompt for VS 2022",
+                "source": "Windows.Terminal.VisualStudio"
+            },{
+                "guid": "{405e1125-8357-5c2f-a026-d3f69f4efbb2}",
+                "hidden": false,
+                "name": "Developer PowerShell for VS 2022",
+                "source": "Windows.Terminal.VisualStudio"
+            }]
         },
-        "schemes": [
-            {
-                "name": "zez.dev",
+        "schemes": [{
+            "name": "zez.dev",
 
-                "background": "$(rgbToHex $Color0)",
-                "cursorColor": "$(rgbToHex $Color7)",
-                "foreground": "$(rgbToHex $Color7)",
-                "selectionBackground": "$(rgbToHex $Color7)",
+            "background": "$(rgbToHex $Color0)",
+            "cursorColor": "$(rgbToHex $Color7)",
+            "foreground": "$(rgbToHex $Color7)",
+            "selectionBackground": "$(rgbToHex $Color7)",
 
-                "black": "$(rgbToHex $Color0)",
-                "blue": "$(rgbToHex $Color1)",
-                "green": "$(rgbToHex $Color2)",
-                "cyan": "$(rgbToHex $Color3)",
-                "red": "$(rgbToHex $Color4)",
-                "purple": "$(rgbToHex $Color5)",
-                "yellow": "$(rgbToHex $Color6)"
-                "white": "$(rgbToHex $Color7)",
-                "brightBlack": "$(rgbToHex $Color8)",
-                "brightBlue": "$(rgbToHex $Color9)",
-                "brightGreen": "$(rgbToHex $Color10)",
-                "brightCyan": "$(rgbToHex $Color11)",
-                "brightRed": "$(rgbToHex $Color12)",
-                "brightPurple": "$(rgbToHex $Color13)",
-                "brightYellow": "$(rgbToHex $Color14)",
-                "brightWhite": "$(rgbToHex $Color15)",
-            }
-        ],
+            "black": "$(rgbToHex $Color0)",
+            "blue": "$(rgbToHex $Color1)",
+            "green": "$(rgbToHex $Color2)",
+            "cyan": "$(rgbToHex $Color3)",
+            "red": "$(rgbToHex $Color4)",
+            "purple": "$(rgbToHex $Color5)",
+            "yellow": "$(rgbToHex $Color6)"
+            "white": "$(rgbToHex $Color7)",
+            "brightBlack": "$(rgbToHex $Color8)",
+            "brightBlue": "$(rgbToHex $Color9)",
+            "brightGreen": "$(rgbToHex $Color10)",
+            "brightCyan": "$(rgbToHex $Color11)",
+            "brightRed": "$(rgbToHex $Color12)",
+            "brightPurple": "$(rgbToHex $Color13)",
+            "brightYellow": "$(rgbToHex $Color14)",
+            "brightWhite": "$(rgbToHex $Color15)",
+        }],
         "showTabsInTitlebar": false,
         "tabWidthMode": "titleLength",
         "themes": [],
         "useAcrylicInTabRow": false,
         "warning.confirmCloseAllTabs": false
     }
-
 "@
-    if ((Get-Content "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" -ErrorAction SilentlyContinue) -eq $terminalSettings) {
+    if ((Get-Content "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" -Raw -ErrorAction SilentlyContinue) -eq $terminalSettings) {
         Write-Host "Already applied Windows Terminal settings" -ForegroundColor DarkGray
     } else {
         [IO.File]::WriteAllText("$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json", $terminalSettings)
         echo "Applied Windows Terminal settings"
     }
-
 }
 
 applyRegEdits "Set Explorer to display hidden files" @(
@@ -735,13 +642,11 @@ applyRegEdits "Set blue accent color" @(
     @("SetProperty", "HKCU:/Software/Microsoft/Windows/CurrentVersion/Explorer/Accent", "AccentColorMenu", 0xffb16300)
 )
 
-
 $taskManagerSettings = (Get-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager").Preferences
 if ($taskManagerSettings[28] -eq 0) {
     Write-Host "Already set Task Manager to expanded view" -ForegroundColor DarkGray
 } else {
-    #1 for compact view, 0 for expanded view
-    $taskManagerSettings[28] = 0
+    $taskManagerSettings[28] = 0 #1 for compact view, 0 for expanded view
     Set-ItemProperty -LiteralPath "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -Value $taskManagerSettings
     echo "Set Task Manager to expanded view"
 }
@@ -752,9 +657,7 @@ applyRegEdits "Fix console colors for Python" @(
 
 # In the registry, those values are stored in little endian
 function rgbToAABBGGRR {
-    param (
-        [int[]]$rgb
-    )
+    param ([int[]]$rgb)
     return '00{0:X2}{1:X2}{2:X2}' -f $rgb[2], $rgb[1], $rgb[0]
 }
 
@@ -762,8 +665,6 @@ $colors = @(
     $Color0, $Color1, $Color2, $Color3, $Color4, $Color5, $Color6, $Color7,
     $Color8, $Color9, $Color10, $Color11, $Color12, $Color13, $Color14, $Color15
 )
-
-
 $regPaths = @(
     "HKCU:\Console",
     "HKCU:\Console\%SystemRoot%_system32_cmd.exe",
@@ -827,19 +728,9 @@ function patchShortcut {
     )
 
     $shortcutContent = [System.Convert]::FromBase64String($shortcutContentBase64)
-
-    if (Test-Path -LiteralPath $shortcutPath) {
-        $existingContent = Get-Content -LiteralPath $shortcutPath -Encoding Byte
-        if ($existingContent.Length -eq $shortcutContent.Length) {
-            Write-Host "Already patched $shortcutDesc shortcut" -ForegroundColor DarkGray
-            return
-        }
-    }
     if (-not (Test-Path -LiteralPath $shortcutPath)) {
-        #echo ("Creating shortcut at {0}" -f $shortcutPath)
         New-Item -Path $shortcutPath -ItemType File -Force | Out-Null
     }
-
     for ($i = 0; $i -lt $colors.Count; $i++) {
         $offset = $colorOffset + ($i * 4) + 1 # +1 for the first byte which is always 0
         $colors[$i] | ForEach-Object { $shortcutContent[$offset++] = $_ }
@@ -848,6 +739,12 @@ function patchShortcut {
         $shortcutContent[$sizeOffset] = $consoleWidth
         $shortcutContent[$sizeOffset + 4] = $consoleWidth
         $shortcutContent[$sizeOffset + 6] = $consoleHeight
+    }
+    
+    $existingContent = Get-Content -LiteralPath $shortcutPath -Encoding Byte
+    if (@(Compare-Object $existingContent $shortcutContent -SyncWindow 0).Length -eq 0) {
+        Write-Host "Already patched $shortcutDesc shortcut" -ForegroundColor DarkGray
+        return
     }
 
     Set-Content -LiteralPath $shortcutPath -Value $shortcutContent -Encoding Byte
@@ -961,8 +858,8 @@ function prompt {
 }
 '@
 
-if ((Compare-Object (Get-Content "$env:USERPROFILE\Documents\WindowsPowerShell\profile.ps1" -ErrorAction SilentlyContinue) $profileContent) -and
-    (Compare-Object (Get-Content "$env:USERPROFILE\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1" -ErrorAction SilentlyContinue) $profileContent)) {
+if ((Get-Content "$env:USERPROFILE\Documents\WindowsPowerShell\profile.ps1" -Raw -ErrorAction SilentlyContinue) -eq $profileContent -and
+    (Get-Content "$env:USERPROFILE\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1" -Raw -ErrorAction SilentlyContinue) -eq $profileContent) {
     Write-Host "Already set PowerShell profile" -ForegroundColor DarkGray
 } else {
     [IO.File]::WriteAllText("$env:USERPROFILE\Documents\WindowsPowerShell\profile.ps1", $profileContent)
@@ -970,8 +867,8 @@ if ((Compare-Object (Get-Content "$env:USERPROFILE\Documents\WindowsPowerShell\p
     echo "Set Powershell profile"
 }
 
-if ((Compare-Object (Get-Content "C:\WINDOWS\system32\config\systemprofile\Documents\WindowsPowerShell\profile.ps1" -ErrorAction SilentlyContinue) $profileContent) -and
-    (Compare-Object (Get-Content "C:\WINDOWS\system32\config\systemprofile\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1" -ErrorAction SilentlyContinue) $profileContent)) {
+if ((Get-Content "C:\WINDOWS\system32\config\systemprofile\Documents\WindowsPowerShell\profile.ps1" -Raw -ErrorAction SilentlyContinue) -eq $profileContent -and
+    (Get-Content "C:\WINDOWS\system32\config\systemprofile\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1" -Raw -ErrorAction SilentlyContinue) -eq $profileContent) {
     Write-Host "Already set SYSTEM PowerShell profile" -ForegroundColor DarkGray
 } else {
     if ($isAdmin) {
@@ -991,7 +888,7 @@ $bashrc = @'
 '@
 
 if ($bashrc.Trim() -ne "#`##BASHRC###") {
-    if ((Get-Content $bashrcPath -ErrorAction SilentlyContinue) -eq $bashrc) {
+    if ((Get-Content $bashrcPath -Raw -ErrorAction SilentlyContinue) -eq $bashrc) {
         Write-Host "Already set .bashrc" -ForegroundColor DarkGray
     } else {
         [IO.File]::WriteAllText($bashrcPath, $bashrc)
@@ -1009,8 +906,6 @@ test -f ~/.bashrc && . ~/.bashrc
 
 #Code from https://github.com/DanysysTeam/PS-SFTA/blob/master/SFTA.ps1
 #Defeats the UserChoice hash and allows setting file type associations
-
-
 function Get-UserExperience {
     [OutputType([string])]
     $hardcodedExperience = "User Choice set via Windows User Experience {D18B6DD5-6124-4341-9318-804003BAFA0B}"
@@ -1033,8 +928,6 @@ function Get-UserExperience {
 }
 
 $userExperience = Get-UserExperience
-
-
 $code = '
 using System;
 using System.Runtime.InteropServices;
@@ -1062,9 +955,14 @@ try {
 } catch {}
 
 $userSid = ((New-Object System.Security.Principal.NTAccount([Environment]::UserName)).Translate([System.Security.Principal.SecurityIdentifier]).value).ToLower()
+#or if joined to a domain:
+#https://github.com/DanysysTeam/PS-SFTA/pull/7
+#if (-not ("System.DirectoryServices.AccountManagement" -as [type])) {
+#    Add-Type -AssemblyName System.DirectoryServices.AccountManagement
+#}
+#$userSid = ([System.DirectoryServices.AccountManagement.UserPrincipal]::Current).SID.Value.#ToLower()
 
 function Set-FTA {
-
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
@@ -1077,26 +975,17 @@ function Set-FTA {
         $Extension,
 
         [String]
-        $Icon,
-
-        [switch]
-        $DomainSID
+        $Icon
     )
 
     if (Test-Path -LiteralPath $ProgId) {
         $ProgId = "SFTA." + [System.IO.Path]::GetFileNameWithoutExtension($ProgId).replace(" ", "") + $Extension
     }
-
     if ([Microsoft.Win32.Registry]::GetValue("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\$Extension\UserChoice", "ProgId", $null) -eq $ProgId) {
         #Write-Host "Already set $ProgId for $Extension" -ForegroundColor DarkGray
         return
     }
     echo "Setting $ProgId as default program for extension $Extension"
-
-    Write-Verbose "ProgId: $ProgId"
-    Write-Verbose "Extension/Protocol: $Extension"
-
-
     #Write required Application Ids to ApplicationAssociationToasts
     #When more than one application associated with an Extension/Protocol is installed ApplicationAssociationToasts need to be updated
     function local:Write-RequiredApplicationAssociationToasts {
@@ -1114,7 +1003,6 @@ function Set-FTA {
         [Microsoft.Win32.Registry]::SetValue($keyPath, $ProgId + "_" + $Extension, 0x0)
     }
 
-
     function local:Write-ExtensionKeys {
         param (
             [Parameter( Position = 0, Mandatory = $True )]
@@ -1129,48 +1017,27 @@ function Set-FTA {
             [String]
             $ProgHash
         )
-
-
         function local:Remove-UserChoiceKey {
             param (
                 [Parameter( Position = 0, Mandatory = $True )]
                 [String]
                 $Key
             )
-
             try {
                 [Registry.Utils]::DeleteKey($Key)
             } catch {}
         }
-
         try {
             $keyPath = "Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\$Extension\UserChoice"
-            Write-Verbose "Remove Extension UserChoice Key If Exist: $keyPath"
             Remove-UserChoiceKey $keyPath
-        } catch {
-            Write-Verbose "Extension UserChoice Key No Exist: $keyPath"
-        }
-
-
+        } catch {}
         try {
             $keyPath = "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\$Extension\UserChoice"
             [Microsoft.Win32.Registry]::SetValue($keyPath, "Hash", $ProgHash)
             [Microsoft.Win32.Registry]::SetValue($keyPath, "ProgId", $ProgId)
-            Write-Verbose "Write Reg Extension UserChoice OK"
         } catch {
             throw "Write Reg Extension UserChoice FAILED"
         }
-    }
-
-    #use in this special case
-    #https://github.com/DanysysTeam/PS-SFTA/pull/7
-    function local:Get-UserSidDomain {
-        if (-not ("System.DirectoryServices.AccountManagement" -as [type])) {
-            Add-Type -AssemblyName System.DirectoryServices.AccountManagement
-        }
-        [OutputType([string])]
-        $userSid = ([System.DirectoryServices.AccountManagement.UserPrincipal]::Current).SID.Value.ToLower()
-        Write-Output $userSid
     }
 
     function local:Get-HexDateTime {
@@ -1192,8 +1059,6 @@ function Set-FTA {
             [string]
             $BaseInfo
         )
-
-
         function local:Get-ShiftRight {
             [CmdletBinding()]
             param (
@@ -1203,15 +1068,12 @@ function Set-FTA {
                 [Parameter( Position = 1, Mandatory = $true)]
                 [int] $iCount
             )
-
             if ($iValue -band 0x80000000) {
                 Write-Output (( $iValue -shr $iCount) -bxor 0xFFFF0000)
             } else {
                 Write-Output  ($iValue -shr $iCount)
             }
         }
-
-
         function local:Get-Long {
             [CmdletBinding()]
             param (
@@ -1221,21 +1083,16 @@ function Set-FTA {
                 [Parameter( Position = 1)]
                 [int] $Index = 0
             )
-
             Write-Output ([BitConverter]::ToInt32($Bytes, $Index))
         }
-
-
         function local:Convert-Int32 {
             param (
                 [Parameter( Position = 0, Mandatory = $true)]
                 [long] $Value
             )
-
             [byte[]] $bytes = [BitConverter]::GetBytes($Value)
             return [BitConverter]::ToInt32( $bytes, 0)
         }
-
         [Byte[]] $bytesBaseInfo = [System.Text.Encoding]::Unicode.GetBytes($baseInfo)
         $bytesBaseInfo += 0x00, 0x00
 
@@ -1247,14 +1104,8 @@ function Set-FTA {
         $base64Hash = ""
 
         if ($length -gt 1) {
+            $map = @{PDATA = 0; CACHE = 0; COUNTER = 0 ; INDEX = 0; MD51 = 0; MD52 = 0; OUTHASH1 = 0; OUTHASH2 = 0; R0 = 0; R1 = @(0, 0); R2 = @(0, 0); R3 = 0; R4 = @(0, 0); R5 = @(0, 0); R6 = @(0, 0); R7 = @(0, 0)}
 
-            $map = @{PDATA = 0; CACHE = 0; COUNTER = 0 ; INDEX = 0; MD51 = 0; MD52 = 0; OUTHASH1 = 0; OUTHASH2 = 0;
-                R0 = 0; R1 = @(0, 0); R2 = @(0, 0); R3 = 0; R4 = @(0, 0); R5 = @(0, 0); R6 = @(0, 0); R7 = @(0, 0)
-            }
-
-            $map.CACHE = 0
-            $map.OUTHASH1 = 0
-            $map.PDATA = 0
             $map.MD51 = (((Get-Long $bytesMD5) -bor 1) + 0x69FB0000L)
             $map.MD52 = ((Get-Long $bytesMD5 4) -bor 1) + 0x13DB0000L
             $map.INDEX = Get-ShiftRight ($length - 2) 1
@@ -1283,13 +1134,8 @@ function Set-FTA {
             $buffer = [BitConverter]::GetBytes($map.OUTHASH2)
             $buffer.CopyTo($outHash, 4)
 
-            $map = @{PDATA = 0; CACHE = 0; COUNTER = 0 ; INDEX = 0; MD51 = 0; MD52 = 0; OUTHASH1 = 0; OUTHASH2 = 0;
-                R0 = 0; R1 = @(0, 0); R2 = @(0, 0); R3 = 0; R4 = @(0, 0); R5 = @(0, 0); R6 = @(0, 0); R7 = @(0, 0)
-            }
+            $map = @{PDATA = 0; CACHE = 0; COUNTER = 0 ; INDEX = 0; MD51 = 0; MD52 = 0; OUTHASH1 = 0; OUTHASH2 = 0; R0 = 0; R1 = @(0, 0); R2 = @(0, 0); R3 = 0; R4 = @(0, 0); R5 = @(0, 0); R6 = @(0, 0); R7 = @(0, 0)}
 
-            $map.CACHE = 0
-            $map.OUTHASH1 = 0
-            $map.PDATA = 0
             $map.MD51 = ((Get-Long $bytesMD5) -bor 1)
             $map.MD52 = ((Get-Long $bytesMD5 4) -bor 1)
             $map.INDEX = Get-ShiftRight ($length - 2) 1
@@ -1328,48 +1174,14 @@ function Set-FTA {
             $buffer.CopyTo($outHashBase, 4)
             $base64Hash = [Convert]::ToBase64String($outHashBase)
         }
-
         Write-Output $base64Hash
     }
-
-    Write-Verbose "Getting Hash For $ProgId   $Extension"
-    If ($DomainSID.IsPresent) { Write-Verbose  "Use Get-UserSidDomain" } Else { Write-Verbose  "Use Get-UserSid" }
-    #$userSid = If ($DomainSID.IsPresent) { Get-UserSidDomain } Else { Get-UserSid }
     $userDateTime = Get-HexDateTime
-    Write-Debug "UserDateTime: $userDateTime"
-    Write-Debug "UserSid: $userSid"
-    Write-Debug "UserExperience: $userExperience"
-
     $baseInfo = "$Extension$userSid$ProgId$userDateTime$userExperience".ToLower()
-    Write-Verbose "baseInfo: $baseInfo"
-
     $progHash = Get-Hash $baseInfo
-    Write-Verbose "Hash: $progHash"
 
-    #Write AssociationToasts List
     Write-RequiredApplicationAssociationToasts $ProgId $Extension
-
-    Write-Verbose "Write Registry Extension: $Extension"
     Write-ExtensionKeys $ProgId $Extension $progHash
-
-}
-
-function Send-UpdateNotify {
-    $code = '
-    [System.Runtime.InteropServices.DllImport("Shell32.dll")]
-    private static extern int SHChangeNotify(int eventId, int flags, IntPtr item1, IntPtr item2);
-    public static void Refresh() {
-        SHChangeNotify(0x8000000, 0, IntPtr.Zero, IntPtr.Zero);
-    }
-    '
-
-    try {
-        Add-Type -MemberDefinition $code -Namespace SHChange -Name Notify
-    } catch {}
-
-    try {
-        [SHChange.Notify]::Refresh()
-    } catch {}
 }
 
 $notepadplusplusPath = "$env:ProgramFiles\Notepad++\notepad++.exe"
@@ -1377,47 +1189,52 @@ if (-not (Test-Path -LiteralPath $notepadplusplusPath)) {
     Write-Host "Could not find Notepad++ install path at '$notepadplusplusPath'. Install it at https://notepad-plus-plus.org/downloads/ if necessary." -ForegroundColor Yellow
 } else {
     #Todo: maybe on a new windows install notepad++ is not registered. Potentially gotta use Register-FTA
-    $NppProcess = Get-Process -Name "notepad++" -ErrorAction SilentlyContinue
-    if ($NppProcess) {
-        Write-Host "Notepad++ is running, close it then relaunch this script to modify the notepad++ config" -ForegroundColor Yellow
-    } else {
-        $ConfigPath = "$env:APPDATA\Notepad++\config.xml"
-        $Xml = [xml](Get-Content -Path $ConfigPath)
-        $Node = $Xml.SelectSingleNode("//GUIConfig[@name='ScintillaPrimaryView']")
+    $ConfigPath = "$env:APPDATA\Notepad++\config.xml"
+    $Xml = [xml](Get-Content -Path $ConfigPath)
+    $Node = $Xml.SelectSingleNode("//GUIConfig[@name='ScintillaPrimaryView']")
 
-        if ($Node) {
-            if ($Node.GetAttribute("Wrap") -eq "yes") {
-                Write-Host "Already enabled Notepad++ line wrap" -ForegroundColor DarkGray
-            } else {
-                $Node.SetAttribute("Wrap", "yes")
-                echo "Enabled Notepad++ line wrap"
-            }
-            if ($Node.GetAttribute("scrollBeyondLastLine") -eq "yes") {
-                Write-Host "Already enabled Notepad++ scroll beyond last line" -ForegroundColor DarkGray
-            } else {
-                $Node.SetAttribute("scrollBeyondLastLine", "yes")
-                echo "Enabled Notepad++ scroll beyond last line"
-            }
+    $areNppModificationsRequired = $false
+    if ($Node) {
+        if ($Node.GetAttribute("Wrap") -eq "yes") {
+            Write-Host "Already enabled Notepad++ line wrap" -ForegroundColor DarkGray
+        } else {
+            $Node.SetAttribute("Wrap", "yes")
+            $areNppModificationsRequired = $true
+            echo "Enabled Notepad++ line wrap"
         }
-        else {
-            Write-Error "Could not find 'ScintillaPrimaryView' node in config.xml"
+        if ($Node.GetAttribute("scrollBeyondLastLine") -eq "yes") {
+            Write-Host "Already enabled Notepad++ scroll beyond last line" -ForegroundColor DarkGray
+        } else {
+            $Node.SetAttribute("scrollBeyondLastLine", "yes")
+            $areNppModificationsRequired = $true
+            echo "Enabled Notepad++ scroll beyond last line"
         }
+    }
+    else {
+        Write-Error "Could not find 'ScintillaPrimaryView' node in config.xml"
+    }
 
-        #Set new document to be LF instead of CRLF
-        $Node = $Xml.SelectSingleNode("//GUIConfig[@name='NewDocDefaultSettings']")
-        if ($Node) {
-            if ($Node.GetAttribute("format") -eq "2") {
-                Write-Host "Already set Notepad++ new document line ending to LF" -ForegroundColor DarkGray
-            } else {
-                $Node.SetAttribute("format", "2")
-                echo "Set Notepad++ new document line ending to LF"
-            }
+    #Set new document to be LF instead of CRLF
+    $Node = $Xml.SelectSingleNode("//GUIConfig[@name='NewDocDefaultSettings']")
+    if ($Node) {
+        if ($Node.GetAttribute("format") -eq "2") {
+            Write-Host "Already set Notepad++ new document line ending to LF" -ForegroundColor DarkGray
+        } else {
+            $Node.SetAttribute("format", "2")
+            $areNppModificationsRequired = $true
+            echo "Set Notepad++ new document line ending to LF"
         }
-        else {
-            Write-Error "Could not find 'NewDocDefaultSettings' node in config.xml"
+    }
+    else {
+        Write-Error "Could not find 'NewDocDefaultSettings' node in config.xml"
+    }
+    
+    if ($areNppModificationsRequired) {
+        if (Get-Process -Name "notepad++" -ErrorAction SilentlyContinue) {
+            Write-Host "Notepad++ is running, close it then relaunch this script to modify the notepad++ config" -ForegroundColor Yellow
+        } else {
+            $Xml.Save($ConfigPath)
         }
-        $Xml.Save($ConfigPath)
-
     }
 
     #Don't associate .bat and .ps1, otherwise we can no longer run batch files from the command line
@@ -1430,7 +1247,6 @@ if (-not (Test-Path -LiteralPath $notepadplusplusPath)) {
 
     Set-FTA Applications\notepad++.exe .
     
-
     $extensions = @(
 
         #.log.1, .log.2, etc.
@@ -1516,10 +1332,20 @@ if (-not (Test-Path -LiteralPath $notepadplusplusPath)) {
     foreach ($ext in $extensions) {
         Set-FTA Applications\notepad++.exe $ext
     }
-
-    Send-UpdateNotify
-
 }
+
+# Refresh explorer to apply changes
+$code = '
+[System.Runtime.InteropServices.DllImport("Shell32.dll")]
+private static extern int SHChangeNotify(int eventId, int flags, IntPtr item1, IntPtr item2);
+public static void Refresh() {
+    SHChangeNotify(0x8000000, 0, IntPtr.Zero, IntPtr.Zero);
+}
+'
+try {
+    Add-Type -MemberDefinition $code -Namespace SHChange -Name Notify
+    [SHChange.Notify]::Refresh()
+} catch {}
 
 if ($needsSignOut) {
     echo "Done! Please restart your computer or sign out and sign back in to apply all changes."
