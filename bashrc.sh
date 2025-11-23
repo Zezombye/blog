@@ -20,6 +20,9 @@ shopt -s globstar #allow ** in glob
 shopt -s extglob #allow extended glob matching such as ?(pattern), *(pattern), etc
 shopt -s dotglob #allow globbing to match hidden files (files starting with a dot)
 
+#Avoid .* matching . and ..
+GLOBIGNORE=".:.."
+
 #disable as it causes problems with scp autocompletion
 #shopt -s failglob #if doing ls *nomatch*, it will cause an error instead of passing "*nomatch*" to ls
 
@@ -70,17 +73,19 @@ prompt_display_user_hostname() {
     fi
 }
 
+PROMPT_HOSTNAME=${PROMPT_HOSTNAME:-$HOSTNAME}
+
 if [[ $MSYSTEM == "MINGW64" ]]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;35m\]$(prompt_display_user_hostname && echo "\u@\h " || echo '')\[\033[0m\033[92m\]MINGW64\[\033[0m\] \[\033[01;34m\]\w\[\033[01;36m\]$(prompt_get_git_branch)\[\033[00m\]> '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;35m\]$(prompt_display_user_hostname && echo "\u@$PROMPT_HOSTNAME " || echo '')\[\033[0m\033[92m\]MINGW64\[\033[0m\] \[\033[01;34m\]\w\[\033[01;36m\]$(prompt_get_git_branch)\[\033[00m\]> '
 else
 
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[0m\]:\[\033[01;34m\]\w\[\033[01;35m\]$(prompt_get_git_branch)\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@$PROMPT_HOSTNAME\[\033[0m\]:\[\033[01;34m\]\w\[\033[01;35m\]$(prompt_get_git_branch)\[\033[00m\]\$ '
 fi
 
 # If this is an xterm set the title to user@host: dir <branch>
 case "$TERM" in
 xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\$(prompt_display_user_hostname && echo '\u@\h: ' || echo '')\w\$(prompt_get_git_branch true)\$(prompt_get_mingw64 true)\a\]$PS1"
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\$(prompt_display_user_hostname && echo '\u@$PROMPT_HOSTNAME: ' || echo '')\w\$(prompt_get_git_branch true)\$(prompt_get_mingw64 true)\a\]$PS1"
     ;;
 *)
     ;;
