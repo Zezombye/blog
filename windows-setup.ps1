@@ -14,48 +14,502 @@ $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $true
 
 $isAdmin = (New-Object Security.Principal.WindowsPrincipal ([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
+if ($isAdmin) {
+    echo "Running as Administrator"
+} else {
+    echo "Running as standard user. Some tweaks may not be applied."
+}
+$isWindows11 = ((Get-CimInstance -ClassName Win32_OperatingSystem).Version -ge "10.0.22000")
+if ($isWindows11) {
+    echo "Detected Windows 11"
+} else {
+    echo "Detected Windows 10 or lower"
+}
 
 if (-not (Test-Path "HKU:")) {
     New-PSDrive HKU Registry HKEY_USERS | Out-Null
+}
+if (-not (Test-Path "HKCR:")) {
+    New-PSDrive -Name "HKCR" -PSProvider Registry -Root "HKEY_CLASSES_ROOT" | Out-Null
+}
+
+function grantRegKeyPermissions {
+
+    param (
+        [string]$regPath
+    )
+
+    $AddACL = New-Object System.Security.AccessControl.RegistryAccessRule ("Builtin\Administrators","FullControl","Allow")
+    $AddACL = New-Object System.Security.AccessControl.RegistryAccessRule ("Builtin\Administrators","FullControl","ContainerInherit,ObjectInherit","None","Allow")
+    $owner = [System.Security.Principal.NTAccount]"Administrators"
+
+    if ($regPath.startswith("HKCR:", "CurrentCultureIgnoreCase")) {
+        $regPath = $regPath.Substring(5)
+        $keyCR = [Microsoft.Win32.Registry]::ClassesRoot.OpenSubKey("$regPath",[Microsoft.Win32.RegistryKeyPermissionCheck]::ReadWriteSubTree,[System.Security.AccessControl.RegistryRights]::takeownership)
+    }
+    # Get a blank ACL since you don't have access and need ownership
+    $aclCR = $keyCR.GetAccessControl([System.Security.AccessControl.AccessControlSections]::None)
+    $aclCR.SetOwner($owner)
+    $keyCR.SetAccessControl($aclCR)
+
+    # Get the acl and modify it
+    $aclCR = $keyCR.GetAccessControl()
+    $aclCR.SetAccessRule($AddACL)
+    $keyCR.SetAccessControl($aclCR)
+    $keyCR.Close()
+
 }
 
 #Can be useful for w11
 #https://github.com/Ccmexec/PowerShell/blob/master/Customize%20TaskBar%20and%20Start%20Windows%2011/CustomizeTaskbar%20v1.1.ps1
 
-#Todo: find out how to refresh after setting these values. Killing explorer is not an option as it would also kill opened windows, and I want this script to be non-disruptive.
-#For now, hide them manually.
-#echo "Hiding search in taskbar"
-#Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Search" -Name "SearchboxTaskbarMode" -Value 0 -Type DWord -Force
-#echo "Hiding task view button"
-#Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Explorer\Advanced" -Name "ShowTaskViewButton" -Value 0
-#echo "Hiding contacts button"
-#Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Explorer\Advanced/People" -Name "PeopleBand" -Value 0
+echo "Hiding search in taskbar (needs explorer restart)" #or works immediately in w11
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/CurrentVersion/Search" -Name "SearchboxTaskbarMode" -Value 0 -Type DWord -Force
+echo "Hiding task view button (needs explorer restart)"
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/CurrentVersion/Explorer\Advanced" -Name "ShowTaskViewButton" -Value 0
+echo "Hiding contacts button (needs explorer restart)"
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/CurrentVersion/Explorer\Advanced/People" -Name "PeopleBand" -Value 0
+
+echo "Disabling bing search in search menu"
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/CurrentVersion/Search" -Name "BingSearchEnabled" -Value 0
+
+echo "Removing useless context menus from explorer"
+if ($isAdmin) {
+    echo 'Remove "Open with Visual Studio"'
+    Remove-Item -LiteralPath "HKCR:\Directory\Background\shell\AnyCode" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\Directory\shell\AnyCode" -Recurse -ErrorAction SilentlyContinue
+    
+    echo 'Remove "Edit with Paint 3D"'
+    Remove-Item -LiteralPath "HKCR:\SystemFileAssociations\.3mf\Shell\3D Edit" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\SystemFileAssociations\.bmp\Shell\3D Edit" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\SystemFileAssociations\.fbx\Shell\3D Edit" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\SystemFileAssociations\.gif\Shell\3D Edit" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\SystemFileAssociations\.jfif\Shell\3D Edit" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\SystemFileAssociations\.jpe\Shell\3D Edit" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\SystemFileAssociations\.jpeg\Shell\3D Edit" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\SystemFileAssociations\.jpg\Shell\3D Edit" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\SystemFileAssociations\.png\Shell\3D Edit" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\SystemFileAssociations\.tif\Shell\3D Edit" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\SystemFileAssociations\.tiff\Shell\3D Edit" -Recurse -ErrorAction SilentlyContinue
+
+    echo 'Set "set as desktop wallpaper" to shift + right click only'
+    Set-ItemProperty -LiteralPath "HKCR:\SystemFileAssociations\.bmp\Shell\setdesktopwallpaper" -Name Extended -Value ""
+    Set-ItemProperty -LiteralPath "HKCR:\SystemFileAssociations\.dib\Shell\setdesktopwallpaper" -Name Extended -Value ""
+    Set-ItemProperty -LiteralPath "HKCR:\SystemFileAssociations\.gif\Shell\setdesktopwallpaper" -Name Extended -Value ""
+    Set-ItemProperty -LiteralPath "HKCR:\SystemFileAssociations\.jfif\Shell\setdesktopwallpaper" -Name Extended -Value ""
+    Set-ItemProperty -LiteralPath "HKCR:\SystemFileAssociations\.jpe\Shell\setdesktopwallpaper" -Name Extended -Value ""
+    Set-ItemProperty -LiteralPath "HKCR:\SystemFileAssociations\.jpeg\Shell\setdesktopwallpaper" -Name Extended -Value ""
+    Set-ItemProperty -LiteralPath "HKCR:\SystemFileAssociations\.jpg\Shell\setdesktopwallpaper" -Name Extended -Value ""
+    Set-ItemProperty -LiteralPath "HKCR:\SystemFileAssociations\.png\Shell\setdesktopwallpaper" -Name Extended -Value ""
+    Set-ItemProperty -LiteralPath "HKCR:\SystemFileAssociations\.tif\Shell\setdesktopwallpaper" -Name Extended -Value ""
+    Set-ItemProperty -LiteralPath "HKCR:\SystemFileAssociations\.tiff\Shell\setdesktopwallpaper" -Name Extended -Value ""
+    Set-ItemProperty -LiteralPath "HKCR:\SystemFileAssociations\.wdp\Shell\setdesktopwallpaper" -Name Extended -Value ""
+
+    echo 'Remove "Share / Give access to"'
+    Remove-Item -LiteralPath "HKCR:\*\shellex\ContextMenuHandlers\ModernSharing" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\*\shellex\ContextMenuHandlers\Sharing" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\Directory\Background\shellex\ContextMenuHandlers\Sharing" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\Directory\shellex\ContextMenuHandlers\Sharing" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\Drive\shellex\ContextMenuHandlers\Sharing" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\LibraryFolder\background\shellex\ContextMenuHandlers\Sharing" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\UserLibraryFolder\shellex\ContextMenuHandlers\Sharing" -Recurse -ErrorAction SilentlyContinue
+
+    echo 'Remove VLC & Winamp context menus'
+    Remove-Item -LiteralPath "HKCR:\directory\shell\AddToPlaylistVLC" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\directory\shell\PlayWithVLC" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\directory\shell\Winamp.Bookmark" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\directory\shell\Winamp.Enqueue" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\directory\shell\Winamp.Play" -Recurse -ErrorAction SilentlyContinue
+
+    echo 'Remove WizTree'
+    Remove-Item -LiteralPath "HKCR:\directory\shell\WizTree" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\directory\background\shell\WizTree" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\Folder\shell\WizTree" -Recurse -ErrorAction SilentlyContinue
+
+    echo 'Remove "Open Git GUI here" context menu'
+    Remove-Item -LiteralPath "HKCR:\directory\shell\git_gui" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\directory\background\shell\git_gui" -Recurse -ErrorAction SilentlyContinue
+
+    echo 'Make "Open Powershell here" non-extended'
+    grantRegKeyPermissions "HKCR:\Directory\shell\Powershell"
+    Remove-ItemProperty -LiteralPath "HKCR:\Directory\shell\Powershell" -Name Extended -ErrorAction SilentlyContinue
+    grantRegKeyPermissions "HKCR:\Directory\background\shell\Powershell"
+    Remove-ItemProperty -LiteralPath "HKCR:\Directory\background\shell\Powershell" -Name Extended -ErrorAction SilentlyContinue
+    
+    echo 'Always display "Copy path"'
+    #As https://superuser.com/a/1131932/1068224 points out, the default "Copy as Path" menu is hardcoded to only display on shift+right click.
+    #The only workaround is to create a Shell entry instead of a ShellEx entry.
+    New-Item -Path "HKCR:\AllFilesystemObjects\shell\windows.copyaspath"
+    Set-ItemProperty -LiteralPath "HKCR:\AllFilesystemObjects\shell\windows.copyaspath" -Name "(default)" -Value "@shell32.dll,-30328"
+    Set-ItemProperty -LiteralPath "HKCR:\AllFilesystemObjects\shell\windows.copyaspath" -Name "InvokeCommandOnSelection" -Value 1
+    Set-ItemProperty -LiteralPath "HKCR:\AllFilesystemObjects\shell\windows.copyaspath" -Name "VerbHandler" -Value "{f3d06e7c-1e45-4a26-847e-f9fcdee59be0}"
+    Set-ItemProperty -LiteralPath "HKCR:\AllFilesystemObjects\shell\windows.copyaspath" -Name "Position" -Value "Bottom"
+    #If we remove the existing ShellEx entry, the Shell entry stops working (why? idk.)
+    #I did not find a way to remove or hide that entry, so unfortunately there are two "Copy as Path" entries on shift + right click.
+    #Remove-Item -LiteralPath "HKCR:\AllFilesystemObjects\shellex\ContextMenuHandlers\CopyAsPathMenu"
+
+    echo "Add 'View wallpaper location' context menu"
+    New-Item -Path "HKCR:\DesktopBackground\Shell\DesktopWallpaperLocation" -Force | Out-Null
+    if ((Get-WinSystemLocale).Name -eq "fr-FR") {
+        Set-ItemProperty -LiteralPath "HKCR:\DesktopBackground\Shell\DesktopWallpaperLocation" -Name "(default)" -Value ("Voir l'emplacement du fond d'écran")
+    } else {
+        #Default to English
+        Set-ItemProperty -LiteralPath "HKCR:\DesktopBackground\Shell\DesktopWallpaperLocation" -Name "(default)" -Value ("View wallpaper location")
+    }
+    Set-ItemProperty -LiteralPath "HKCR:\DesktopBackground\Shell\DesktopWallpaperLocation" -Name "Icon" -Value "imageres.dll,-5346"
+    New-Item -Path "HKCR:\DesktopBackground\Shell\DesktopWallpaperLocation\command" -Force | Out-Null
+
+    #https://winaero.com/find-your-current-wallpaper-image-path-in-windows-10/
+    $getCurrentWallpaperCommand = @'
+        $regPath = "HKCU:\Control Panel\Desktop"
+        $attrName = "TranscodedImageCache"
+        $data = (Get-ItemProperty -Path $regPath -Name $attrName -ErrorAction SilentlyContinue).$attrName
+
+        # Ensure data exists and is long enough to contain the header + path
+        if ($data -and $data.Count -gt 24) {
+            # We start at offset 24 to skip the header.
+            $path = [System.Text.Encoding]::Unicode.GetString($data, 24, $data.Length - 24)
+
+            # Clean up any trailing null characters (padding)
+            $path = $path.Trim([char]0)
+
+            # Launch Explorer with the file selected
+            Start-Process "explorer.exe" -ArgumentList "/select,`"$path`""
+        }
+'@
+    $encodedCommand = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($getCurrentWallpaperCommand))
+
+    Set-ItemProperty -LiteralPath "HKCR:\DesktopBackground\Shell\DesktopWallpaperLocation\command" -Name "(default)" -Value "conhost.exe --headless powershell.exe -NoProfile -WindowStyle Hidden -EncodedCommand $encodedCommand"
+
+    echo 'Remove "Restore previous versions"'
+    Remove-Item -LiteralPath "HKCR:\AllFilesystemObjects\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\CLSID\{450D8FBA-AD25-11D0-98A8-0800361B1103}\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\Directory\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\Drive\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}" -ErrorAction SilentlyContinue
+
+    echo 'Remove "Add to library"'
+    Remove-Item -LiteralPath "HKCR:\Folder\shellex\ContextMenuHandlers\Library Location" -ErrorAction SilentlyContinue
+
+    echo 'Remove "Pin to Quick access"'
+    Remove-Item -LiteralPath "HKCR:\Folder\shell\pintohome" -Recurse -ErrorAction SilentlyContinue
+
+    echo 'Remove "Pin to Start Menu"'
+    Remove-Item -LiteralPath "HKCR:\exefile\shellex\ContextMenuHandlers\PintoStartScreen" -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\mscfile\shellex\ContextMenuHandlers\PintoStartScreen" -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\Folder\shellex\ContextMenuHandlers\PintoStartScreen" -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\Microsoft.Website\shellex\ContextMenuHandlers\PintoStartScreen" -ErrorAction SilentlyContinue
+
+
+    echo 'Removing "New X file" for useless filetypes'
+    #MS Access
+    Remove-Item -LiteralPath "HKCR:\.accdb\Access.Application.16\ShellNew" -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "HKCR:\.mdb\ShellNew" -ErrorAction SilentlyContinue
+    #.bmp file
+    Remove-Item -LiteralPath "HKCR:\.bmp\ShellNew" -ErrorAction SilentlyContinue
+    #MS Publisher
+    Remove-Item -LiteralPath "HKCR:\.pub\Publisher.Document.16\ShellNew" -ErrorAction SilentlyContinue
+    #.rtf file
+    Remove-Item -LiteralPath "HKCR:\.rtf\ShellNew" -ErrorAction SilentlyContinue
+    #New Contact
+    Remove-Item -LiteralPath "HKCR:\.contact\ShellNew" -ErrorAction SilentlyContinue
+}
+
+echo 'Adding "New -> Empty File"'
+function configureNewEmptyFileContextMenu {
+    #https://superuser.com/questions/920267/shellnew-icon-for-file-type
+    $hkcu_classes = [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey("Software\Classes", $true)
+    $dot = $hkcu_classes.CreateSubKey(".", $true)
+    $dot.SetValue('', 'No Extension', [Microsoft.Win32.RegistryValueKind]::String)
+    $shellNew = $dot.CreateSubKey("ShellNew", $true)
+    $shellNew.SetValue('NullFile', '', [Microsoft.Win32.RegistryValueKind]::String)
+    $shellNew.SetValue('IconPath', 'C:\windows\system32\imageres.dll,2', [Microsoft.Win32.RegistryValueKind]::String)
+    $config = $shellNew.CreateSubKey("Config", $true)
+    $config.SetValue("NoExtension", "", [Microsoft.Win32.RegistryValueKind]::String)
+    $noExt = $hkcu_classes.CreateSubKey("No Extension", $true)
+    $noExt.SetValue("FriendlyTypeName", "@shell32.dll,-4130", [Microsoft.Win32.RegistryValueKind]::String)
+}
+configureNewEmptyFileContextMenu
+
+
+function setExplorerQuickAccessRibbon {
+    $path = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Ribbon'
+    $valueName = 'QatItems'
+
+    # Read binary and decode as UTF-8
+    $raw = (Get-ItemProperty -Path $path -Name $valueName).$valueName
+    $xmlText = [Text.Encoding]::UTF8.GetString($raw)
+
+    # Load XML
+    [xml]$xml = $xmlText
+
+    # Namespace handling
+    $ns = New-Object System.Xml.XmlNamespaceManager($xml.NameTable)
+    $ns.AddNamespace('siq', 'http://schemas.microsoft.com/windows/2009/ribbon/qat')
+
+    # Shared controls node
+    $shared = $xml.SelectSingleNode('//siq:sharedControls', $ns)
+
+    # Ensure both controls exist
+    $idsToEnsure = 'siq:12301','siq:12303'
+
+    foreach ($id in $idsToEnsure) {
+        $node = $xml.SelectSingleNode("//siq:control[@idQ='$id']", $ns)
+        if (-not $node) {
+            $new = $xml.CreateElement('siq','control',$ns.LookupNamespace('siq'))
+            $new.SetAttribute('idQ', $id)
+            $new.SetAttribute('visible','true')
+            $new.SetAttribute('argument','0')
+            $shared.AppendChild($new) | Out-Null
+        }
+    }
+
+    # Serialize back to UTF-8 binary
+    $updated = $xml.OuterXml
+    $bytes = [Text.Encoding]::UTF8.GetBytes($updated)
+
+    # Write registry value
+    Set-ItemProperty -Path $path -Name $valueName -Value $bytes -Type Binary
+}
+
+echo "Setting Explorer Quick Access ribbon"
+setExplorerQuickAccessRibbon
+
+
+#https://old.reddit.com/r/Windows11/comments/1i0o7d7/is_there_a_tool_that_lets_you_easily_modify/m6zqu16/
+echo 'Remove "Open with Notepad" (W11 only), needs explorer restart'
+New-Item -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Shell Extensions/Blocked" -Force
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/CurrentVersion/Shell Extensions/Blocked" -Name "{CA6CC9F1-867A-481E-951E-A28C5E4F01EA}" -Value "Edit in Notepad"
+
+echo 'Remove "Share"'
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/CurrentVersion/Shell Extensions/Blocked" -Name "{e2bf9676-5f8f-435c-97eb-11607a5bedf7}" -Value "Share"
+echo 'Remove "Ask Copilot" on image files'
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/CurrentVersion/Shell Extensions/Blocked" -Name "{CB3B0003-8088-4EDE-8769-8B354AB2FF8C}" -Value "Ask Copilot"
+
+echo 'Remove "Edit with Photos / Create with Designer / Edit with Clipchamp"'
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/CurrentVersion/Shell Extensions/Blocked" -Name  "{BFE0E2A4-C70C-4AD7-AC3D-10D1ECEBB5B4}" -Value "Edit with Photos"
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/CurrentVersion/Shell Extensions/Blocked" -Name  "{1100CBCD-B822-43F0-84CB-16814C2F6B44}" -Value "Erase Object with Photos"
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/CurrentVersion/Shell Extensions/Blocked" -Name  "{7A53B94A-4E6E-4826-B48E-535020B264E5}" -Value "Create with Designer"
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/CurrentVersion/Shell Extensions/Blocked" -Name  "{9AAFEDA2-97B6-43EA-9466-9DE90501B1B6}" -Value "Visual Search with Bing"
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/CurrentVersion/Shell Extensions/Blocked" -Name  "{8AB635F8-9A67-4698-AB99-784AD929F3B4}" -Value "Edit with Clipchamp"
+
+echo 'Remove "Cast to Device"'
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/CurrentVersion/Shell Extensions/Blocked" -Name  "{7AD84985-87B4-4a16-BE58-8B72A5B390F7}" -Value "Cast to Device"
+
+if ($isWindows11) {
+    
+    echo "Setting start menu layout"
+    # Default StartMenu pins layout 0=Default, 1=More Pins, 2=More Recommendations (requires Windows 11 22H2)
+    Set-ItemProperty -LiteralPath "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_Layout" -Value 0x02
+    
+    echo "Setting taskbar to left aligned"
+    Set-ItemProperty -LiteralPath "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarAl" -Value 0x00
+
+    # Removes Widgets from the Taskbar
+    # Is blocked by the UCPD: https://www.elevenforum.com/t/enable-or-disable-userchoice-protection-driver-ucpd-in-windows-11-and-10.24267/
+    # https://forums.mydigitallife.net/threads/taskbarda-widgets-registry-change-is-now-blocked.88547/
+    # Set-ItemProperty -LiteralPath "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarDa" -Value 0x00
+
+    echo "Hiding gallery"
+    New-Item -Path "HKCU:/Software/Classes/CLSID/{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" -Force | Out-Null
+    Set-ItemProperty -LiteralPath "HKCU:/Software/Classes/CLSID/{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" -Name "System.IsPinnedToNameSpaceTree" -Value 0x00
+
+    echo "Setting scrollbars to always show"
+    # Needs restart for some reason
+    Set-ItemProperty -LiteralPath "HKCU:/Control Panel\Accessibility" -Name "DynamicScrollbars" -Value 0
+
+    echo "Restoring old explorer right click menu"
+    New-Item -Path "HKCU:\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" -Force | Out-Null
+    Set-ItemProperty -LiteralPath "HKCU:\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" -Name '(default)' -Value ""
+
+    echo "Setting compact mode in explorer"
+    Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/CurrentVersion/Explorer\Advanced" -Name "UseCompactMode" -Value 1
+
+    echo "Increasing scrollbar size. Needs relogging/reboot"
+    Set-ItemProperty -LiteralPath "HKCU:/Control Panel\Desktop\WindowMetrics" -Name "ScrollHeight" -Value "-330"
+    Set-ItemProperty -LiteralPath "HKCU:/Control Panel\Desktop\WindowMetrics" -Name "ScrollWidth" -Value "-330"
+
+    #https://www.elevenforum.com/t/restore-classic-file-explorer-with-ribbon-in-windows-11.620/
+    echo "Enabling ribbon in file explorer"
+    New-Item -Path "HKCU:\Software\Classes\CLSID\{2aa9162e-c906-4dd9-ad0b-3d24a8eef5a0}" -Force | Out-Null
+    Set-ItemProperty -LiteralPath "HKCU:\Software\Classes\CLSID\{2aa9162e-c906-4dd9-ad0b-3d24a8eef5a0}" -Name '(default)' -Value "CLSID_ItemsViewAdapter"
+
+    New-Item -Path "HKCU:\Software\Classes\CLSID\{2aa9162e-c906-4dd9-ad0b-3d24a8eef5a0}\InProcServer32" -Force | Out-Null
+    Set-ItemProperty -LiteralPath "HKCU:\Software\Classes\CLSID\{2aa9162e-c906-4dd9-ad0b-3d24a8eef5a0}\InProcServer32" -Name '(default)' -Value "C:\Windows\System32\Windows.UI.FileExplorer.dll_"
+    Set-ItemProperty -LiteralPath "HKCU:\Software\Classes\CLSID\{2aa9162e-c906-4dd9-ad0b-3d24a8eef5a0}\InProcServer32" -Name 'ThreadingModel' -Value "Apartment"
+
+    New-Item -Path "HKCU:\Software\Classes\CLSID\{6480100b-5a83-4d1e-9f69-8ae5a88e9a33}" -Force | Out-Null
+    Set-ItemProperty -LiteralPath "HKCU:\Software\Classes\CLSID\{6480100b-5a83-4d1e-9f69-8ae5a88e9a33}" -Name '(default)' -Value "File Explorer Xaml Island View Adapter"
+
+    New-Item -Path "HKCU:\Software\Classes\CLSID\{6480100b-5a83-4d1e-9f69-8ae5a88e9a33}\InProcServer32" -Force | Out-Null
+    Set-ItemProperty -LiteralPath "HKCU:\Software\Classes\CLSID\{6480100b-5a83-4d1e-9f69-8ae5a88e9a33}\InProcServer32" -Name '(default)' -Value "C:\Windows\System32\Windows.UI.FileExplorer.dll_"
+    Set-ItemProperty -LiteralPath "HKCU:\Software\Classes\CLSID\{6480100b-5a83-4d1e-9f69-8ae5a88e9a33}\InProcServer32" -Name 'ThreadingModel' -Value "Apartment"
+
+
+    echo "Setting Windows Terminal parameters"
+    $terminalSettings = @'
+    {
+        "$help": "https://aka.ms/terminal-documentation",
+        "$schema": "https://aka.ms/terminal-profiles-schema",
+        "actions": [],
+        "alwaysOnTop": false,
+        "alwaysShowTabs": false,
+        "copyFormatting": "none",
+        "copyOnSelect": false,
+        "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+        "initialRows": 34,
+        "keybindings": [
+            {
+                "id": "Terminal.CopyToClipboard",
+                "keys": "ctrl+c"
+            },
+            {
+                "id": "Terminal.PasteFromClipboard",
+                "keys": "ctrl+v"
+            },
+            {
+                "id": "Terminal.DuplicatePaneAuto",
+                "keys": "alt+shift+d"
+            }
+        ],
+        "newTabMenu": [
+            {
+                "type": "remainingProfiles"
+            }
+        ],
+        "newTabPosition": "afterCurrentTab",
+        "profiles": {
+            "defaults": {
+                "colorScheme": "zez.dev",
+                "font": {
+                    "cellHeight": "1.1",
+                    "face": "Consolas",
+                    "size": 11,
+                    "weight": "normal"
+                },
+                "opacity": 100,
+                "padding": "2",
+                "useAcrylic": false
+            },
+            "list": [
+                {
+                    "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                    "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                    "hidden": false,
+                    "name": "Windows PowerShell"
+                },
+                {
+                    "commandline": "%SystemRoot%\\System32\\cmd.exe",
+                    "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                    "hidden": false,
+                    "name": "Invite de commandes"
+                },
+                {
+                    "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+                    "hidden": false,
+                    "name": "Azure Cloud Shell",
+                    "source": "Windows.Terminal.Azure"
+                },
+                {
+                    "guid": "{d667c8f4-340a-5a02-83e8-de231666da94}",
+                    "hidden": false,
+                    "name": "Developer Command Prompt for VS 2022",
+                    "source": "Windows.Terminal.VisualStudio"
+                },
+                {
+                    "guid": "{405e1125-8357-5c2f-a026-d3f69f4efbb2}",
+                    "hidden": false,
+                    "name": "Developer PowerShell for VS 2022",
+                    "source": "Windows.Terminal.VisualStudio"
+                }
+            ]
+        },
+        "schemes": [
+            {
+                "background": "#181818",
+                "black": "#181818",
+                "blue": "#4989E2",
+                "brightBlack": "#828282",
+                "brightBlue": "#4A98F5",
+                "brightCyan": "#29B8DB",
+                "brightGreen": "#46CE46",
+                "brightPurple": "#D670D6",
+                "brightRed": "#F14C4C",
+                "brightWhite": "#F2F2F2",
+                "brightYellow": "#F5F543",
+                "cursorColor": "#D8D8D8",
+                "cyan": "#11A8CD",
+                "foreground": "#D7D7D7",
+                "green": "#40C73D",
+                "name": "zez.dev",
+                "purple": "#CA5ACA",
+                "red": "#CD3131",
+                "selectionBackground": "#D7D7D7",
+                "white": "#D7D7D7",
+                "yellow": "#E5E510"
+            }
+        ],
+        "showTabsInTitlebar": false,
+        "tabWidthMode": "titleLength",
+        "themes": [],
+        "useAcrylicInTabRow": false,
+        "warning.confirmCloseAllTabs": false
+    }
+
+'@
+    [IO.File]::WriteAllText("$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json", $terminalSettings)
+
+}
+
+echo "Setting explorer to display hidden files"
+Set-ItemProperty -LiteralPath "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Hidden" -Value 1
+echo "Setting explorer to display file extensions"
+Set-ItemProperty -LiteralPath "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideFileExt" -Value 0
+echo "Setting explorer to display system files"
+Set-ItemProperty -LiteralPath "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowSuperHidden" -Value 1
+echo "Disabling window shake to minimize"
+Set-ItemProperty -LiteralPath "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DisallowShaking" -Value 1
+
+#Feels too weird
+#echo "Setting drive letters to be before labels"
+#Set-ItemProperty -LiteralPath "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "ShowDriveLettersFirst" -Value 4
+
+echo "Setting wallpaper quality to 100%"
+Set-ItemProperty -LiteralPath "HKCU:/Control Panel/Desktop" -Name "JPEGImportQuality" -Value 100 -Type DWord
 
 echo "Setting accent color"
-Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/DWM" -Name "AccentColor" -Value 0xffb16300
-Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/DWM" -Name "ColorizationColor" -Value 0xc40063B1
-Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/DWM" -Name "ColorizationColorBalance" -Value 0x59
-Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/DWM" -Name "ColorizationAfterglow" -Value 0xc40063B1
-Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/DWM" -Name "ColorizationAfterglowBalance" -Value 0x0A
-Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/DWM" -Name "ColorizationBlurBalance" -Value 0x01
-Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/DWM" -Name "EnableWindowColorization" -Value 0x01
-Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/DWM" -Name "ColorizationGlassAttribute" -Value 0x01
-Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/DWM" -Name "ColorPrevalence" -Value 0x01 #color title bar
-Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Themes/Personalize" -Name "ColorPrevalence" -Value 0x01 #color start menu, taskbar, and notification center
-Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Themes/Personalize" -Name "AppsUseLightTheme" -Value 0x00
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/DWM" -Name "AccentColor" -Value 0xffb16300
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/DWM" -Name "ColorizationColor" -Value 0xc40063B1
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/DWM" -Name "ColorizationColorBalance" -Value 0x59
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/DWM" -Name "ColorizationAfterglow" -Value 0xc40063B1
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/DWM" -Name "ColorizationAfterglowBalance" -Value 0x0A
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/DWM" -Name "ColorizationBlurBalance" -Value 0x01
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/DWM" -Name "EnableWindowColorization" -Value 0x01
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/DWM" -Name "ColorizationGlassAttribute" -Value 0x01
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/DWM" -Name "ColorPrevalence" -Value 0x01 #color title bar
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/CurrentVersion/Themes/Personalize" -Name "ColorPrevalence" -Value 0x01 #color start menu, taskbar, and notification center
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/CurrentVersion/Themes/Personalize" -Name "AppsUseLightTheme" -Value 0x00
 if (-not (Test-Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Themes/History")) {
     New-Item -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Themes/History" -Force | Out-Null
 }
-Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Themes/History" -Name "AutoColor" -Value 0x00
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/CurrentVersion/Themes/History" -Name "AutoColor" -Value 0x00
 if (-not (Test-Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Explorer/Accent")) {
     New-Item -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Explorer/Accent" -Force | Out-Null
 }
-Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Explorer/Accent" -Name "AccentPalette" -Value ([byte[]](134,202,255,0,95,178,242,0,30,145,234,0,0,99,177,0,0,66,117,0,0,45,79,0,0,32,56,0,0,204,106,0))
-Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Explorer/Accent" -Name "StartColorMenu" -Value 0xff754200
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/CurrentVersion/Explorer/Accent" -Name "AccentPalette" -Value ([byte[]](134,202,255,0,95,178,242,0,30,145,234,0,0,99,177,0,0,66,117,0,0,45,79,0,0,32,56,0,0,204,106,0))
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/CurrentVersion/Explorer/Accent" -Name "StartColorMenu" -Value 0xff754200
 
 #This value has to be the last, as it triggers a change. https://www.reddit.com/r/Windows11/comments/sw15u0/dark_theme_did_you_notice_the_ugly_pale_accent/
-Set-ItemProperty -Path "HKCU:/Software/Microsoft/Windows/CurrentVersion/Explorer/Accent" -Name "AccentColorMenu" -Value 0xffb16300
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Windows/CurrentVersion/Explorer/Accent" -Name "AccentColorMenu" -Value 0xffb16300
 
+
+echo "Setting task manager to expanded view"
+#Should be 1 if not expanded: (Get-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager").Preferences[28]
+$taskManagerSettings = (Get-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager").Preferences
+$taskManagerSettings[28] = 0
+Set-ItemProperty -LiteralPath "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -Value $taskManagerSettings
+
+#Fix console colors for python
+Set-ItemProperty -LiteralPath "HKCU:/Console" -Name "VirtualTerminalLevel" -Value 1 -Type DWord
 
 # In the registry, those values are stored in little endian
 function rgbToAABBGGRR {
@@ -76,7 +530,7 @@ $Color4 = 205, 49, 49 #31 - red
 $Color5 = 202, 90, 202 #35 - magenta
 $Color6 = 229, 229, 16 #33 - yellow
 $Color7 = 215, 215, 215 #37 - white
-$Color8 = 130, 130, 130 #90 - bright black (gray)
+$Color8 = 150, 150, 150 #90 - bright black (gray)
 $Color9 = 74, 152, 245 #94 - bright blue
 $Color10 = 70, 206, 70 #92 - bright green
 $Color11 = 41, 184, 219 #96 - bright cyan
@@ -111,7 +565,7 @@ if ($isAdmin) {
 }
 
 foreach ($regPath in $regPaths) {
-    if (-not (Test-Path -Path $regPath)) {
+    if (-not (Test-Path -LiteralPath $regPath)) {
         echo ("Creating registry path: {0}" -f $regPath)
         New-Item -Path $regPath -Force | Out-Null
     }
@@ -123,19 +577,19 @@ foreach ($regPath in $regPaths) {
         $regKey = "ColorTable{0:d2}" -f $i
         #echo ("Setting $regKey to {0:x}" -f $colorValue)
 
-        Set-ItemProperty -Path $regPath -Name $regKey -Value $colorValue
+        Set-ItemProperty -LiteralPath $regPath -Name $regKey -Value $colorValue
     }
 
     echo ("Setting additional properties")
-    Set-ItemProperty -Path $regPath -Name "ScreenColors" -Value 0x00000007 # black on white
-    Set-ItemProperty -Path $regPath -Name "PopupColors" -Value 0x00000007 # black on white
-    Set-ItemProperty -Path $regPath -Name "FaceName" -Value "Consolas"
-    Set-ItemProperty -Path $regPath -Name "FontFamily" -Value 0x00000036 # Consolas
-    Set-ItemProperty -Path $regPath -Name "FontWeight" -Value 0x00000190 # 400
-    Set-ItemProperty -Path $regPath -Name "FontSize" -Value 0x00100000 # 16px
-    Set-ItemProperty -Path $regPath -Name "HistoryBufferSize" -Value 999
-    Set-ItemProperty -Path $regPath -Name "HistoryNoDup" -Value 1
-    Set-ItemProperty -Path $regPath -Name "WindowSize" -Value (($consoleHeight -shl 16) -bor $consoleWidth)
+    Set-ItemProperty -LiteralPath $regPath -Name "ScreenColors" -Value 0x00000007 # black on white
+    Set-ItemProperty -LiteralPath $regPath -Name "PopupColors" -Value 0x00000007 # black on white
+    Set-ItemProperty -LiteralPath $regPath -Name "FaceName" -Value "Consolas"
+    Set-ItemProperty -LiteralPath $regPath -Name "FontFamily" -Value 0x00000036 # Consolas
+    Set-ItemProperty -LiteralPath $regPath -Name "FontWeight" -Value 0x00000190 # 400
+    Set-ItemProperty -LiteralPath $regPath -Name "FontSize" -Value 0x00100000 # 16px
+    Set-ItemProperty -LiteralPath $regPath -Name "HistoryBufferSize" -Value 999
+    Set-ItemProperty -LiteralPath $regPath -Name "HistoryNoDup" -Value 1
+    Set-ItemProperty -LiteralPath $regPath -Name "WindowSize" -Value (($consoleHeight -shl 16) -bor $consoleWidth)
 }
 
 
@@ -148,7 +602,7 @@ function patchShortcut {
     )
 
     $shortcutContent = [System.Convert]::FromBase64String($shortcutContentBase64)
-    if (-not (Test-Path -Path $shortcutPath)) {
+    if (-not (Test-Path -LiteralPath $shortcutPath)) {
         echo ("Creating shortcut at {0}" -f $shortcutPath)
         New-Item -Path $shortcutPath -ItemType File -Force | Out-Null
     }
@@ -163,7 +617,7 @@ function patchShortcut {
         $shortcutContent[$sizeOffset + 6] = $consoleHeight
     }
 
-    Set-Content -Path $shortcutPath -Value $shortcutContent -Encoding Byte
+    Set-Content -LiteralPath $shortcutPath -Value $shortcutContent -Encoding Byte
 }
 
 echo "Patching powershell shortcut"
@@ -300,10 +754,10 @@ AA==" 0x49F
 
 # Prompt for CMD
 echo "Setting cmd prompt environment variable"
-Set-ItemProperty -Path "HKCU:\Environment" -Name "PROMPT" -Value '$e[92m$p$e[0m$g '
+Set-ItemProperty -LiteralPath "HKCU:\Environment" -Name "PROMPT" -Value '$e[92m$p$e[0m$g '
 
 # We can get conditional prompts with the autorun value, but only at startup (can't display git branch for example)
-if (-not (Test-Path -Path "HKCU:\Software\Microsoft\Command Processor")) {
+if (-not (Test-Path -LiteralPath "HKCU:\Software\Microsoft\Command Processor")) {
     New-Item -Path "HKCU:\Software\Microsoft\Command Processor" -Force | Out-Null
 }
 
@@ -320,7 +774,7 @@ if (-not (Test-Path -Path "HKCU:\Software\Microsoft\Command Processor")) {
 
 # Use fltmc to test admin rights - https://stackoverflow.com/a/28268802/4851350
 # Note: don't add whitespace after the prompt statement
-Set-ItemProperty -Path "HKCU:/Software/Microsoft/Command Processor" -Name "Autorun" -Force -Type String -Value @'
+Set-ItemProperty -LiteralPath "HKCU:/Software/Microsoft/Command Processor" -Name "Autorun" -Force -Type String -Value @'
 
 if defined ssh_connection
     (set prompt=$e[95m[SSH] $e[92m$p$e[0m$g$s)
@@ -335,9 +789,9 @@ else (
 
 if ($isAdmin) {
     #echo "Setting default cmd prompt environment variable"
-    #Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Session Manager\Environment" -Name "PROMPT" -Value '$e[92m$p$e[0m$g '
+    #Set-ItemProperty -LiteralPath "HKLM:\System\CurrentControlSet\Control\Session Manager\Environment" -Name "PROMPT" -Value '$e[92m$p$e[0m$g '
     echo "Setting system cmd prompt environment variable"
-    Set-ItemProperty -Path "HKU:\S-1-5-18\Environment" -Name "PROMPT" -Value '$e[91m[SYSTEM]$e[92m $p$e[0m$g '
+    Set-ItemProperty -LiteralPath "HKU:\S-1-5-18\Environment" -Name "PROMPT" -Value '$e[91m[SYSTEM]$e[92m $p$e[0m$g '
 }
 
 
@@ -349,6 +803,14 @@ $profileContent = @'
 
 # Version: ###DATE###
 # irm zez.dev | iex
+
+#Automatically add HKU and HKCR registry drives
+if (-not (Test-Path "HKU:")) {
+    New-PSDrive HKU Registry HKEY_USERS | Out-Null
+}
+if (-not (Test-Path "HKCR:")) {
+    New-PSDrive -Name "HKCR" -PSProvider Registry -Root "HKEY_CLASSES_ROOT" | Out-Null
+}
 
 function prompt {
     $currentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
@@ -430,16 +892,6 @@ test -f ~/.profile && . ~/.profile
 test -f ~/.bashrc && . ~/.bashrc
 '@)
 
-
-#display file extensions + system files
-
-echo "Setting explorer to display hidden files"
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Hidden" -Value 1
-echo "Setting explorer to display file extensions"
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideFileExt" -Value 0
-echo "Setting explorer to display system files"
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowSuperHidden" -Value 1
-
 #Code from https://github.com/DanysysTeam/PS-SFTA/blob/master/SFTA.ps1
 #Defeats the UserChoice hash and allows setting file type associations
 
@@ -516,7 +968,7 @@ function Set-FTA {
         $DomainSID
     )
 
-    if (Test-Path -Path $ProgId) {
+    if (Test-Path -LiteralPath $ProgId) {
         $ProgId = "SFTA." + [System.IO.Path]::GetFileNameWithoutExtension($ProgId).replace(" ", "") + $Extension
     }
 
@@ -547,13 +999,13 @@ function Set-FTA {
         [Microsoft.Win32.Registry]::SetValue($keyPath, $ProgId + "_" + $Extension, 0x0)
         <#
 
-        $allApplicationAssociationToasts = Get-ChildItem -Path HKLM:\SOFTWARE\Classes\$Extension\OpenWithList\* -ErrorAction SilentlyContinue |
+        $allApplicationAssociationToasts = Get-ChildItem -LiteralPath HKLM:\SOFTWARE\Classes\$Extension\OpenWithList\* -ErrorAction SilentlyContinue |
         ForEach-Object {
             "Applications\$($_.PSChildName)"
         }
 
         $allApplicationAssociationToasts += @(
-            ForEach ($item in (Get-ItemProperty -Path HKLM:\SOFTWARE\Classes\$Extension\OpenWithProgids -ErrorAction SilentlyContinue).PSObject.Properties ) {
+            ForEach ($item in (Get-ItemProperty -LiteralPath HKLM:\SOFTWARE\Classes\$Extension\OpenWithProgids -ErrorAction SilentlyContinue).PSObject.Properties ) {
                 if ([string]::IsNullOrEmpty($item.Value) -and $item -ne "(default)") {
                     $item.Name
                 }
@@ -561,7 +1013,7 @@ function Set-FTA {
         )
 
 
-        $allApplicationAssociationToasts += Get-ChildItem -Path HKLM:SOFTWARE\Clients\StartMenuInternet\* , HKCU:SOFTWARE\Clients\StartMenuInternet\* -ErrorAction SilentlyContinue |
+        $allApplicationAssociationToasts += Get-ChildItem -LiteralPath HKLM:SOFTWARE\Clients\StartMenuInternet\* , HKCU:SOFTWARE\Clients\StartMenuInternet\* -ErrorAction SilentlyContinue |
         ForEach-Object {
         (Get-ItemProperty ("$($_.PSPath)\Capabilities\" + (@("URLAssociations", "FileAssociations") | Select-Object -Index $Extension.Contains("."))) -ErrorAction SilentlyContinue).$Extension
         }
@@ -838,11 +1290,37 @@ function Update-RegistryChanges {
 }
 
 $notepadplusplusPath = "$env:ProgramFiles\Notepad++\notepad++.exe"
-if (-not (Test-Path -Path $notepadplusplusPath)) {
+if (-not (Test-Path -LiteralPath $notepadplusplusPath)) {
     echo "Could not find Notepad++ install path at '$notepadplusplusPath'. Install it at https://notepad-plus-plus.org/downloads/ then relaunch this script."
 } else {
     #Todo: maybe on a new windows install notepad++ is not registered. Potentially gotta use Register-FTA
+    $NppProcess = Get-Process -Name "notepad++" -ErrorAction SilentlyContinue
+    if ($NppProcess) {
+        echo "Notepad++ is running, close it then relaunch this script to modify the notepad++ config"
+    } else {
+        $ConfigPath = "$env:APPDATA\Notepad++\config.xml"
+        $Xml = [xml](Get-Content -Path $ConfigPath)
+        $Node = $Xml.SelectSingleNode("//GUIConfig[@name='ScintillaPrimaryView']")
 
+        if ($Node) {
+            $Node.SetAttribute("Wrap", "yes")
+            $Node.SetAttribute("scrollBeyondLastLine", "yes")
+        }
+        else {
+            Write-Error "Could not find 'ScintillaPrimaryView' node in config.xml"
+        }
+
+        #Set new document to be LF instead of CRLF
+        $Node = $Xml.SelectSingleNode("//GUIConfig[@name='NewDocDefaultSettings']")
+        if ($Node) {
+            $Node.SetAttribute("format", "2")
+        }
+        else {
+            Write-Error "Could not find 'NewDocDefaultSettings' node in config.xml"
+        }
+        $Xml.Save($ConfigPath)
+
+    }
 
     #Don't associate .bat and .ps1, otherwise we can no longer run batch files from the command line
     try {
