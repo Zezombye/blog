@@ -53,21 +53,125 @@ if (-not (Test-Path "HKCR:")) {New-PSDrive -Name "HKCR" -PSProvider Registry -Ro
 
 function grantRegKeyPermissions {
     param ([string]$regPath)
-
-    $AddACL = New-Object System.Security.AccessControl.RegistryAccessRule ("Builtin\Administrators","FullControl","ContainerInherit,ObjectInherit","None","Allow")
-    if ($regPath.startswith("HKCR:", "CurrentCultureIgnoreCase")) {
-        $regPath = $regPath.Substring(5)
-        $keyCR = [Microsoft.Win32.Registry]::ClassesRoot.OpenSubKey("$regPath",[Microsoft.Win32.RegistryKeyPermissionCheck]::ReadWriteSubTree,[System.Security.AccessControl.RegistryRights]::takeownership)
-    } else {
+    if (-not $regPath.startswith("HKCR:", "CurrentCultureIgnoreCase")) {
         throw "Unsupported hive for granting permissions to '$regPath'"
     }
+    $regPath = $regPath.Substring(5)
+
+    Add-Type @"
+    using System;
+    using System.Runtime.InteropServices;
+    using System.Security.AccessControl;
+
+    public class RegistryOwnership
+    {
+        [DllImport("advapi32.dll", SetLastError = true)]
+        public static extern int RegOpenKeyEx(
+            IntPtr hKey,
+            string subKey,
+            int ulOptions,
+            int samDesired,
+            out IntPtr hkResult);
+
+        [DllImport("advapi32.dll", SetLastError = true)]
+        public static extern int RegCloseKey(IntPtr hKey);
+
+        [DllImport("advapi32.dll", SetLastError = true)]
+        public static extern int RegSetKeySecurity(
+            IntPtr hKey,
+            int SecurityInformation,
+            byte[] pSecurityDescriptor);
+
+        public const int WRITE_OWNER = 0x00080000;
+        public const int WRITE_DAC = 0x00040000;
+        public static readonly IntPtr HKEY_LOCAL_MACHINE = new IntPtr(unchecked((int)0x80000002));
+        public const int OWNER_SECURITY_INFORMATION = 0x00000001;
+        public const int DACL_SECURITY_INFORMATION = 0x00000004;
+    }
+"@
+
+    # Enable SeRestorePrivilege and SeTakeOwnershipPrivilege
+    Add-Type @"
+    using System;
+    using System.Runtime.InteropServices;
+
+    public class TokenManipulator
+    {
+        [DllImport("advapi32.dll", ExactSpelling = true, SetLastError = true)]
+        internal static extern bool AdjustTokenPrivileges(IntPtr htok, bool disall,
+            ref TokPriv1Luid newst, int len, IntPtr prev, IntPtr relen);
+
+        [DllImport("kernel32.dll", ExactSpelling = true)]
+        internal static extern IntPtr GetCurrentProcess();
+
+        [DllImport("advapi32.dll", ExactSpelling = true, SetLastError = true)]
+        internal static extern bool OpenProcessToken(IntPtr h, int acc, ref IntPtr phtok);
+
+        [DllImport("advapi32.dll", SetLastError = true)]
+        internal static extern bool LookupPrivilegeValue(string host, string name, ref long pluid);
+
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        internal struct TokPriv1Luid
+        {
+            public int Count;
+            public long Luid;
+            public int Attr;
+        }
+
+        internal const int SE_PRIVILEGE_ENABLED = 0x00000002;
+        internal const int TOKEN_QUERY = 0x00000008;
+        internal const int TOKEN_ADJUST_PRIVILEGES = 0x00000020;
+
+        public static bool AddPrivilege(string privilege)
+        {
+            IntPtr hproc = GetCurrentProcess();
+            IntPtr htok = IntPtr.Zero;
+            if (!OpenProcessToken(hproc, TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, ref htok))
+                return false;
+            
+            TokPriv1Luid tp;
+            tp.Count = 1;
+            tp.Luid = 0;
+            tp.Attr = SE_PRIVILEGE_ENABLED;
+            
+            if (!LookupPrivilegeValue(null, privilege, ref tp.Luid))
+                return false;
+            
+            return AdjustTokenPrivileges(htok, false, ref tp, 0, IntPtr.Zero, IntPtr.Zero);
+        }
+    }
+"@
+
+    [TokenManipulator]::AddPrivilege("SeRestorePrivilege") | Out-Null
+    [TokenManipulator]::AddPrivilege("SeTakeOwnershipPrivilege") | Out-Null
+    [TokenManipulator]::AddPrivilege("SeBackupPrivilege") | Out-Null
+
+    # Open key with WRITE_OWNER access
+    $result = [RegistryOwnership]::RegOpenKeyEx(
+        [RegistryOwnership]::HKEY_LOCAL_MACHINE,
+        $regPath,
+        0,
+        [RegistryOwnership]::WRITE_OWNER,
+        [ref][IntPtr]::Zero
+    )
+    if ($result -ne 0) {
+        throw "Failed to open key '$regPath'. Error: $result"
+    }
+
+    $keyCR = [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey($regPath, [Microsoft.Win32.RegistryKeyPermissionCheck]::ReadWriteSubTree, [System.Security.AccessControl.RegistryRights]::TakeOwnership)
     $aclCR = $keyCR.GetAccessControl([System.Security.AccessControl.AccessControlSections]::None)
-    $aclCR.SetOwner([System.Security.Principal.NTAccount]"Administrators")
+    $adminsSid = New-Object System.Security.Principal.SecurityIdentifier('S-1-5-32-544')
+    $aclCR.SetOwner($adminsSid)
     $keyCR.SetAccessControl($aclCR)
+
+    $AddACL = New-Object System.Security.AccessControl.RegistryAccessRule ($adminsSid,"FullControl","ContainerInherit,ObjectInherit","None","Allow")
     $aclCR = $keyCR.GetAccessControl()
     $aclCR.SetAccessRule($AddACL)
     $keyCR.SetAccessControl($aclCR)
     $keyCR.Close()
+
+    [RegistryOwnership]::RegCloseKey([IntPtr]::Zero) | Out-Null
+
 }
 
 function applyRegEdits {
@@ -161,7 +265,7 @@ function applyRegEdits {
             if ($existingKey -ne $null) {
                 $existingValue = $existingKey.GetValue($property)
                 $existingKey.Close()
-                if ($existingValue.getType().Name -eq "Byte[]") {
+                if ($existingValue -ne $null -and $existingValue.getType().Name -eq "Byte[]") {
                     if (@(Compare-Object $existingValue $value -SyncWindow 0).Length -eq 0) {continue}
                 } elseif ($existingValue -eq $value) {continue} 
             }
@@ -297,6 +401,11 @@ applyRegEdits "Remove 'Open Git GUI here' from Explorer context menu" @(
     @("RemoveKey", "HKCR:\directory\background\shell\git_gui")
 )
 
+applyRegEdits "Remove 'Open Linux shell here' from Explorer context menu" @(
+    @("RemoveKey", "HKCR:\directory\shell\WSL"),
+    @("RemoveKey", "HKCR:\directory\background\shell\WSL")
+)
+
 applyRegEdits "Remove 'Restore previous versions' from Explorer context menu" @(
     @("RemoveKey", "HKCR:\AllFilesystemObjects\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}"),
     @("RemoveKey", "HKCR:\CLSID\{450D8FBA-AD25-11D0-98A8-0800361B1103}\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}"),
@@ -328,6 +437,9 @@ applyRegEdits "Remove 'New -> Bitmap image' from Explorer context menu" @(
 )
 applyRegEdits "Remove 'New -> Microsoft Publisher file' from Explorer context menu" @(
     @("RemoveKey", "HKCR:\.pub\Publisher.Document.16\ShellNew")
+)
+applyRegEdits "Remove 'New -> Microsoft Visio Drawing' from Explorer context menu" @(
+    @("RemoveKey", "HKCR:\.vsdx\Visio.Drawing.15\ShellNew")
 )
 applyRegEdits "Remove 'New -> RTF file' from Explorer context menu" @(
     @("RemoveKey", "HKCR:\.rtf\ShellNew")
@@ -577,7 +689,7 @@ if ($isWindows11) {
             "cyan": "$(rgbToHex $Color3)",
             "red": "$(rgbToHex $Color4)",
             "purple": "$(rgbToHex $Color5)",
-            "yellow": "$(rgbToHex $Color6)"
+            "yellow": "$(rgbToHex $Color6)",
             "white": "$(rgbToHex $Color7)",
             "brightBlack": "$(rgbToHex $Color8)",
             "brightBlue": "$(rgbToHex $Color9)",
@@ -586,7 +698,7 @@ if ($isWindows11) {
             "brightRed": "$(rgbToHex $Color12)",
             "brightPurple": "$(rgbToHex $Color13)",
             "brightYellow": "$(rgbToHex $Color14)",
-            "brightWhite": "$(rgbToHex $Color15)",
+            "brightWhite": "$(rgbToHex $Color15)"
         }],
         "showTabsInTitlebar": false,
         "tabWidthMode": "titleLength",
@@ -699,7 +811,7 @@ foreach ($regPath in $regPaths) {
         $colorValue = rgbToAABBGGRR $colors[$i]
         $colorValue = + "0x$colorValue"
         $regKey = "ColorTable{0:d2}" -f $i
-        $modifications += @("SetProperty", $regPath, $regKey, $colorValue)
+        $modifications += ,@("SetProperty", $regPath, $regKey, $colorValue)
     }
     applyRegEdits "Set $user $cmdType colors" $modifications
 
