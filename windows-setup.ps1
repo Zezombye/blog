@@ -142,23 +142,26 @@ function grantRegKeyPermissions {
     }
 "@
 
-    [TokenManipulator]::AddPrivilege("SeRestorePrivilege") | Out-Null
-    [TokenManipulator]::AddPrivilege("SeTakeOwnershipPrivilege") | Out-Null
-    [TokenManipulator]::AddPrivilege("SeBackupPrivilege") | Out-Null
+    if ($isWindows11) {
+        [TokenManipulator]::AddPrivilege("SeRestorePrivilege") | Out-Null
+        [TokenManipulator]::AddPrivilege("SeTakeOwnershipPrivilege") | Out-Null
+        [TokenManipulator]::AddPrivilege("SeBackupPrivilege") | Out-Null
 
-    # Open key with WRITE_OWNER access
-    $result = [RegistryOwnership]::RegOpenKeyEx(
-        [RegistryOwnership]::HKEY_LOCAL_MACHINE,
-        $regPath,
-        0,
-        [RegistryOwnership]::WRITE_OWNER,
-        [ref][IntPtr]::Zero
-    )
-    if ($result -ne 0) {
-        throw "Failed to open key '$regPath'. Error: $result"
+        $hKey = [IntPtr]::Zero
+        # Open key with WRITE_OWNER access
+        $result = [RegistryOwnership]::RegOpenKeyEx(
+            [RegistryOwnership]::HKEY_CLASSES_ROOT,
+            $regPath,
+            0,
+            [RegistryOwnership]::WRITE_OWNER,
+            [ref]$hKey
+        )
+        if ($result -ne 0) {
+            throw "Failed to open key '$regPath'. Error: $result"
+        }
     }
 
-    $keyCR = [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey($regPath, [Microsoft.Win32.RegistryKeyPermissionCheck]::ReadWriteSubTree, [System.Security.AccessControl.RegistryRights]::TakeOwnership)
+    $keyCR = [Microsoft.Win32.Registry]::ClassesRoot.OpenSubKey($regPath, [Microsoft.Win32.RegistryKeyPermissionCheck]::ReadWriteSubTree, [System.Security.AccessControl.RegistryRights]::TakeOwnership)
     $aclCR = $keyCR.GetAccessControl([System.Security.AccessControl.AccessControlSections]::None)
     $adminsSid = New-Object System.Security.Principal.SecurityIdentifier('S-1-5-32-544')
     $aclCR.SetOwner($adminsSid)
@@ -170,7 +173,7 @@ function grantRegKeyPermissions {
     $keyCR.SetAccessControl($aclCR)
     $keyCR.Close()
 
-    [RegistryOwnership]::RegCloseKey([IntPtr]::Zero) | Out-Null
+    #[RegistryOwnership]::RegCloseKey([IntPtr]::Zero) | Out-Null
 
 }
 
@@ -390,6 +393,19 @@ applyRegEdits "Remove Winamp from Explorer context menu" @(
     @("RemoveKey", "HKCR:\directory\shell\Winamp.Play")
 )
 
+applyRegEdits "Remove Windows Media Player from Explorer context menu" @(
+    @("RemoveKey", "HKCR:\SystemFileAssociations\Directory.Audio\shell\Enqueue"),
+    @("RemoveKey", "HKCR:\SystemFileAssociations\Directory.Audio\shell\Play"),
+    @("RemoveKey", "HKCR:\SystemFileAssociations\Directory.Video\shell\Enqueue"),
+    @("RemoveKey", "HKCR:\SystemFileAssociations\Directory.Video\shell\Play"),
+    @("RemoveKey", "HKCR:\SystemFileAssociations\Directory.Image\shell\Enqueue"),
+    @("RemoveKey", "HKCR:\SystemFileAssociations\Directory.Image\shell\Play"),
+    @("RemoveKey", "HKCR:\SystemFileAssociations\audio\shell\Enqueue"),
+    @("RemoveKey", "HKCR:\SystemFileAssociations\audio\shell\Play"),
+    @("RemoveKey", "HKCR:\SystemFileAssociations\video\shell\Enqueue"),
+    @("RemoveKey", "HKCR:\SystemFileAssociations\video\shell\Play")
+)
+
 applyRegEdits "Remove WizTree from Explorer context menu" @(
     @("RemoveKey", "HKCR:\directory\shell\WizTree"),
     @("RemoveKey", "HKCR:\directory\background\shell\WizTree"),
@@ -466,20 +482,29 @@ applyRegEdits "Set 'Set as desktop wallpaper' to shift + right click only" @(
 
 applyRegEdits "Display 'Open Powershell here' in Explorer context menu without shift" @(
     @("RemoveProperty", "HKCR:\Directory\shell\Powershell", "Extended", @{grantPermissions=$true}),
-    @("RemoveProperty", "HKCR:\Directory\background\shell\Powershell", "Extended", @{grantPermissions=$true})
+    @("SetProperty", "HKCR:\Directory\shell\Powershell", "Icon", "C:\Windows\system32\WindowsPowerShell\v1.0\powershell.exe", @{grantPermissions=$true}),
+    @("RemoveProperty", "HKCR:\Directory\background\shell\Powershell", "Extended", @{grantPermissions=$true}),
+    @("SetProperty", "HKCR:\Directory\background\shell\Powershell", "Icon", "C:\Windows\system32\WindowsPowerShell\v1.0\powershell.exe", @{grantPermissions=$true})
 )
 
 #As https://superuser.com/a/1131932/1068224 points out, the default "Copy as Path" menu is hardcoded to only display on shift+right click.
 #The only workaround is to create a Shell entry instead of a ShellEx entry.
 #If we remove the existing ShellEx entry, the Shell entry stops working (why? idk.)
-#I did not find a way to remove or hide that entry, so unfortunately there are two "Copy as Path" entries on shift + right click.
+#I did not find a way to remove or hide that entry (putting it in HKCU:\Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked does nothing), so unfortunately there are two "Copy as Path" entries on shift + right click.
 #Remove-Item -LiteralPath "HKCR:\AllFilesystemObjects\shellex\ContextMenuHandlers\CopyAsPathMenu"
-applyRegEdits "Display 'Copy as Path' in Explorer context menu without shift" @(
-    @("SetProperty", "HKCR:\AllFilesystemObjects\shell\windows.copyaspath", "(default)", "@shell32.dll,-30328"),
-    @("SetProperty", "HKCR:\AllFilesystemObjects\shell\windows.copyaspath", "InvokeCommandOnSelection", 1),
-    @("SetProperty", "HKCR:\AllFilesystemObjects\shell\windows.copyaspath", "VerbHandler", "{f3d06e7c-1e45-4a26-847e-f9fcdee59be0}"),
-    @("SetProperty", "HKCR:\AllFilesystemObjects\shell\windows.copyaspath", "Position", "Bottom")
-)
+if (-not $isWindows11) {
+    applyRegEdits "Display 'Copy as Path' in Explorer context menu without shift" @(
+        @("SetProperty", "HKCR:\AllFilesystemObjects\shell\windows.copyaspath", "(default)", "@shell32.dll,-30328"),
+        @("SetProperty", "HKCR:\AllFilesystemObjects\shell\windows.copyaspath", "InvokeCommandOnSelection", 1),
+        @("SetProperty", "HKCR:\AllFilesystemObjects\shell\windows.copyaspath", "VerbHandler", "{f3d06e7c-1e45-4a26-847e-f9fcdee59be0}"),
+        @("SetProperty", "HKCR:\AllFilesystemObjects\shell\windows.copyaspath", "Position", "Bottom")
+    )
+} else {
+    #In windows 11, Copy as Path is visible without shift, so remove our additional entry.
+    applyRegEdits "Remove additional 'Copy as Path' from Explorer context menu" @(
+        @("RemoveKey", "HKCR:\AllFilesystemObjects\shell\windows.copyaspath")
+    )
+}
 
 #https://winaero.com/find-your-current-wallpaper-image-path-in-windows-10/
 $getCurrentWallpaperCommand = @'
@@ -754,6 +779,159 @@ applyRegEdits "Set blue accent color" @(
     @("SetProperty", "HKCU:/Software/Microsoft/Windows/CurrentVersion/Explorer/Accent", "AccentColorMenu", 0xffb16300)
 )
 
+
+function setRegistryFavorites {
+    $favorites = @(
+        "HKCR:\AllFilesystemObjects",
+        "HKCR:\CLSID",
+        "HKCR:\Directory",
+        "HKCR:\Drive",
+        "HKCR:\Folder",
+        "HKCR:\Local Settings",
+        "HKCR:\SystemFileAssociations",
+
+        "HKCU:\Software\Microsoft\Windows\CurrentVersion",
+        "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer",
+        "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies",
+        "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run",
+
+        "HKLM:\Software\Microsoft\Windows\CurrentVersion",
+        "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer",
+        "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies",
+        "HKLM:\Software\Microsoft\Windows\CurrentVersion\Run",
+        "HKLM:\Software\Microsoft\Windows NT\CurrentVersion",
+        "HKLM:\System\CurrentControlSet",
+        "HKLM:\System\CurrentControlSet\Control\Session Manager\Environment"
+    )
+
+    $favoritesPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Applets\Regedit\Favorites"
+    if (-not (Test-Path $favoritesPath)) {
+        New-Item -Path $favoritesPath -Force | Out-Null
+    }
+    $existingProps = Get-ItemProperty $favoritesPath
+    $existingFavorites = @{}
+    
+    foreach ($prop in $existingProps.PSObject.Properties) {
+        if ($prop.Name -notin @("PSPath", "PSParentPath", "PSChildName", "PSDrive", "PSProvider")) {
+            $existingFavorites[$prop.Name] = $prop.Value
+        }
+    }
+
+    function Get-RegeditPath {
+        param([string]$path)
+        $path = $path -replace '^HKLM:\\', 'HKEY_LOCAL_MACHINE\'
+        $path = $path -replace '^HKCU:\\', 'HKEY_CURRENT_USER\'
+        $path = $path -replace '^HKCR:\\', 'HKEY_CLASSES_ROOT\'
+        $path = $path -replace '^HKU:\\',  'HKEY_USERS\'
+        return $path
+    }
+
+    $allItems = [System.Collections.ArrayList]::new()
+
+    foreach ($name in $existingFavorites.Keys) {
+        $val = $existingFavorites[$name]
+        $hive = "Other"
+        
+        if ($name -match "^HKCR:\\") { $hive = "HKCR" }
+        elseif ($name -match "^HKCU:\\") { $hive = "HKCU" }
+        elseif ($name -match "^HKLM:\\") { $hive = "HKLM" }
+        elseif ($name -match "^HKU:\\")  { $hive = "HKU" }
+        #Remove existing separators
+        if ($name -match "^ +$") { continue }
+        
+        $allItems.Add([PSCustomObject]@{
+            Name  = $name
+            Value = $val
+            Hive  = $hive
+        }) | Out-Null
+    }
+
+    $nbAddedFavorites = 0
+    foreach ($favPath in $favorites) {
+        $alreadyExists = $allItems | Where-Object { $_.Name -eq $favPath }
+        
+        if (-not $alreadyExists) {
+            $regVal = Get-RegeditPath -path $favPath
+            
+            $hive = "Other"
+            if ($favPath -match "^HKCR:\\") { $hive = "HKCR" }
+            elseif ($favPath -match "^HKCU:\\") { $hive = "HKCU" }
+            elseif ($favPath -match "^HKLM:\\") { $hive = "HKLM" }
+            elseif ($favPath -match "^HKU:\\")  { $hive = "HKU" }
+
+            $allItems.Add([PSCustomObject]@{
+                Name  = $favPath
+                Value = $regVal
+                Hive  = $hive
+            }) | Out-Null
+            $nbAddedFavorites++ | Out-Null
+        }
+    }
+
+    if ($nbAddedFavorites -eq 0) {
+        Write-Host "Already added Regedit favorites" -ForegroundColor DarkGray
+        return
+    }
+
+    #Order all favorites
+    #Replace space with "~" so that "Windows NT\" comes after "Windows\"
+    $sortExpr = @{ Expression = { $_.Name.Replace(' ', '~') } }
+    $bucketHKCR = $allItems | Where-Object { $_.Hive -eq "HKCR" } | Sort-Object $sortExpr
+    $bucketHKCU = $allItems | Where-Object { $_.Hive -eq "HKCU" } | Sort-Object $sortExpr
+    $bucketHKLM = $allItems | Where-Object { $_.Hive -eq "HKLM" } | Sort-Object $sortExpr
+    $bucketHKU  = $allItems | Where-Object { $_.Hive -eq "HKU" }  | Sort-Object $sortExpr
+    $bucketOther= $allItems | Where-Object { $_.Hive -eq "Other" }| Sort-Object $sortExpr
+
+    $global:spaceCounter = 1
+    function Get-Separator {
+        $sep = " " * $global:spaceCounter
+        $global:spaceCounter++
+        return [PSCustomObject]@{ Name = $sep; Value = "" }
+    }
+    $finalList = @()
+
+    if ($bucketHKCR) { 
+        $finalList += $bucketHKCR
+    }
+    if ($bucketHKCU) { 
+        if ($bucketHKCR) {
+            $finalList += (Get-Separator) 
+        }
+        $finalList += $bucketHKCU
+    }
+    if ($bucketHKLM) {
+        if ($bucketHKCR -or $bucketHKCU) {
+            $finalList += (Get-Separator) 
+        }
+        $finalList += $bucketHKLM
+    }
+    if ($bucketHKU) { 
+        if ($bucketHKCR -or $bucketHKCU -or $bucketHKLM) {
+            $finalList += (Get-Separator) 
+        }
+        $finalList += $bucketHKU
+    }
+    if ($bucketOther) {
+        if ($bucketHKCR -or $bucketHKCU -or $bucketHKLM -or $bucketHKU) {
+            $finalList += (Get-Separator) 
+        }
+        $finalList += $bucketOther
+    }
+
+    #Delete all existing favorites then replace, as the order is determined by the insertion order. https://superuser.com/questions/1860659/where-is-the-ordering-of-windows-regedit-favorites-menu-stored
+
+    #echo ($finalList | ConvertTo-Json)
+    Remove-ItemProperty -Path $favoritesPath -Name "*"
+    foreach ($item in $finalList) {
+        if ($item) {
+            Set-ItemProperty -Path $favoritesPath -Name $item.Name -Value $item.Value
+        }
+    }
+    Write-Host "Added $nbAddedFavorites Regedit Favorites"
+}
+setRegistryFavorites
+
+
 $taskManagerSettings = (Get-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager").Preferences
 if ($taskManagerSettings[28] -eq 0) {
     Write-Host "Already set Task Manager to expanded view" -ForegroundColor DarkGray
@@ -1014,6 +1192,33 @@ test -f ~/.profile && . ~/.profile
 test -f ~/.bashrc && . ~/.bashrc
 '@)
 }
+
+
+# Custom French keyboard
+
+$keyboardDll = [System.Convert]::FromBase64String("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")
+$keyboardDllPath = "$env:SystemRoot\System32\keyboard_fr_improved_zez.dev.dll"
+
+if ((Test-Path $keyboardDllPath) -and (@(Compare-Object $keyboardDll (Get-Content $keyboardDllPath -Encoding Byte) -SyncWindow 0).Length -eq 0)) {
+    Write-Host "Already installed enhanced French keyboard dll" -ForegroundColor DarkGray
+} else {
+    if (-not $isAdmin) {
+        Write-Host "Cannot install enhanced French keyboard dll, needs admin rights" -ForegroundColor Yellow
+    } else {
+        Set-Content -Path $keyboardDllPath -Value $keyboardDll -Encoding Byte
+        Write-Host "Installed enhanced French keyboard dll"
+    }
+}
+
+$frenchKeyboardId = "0000040c"
+$enhancedFrenchKeyboardId = "beef040c"
+
+applyRegEdits "Set enhanced French keyboard as substitute for standard French keyboard" @(
+    @("SetProperty", "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layouts\$enhancedFrenchKeyboardId", "Layout Text", "Français (amélioré) - zez.dev", @{signout=$true}),
+    @("SetProperty", "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layouts\$enhancedFrenchKeyboardId", "Layout File", "keyboard_fr_improved_zez.dev.dll", @{signout=$true}),
+    @("SetProperty", "HKCU:\Keyboard Layout\Substitutes", $frenchKeyboardId, $enhancedFrenchKeyboardId, @{signout=$true})
+
+)
 
 
 #Code from https://github.com/DanysysTeam/PS-SFTA/blob/master/SFTA.ps1
