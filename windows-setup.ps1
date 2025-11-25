@@ -84,7 +84,7 @@ function grantRegKeyPermissions {
 
         public const int WRITE_OWNER = 0x00080000;
         public const int WRITE_DAC = 0x00040000;
-        public static readonly IntPtr HKEY_LOCAL_MACHINE = new IntPtr(unchecked((int)0x80000002));
+        public static readonly IntPtr HKEY_CLASSES_ROOT = new IntPtr(unchecked((int)0x80000000));
         public const int OWNER_SECURITY_INFORMATION = 0x00000001;
         public const int DACL_SECURITY_INFORMATION = 0x00000004;
     }
@@ -142,23 +142,21 @@ function grantRegKeyPermissions {
     }
 "@
 
-    if ($isWindows11) {
-        [TokenManipulator]::AddPrivilege("SeRestorePrivilege") | Out-Null
-        [TokenManipulator]::AddPrivilege("SeTakeOwnershipPrivilege") | Out-Null
-        [TokenManipulator]::AddPrivilege("SeBackupPrivilege") | Out-Null
+    [TokenManipulator]::AddPrivilege("SeRestorePrivilege") | Out-Null
+    [TokenManipulator]::AddPrivilege("SeTakeOwnershipPrivilege") | Out-Null
+    [TokenManipulator]::AddPrivilege("SeBackupPrivilege") | Out-Null
 
-        $hKey = [IntPtr]::Zero
-        # Open key with WRITE_OWNER access
-        $result = [RegistryOwnership]::RegOpenKeyEx(
-            [RegistryOwnership]::HKEY_CLASSES_ROOT,
-            $regPath,
-            0,
-            [RegistryOwnership]::WRITE_OWNER,
-            [ref]$hKey
-        )
-        if ($result -ne 0) {
-            throw "Failed to open key '$regPath'. Error: $result"
-        }
+    $hKey = [IntPtr]::Zero
+    # Open key with WRITE_OWNER access
+    $result = [RegistryOwnership]::RegOpenKeyEx(
+        [RegistryOwnership]::HKEY_CLASSES_ROOT,
+        $regPath,
+        0,
+        [RegistryOwnership]::WRITE_OWNER,
+        [ref]$hKey
+    )
+    if ($result -ne 0) {
+        throw "Failed to open key '$regPath'. Error: $result"
     }
 
     $keyCR = [Microsoft.Win32.Registry]::ClassesRoot.OpenSubKey($regPath, [Microsoft.Win32.RegistryKeyPermissionCheck]::ReadWriteSubTree, [System.Security.AccessControl.RegistryRights]::TakeOwnership)
