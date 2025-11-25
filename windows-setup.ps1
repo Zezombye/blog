@@ -1,4 +1,4 @@
-# Version: ###DATE###
+﻿# Version: ###DATE###
 # irm zez.dev | iex
 
 echo ""
@@ -746,6 +746,9 @@ applyRegEdits "Set Explorer to display file extensions" @(
 )
 applyRegEdits "Set Explorer to display system files" @(
     @("SetProperty", "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSuperHidden", 1)
+)
+applyRegEdits "Set Explorer to open to Downloads folder" @(
+    @("SetProperty", "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "LaunchTo", 3)
 )
 applyRegEdits "Disable window shake to minimize" @(
     @("SetProperty", "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "DisallowShaking", 1)
