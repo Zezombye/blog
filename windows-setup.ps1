@@ -1,4 +1,4 @@
-﻿# Version: ###DATE###
+# Version: ###DATE###
 # irm zez.dev | iex
 
 echo ""
@@ -514,7 +514,7 @@ $getCurrentWallpaperCommand = @'
     }
 '@
 $encodedCommand = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($getCurrentWallpaperCommand))
-$viewWallpaperLocation = if ((Get-WinSystemLocale).Name -eq "fr-FR") { "Voir l'emplacement du fond d'écran" } else { "View wallpaper location" }
+$viewWallpaperLocation = if ((Get-WinSystemLocale).Name -eq "fr-FR") { "Voir l'emplacement du fond d'$([char]0xE9)cran" } else { "View wallpaper location" }
 applyRegEdits "Add 'View wallpaper location' to Desktop context menu" @(
     @("SetProperty", "HKCR:\DesktopBackground\Shell\DesktopWallpaperLocation", "(default)", "$viewWallpaperLocation"),
     @("SetProperty", "HKCR:\DesktopBackground\Shell\DesktopWallpaperLocation", "Icon", "imageres.dll,-5346"),
@@ -1215,7 +1215,7 @@ $frenchKeyboardId = "0000040c"
 $enhancedFrenchKeyboardId = "beef040c"
 
 applyRegEdits "Set enhanced French keyboard as substitute for standard French keyboard" @(
-    @("SetProperty", "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layouts\$enhancedFrenchKeyboardId", "Layout Text", "Français (amélioré) - zez.dev", @{signout=$true}),
+    @("SetProperty", "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layouts\$enhancedFrenchKeyboardId", "Layout Text", "Fran$([char]0xE7)ais (am$([char]0xE9)lior$([char]0xE9)) - zez.dev", @{signout=$true}),
     @("SetProperty", "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layouts\$enhancedFrenchKeyboardId", "Layout File", "keyboard_fr_improved_zez.dev.dll", @{signout=$true}),
     @("SetProperty", "HKCU:\Keyboard Layout\Substitutes", $frenchKeyboardId, $enhancedFrenchKeyboardId, @{signout=$true})
 
