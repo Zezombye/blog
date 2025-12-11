@@ -145,6 +145,8 @@ EOF
 cat << EOF > ~/.vimrc
 "Note: this is automatically generated and overwritten by .bashrc
 
+" Reopen the last edited position in files
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 "Syntax coloration
 syntax on
 "Load plugins based on file type
