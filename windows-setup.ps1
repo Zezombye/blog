@@ -1228,12 +1228,9 @@ if ((Test-Path $keyboardDllPath) -and (@(Compare-Object $keyboardDll (Get-Conten
 }
 
 $frenchKeyboardId = "0000040c"
-$enhancedFrenchKeyboardId = "beef040c"
-
 applyRegEdits "Set enhanced French keyboard as substitute for standard French keyboard" @(
-    @("SetProperty", "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layouts\$enhancedFrenchKeyboardId", "Layout Text", "Fran$([char]0xE7)ais (am$([char]0xE9)lior$([char]0xE9)) - zez.dev", @{signout=$true}),
-    @("SetProperty", "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layouts\$enhancedFrenchKeyboardId", "Layout File", "keyboard_fr_improved_zez.dev.dll", @{signout=$true}),
-    @("SetProperty", "HKCU:\Keyboard Layout\Substitutes", $frenchKeyboardId, $enhancedFrenchKeyboardId, @{signout=$true})
+    @("SetProperty", "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layouts\$frenchKeyboardId", "Layout Text", "Fran$([char]0xE7)ais (am$([char]0xE9)lior$([char]0xE9)) - zez.dev", @{signout=$true}),
+    @("SetProperty", "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layouts\$frenchKeyboardId", "Layout File", "keyboard_fr_improved_zez.dev.dll", @{signout=$true})
 
 )
 
