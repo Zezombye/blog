@@ -10,6 +10,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
 
 <YtPlaylist :videos="[
     {
+        &quot;title&quot;: &quot;Here Without You&quot;,
+        &quot;channelName&quot;: &quot;3 Doors Down - Topic&quot;,
+        &quot;channelId&quot;: &quot;UC9eiPNoDEg2Ji4ESvq3IPXA&quot;,
+        &quot;id&quot;: &quot;NxBl_q_NDas&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-10T05:47:57Z&quot;,
+        &quot;songHash&quot;: &quot;3 Doors Down - Here Without You&quot;
+    },
+    {
         &quot;title&quot;: &quot;Back In Black&quot;,
         &quot;channelName&quot;: &quot;AC/DC - Topic&quot;,
         &quot;channelId&quot;: &quot;UCVm4YdI3hobkwsHTTOMVJKg&quot;,
@@ -152,6 +160,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;XqoanTj5pNY&quot;,
         &quot;publishedAt&quot;: &quot;2024-11-15T01:24:06Z&quot;,
         &quot;songHash&quot;: &quot;Adele - Someone Like You&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Thorns of Roses&quot;,
+        &quot;channelName&quot;: &quot;Agonizer - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCHRRQhDw6__l8N-qb04bcpg&quot;,
+        &quot;id&quot;: &quot;D0MQZ8RgiQo&quot;,
+        &quot;publishedAt&quot;: &quot;2025-12-26T05:22:23Z&quot;,
+        &quot;songHash&quot;: &quot;Agonizer - Thorns Of Roses&quot;
     },
     {
         &quot;title&quot;: &quot;Drink&quot;,
@@ -474,6 +490,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Avenged Sevenfold - Hail To The King&quot;
     },
     {
+        &quot;title&quot;: &quot;I Won&apos;t See You Tonight Part 1&quot;,
+        &quot;channelName&quot;: &quot;Avenged Sevenfold - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCJls2FMEbRYxi28jcuKe2vA&quot;,
+        &quot;id&quot;: &quot;FHUsHx-doaM&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-07T22:14:12Z&quot;,
+        &quot;songHash&quot;: &quot;Avenged Sevenfold - I Wont See You Tonight Part 1&quot;
+    },
+    {
         &quot;title&quot;: &quot;Lost&quot;,
         &quot;channelName&quot;: &quot;Avenged Sevenfold - Topic&quot;,
         &quot;channelId&quot;: &quot;UCJls2FMEbRYxi28jcuKe2vA&quot;,
@@ -538,6 +562,54 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Avenged Sevenfold - Warmness On The Soul&quot;
     },
     {
+        &quot;title&quot;: &quot;All the Rest of My Life&quot;,
+        &quot;channelName&quot;: &quot;Axel Rudi Pell - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCYab1O8verk4Jp_9lWj1H1w&quot;,
+        &quot;id&quot;: &quot;UQQdrKzrQNE&quot;,
+        &quot;publishedAt&quot;: &quot;2025-09-25T23:13:21Z&quot;,
+        &quot;songHash&quot;: &quot;Axel Rudi Pell - All The Rest Of My Life&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Forever Young&quot;,
+        &quot;channelName&quot;: &quot;Axel Rudi Pell - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCYab1O8verk4Jp_9lWj1H1w&quot;,
+        &quot;id&quot;: &quot;7z-TZYlY1IA&quot;,
+        &quot;publishedAt&quot;: &quot;2025-09-07T02:17:20Z&quot;,
+        &quot;songHash&quot;: &quot;Axel Rudi Pell - Forever Young&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Gone with the Wind&quot;,
+        &quot;channelName&quot;: &quot;Axel Rudi Pell - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCYab1O8verk4Jp_9lWj1H1w&quot;,
+        &quot;id&quot;: &quot;e8CouMn45ks&quot;,
+        &quot;publishedAt&quot;: &quot;2025-12-04T12:14:22Z&quot;,
+        &quot;songHash&quot;: &quot;Axel Rudi Pell - Gone With The Wind&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Silent Angel (Guitar Version)&quot;,
+        &quot;channelName&quot;: &quot;Axel Rudi Pell - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCYab1O8verk4Jp_9lWj1H1w&quot;,
+        &quot;id&quot;: &quot;bHdFdToCM1U&quot;,
+        &quot;publishedAt&quot;: &quot;2025-09-17T06:48:42Z&quot;,
+        &quot;songHash&quot;: &quot;Axel Rudi Pell - Silent Angel&quot;
+    },
+    {
+        &quot;title&quot;: &quot;The Curse of the Damned&quot;,
+        &quot;channelName&quot;: &quot;Axel Rudi Pell - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCYab1O8verk4Jp_9lWj1H1w&quot;,
+        &quot;id&quot;: &quot;4fHpeO0uC5E&quot;,
+        &quot;publishedAt&quot;: &quot;2025-12-02T13:59:27Z&quot;,
+        &quot;songHash&quot;: &quot;Axel Rudi Pell - The Curse Of The Damned&quot;
+    },
+    {
+        &quot;title&quot;: &quot;The Line&quot;,
+        &quot;channelName&quot;: &quot;Axel Rudi Pell - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCYab1O8verk4Jp_9lWj1H1w&quot;,
+        &quot;id&quot;: &quot;4cPnDQ0717c&quot;,
+        &quot;publishedAt&quot;: &quot;2025-09-07T00:51:49Z&quot;,
+        &quot;songHash&quot;: &quot;Axel Rudi Pell - The Line&quot;
+    },
+    {
         &quot;title&quot;: &quot;Beyond the Sky&quot;,
         &quot;channelName&quot;: &quot;Axxis - Topic&quot;,
         &quot;channelId&quot;: &quot;UCOAr6BBVyGkhuBriN2Y6Pxw&quot;,
@@ -562,6 +634,22 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Axxis - My Heart Will Go On&quot;
     },
     {
+        &quot;title&quot;: &quot;Zombie&quot;,
+        &quot;channelName&quot;: &quot;Bad Wolves - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCNZgKQ8UFu_-UlJizJEBxkg&quot;,
+        &quot;id&quot;: &quot;qG6_d9tpR84&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-12T01:51:05Z&quot;,
+        &quot;songHash&quot;: &quot;Bad Wolves - Zombie&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Armageddon Clan&quot;,
+        &quot;channelName&quot;: &quot;Battle Beast - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCXNUOxaWLAyz8z2snld0o9A&quot;,
+        &quot;id&quot;: &quot;w5fS8k3iIl0&quot;,
+        &quot;publishedAt&quot;: &quot;2025-12-01T16:28:15Z&quot;,
+        &quot;songHash&quot;: &quot;Battle Beast - Armageddon Clan&quot;
+    },
+    {
         &quot;title&quot;: &quot;Beyond the Burning Skies&quot;,
         &quot;channelName&quot;: &quot;Battle Beast - Topic&quot;,
         &quot;channelId&quot;: &quot;UCXNUOxaWLAyz8z2snld0o9A&quot;,
@@ -581,16 +669,16 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;title&quot;: &quot;Hero&apos;s Quest&quot;,
         &quot;channelName&quot;: &quot;Battle Beast - Topic&quot;,
         &quot;channelId&quot;: &quot;UCXNUOxaWLAyz8z2snld0o9A&quot;,
-        &quot;id&quot;: &quot;k55hQfItJbk&quot;,
-        &quot;publishedAt&quot;: &quot;2024-11-17T05:48:40Z&quot;,
+        &quot;id&quot;: &quot;QYv-UjODP1o&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T20:58:23Z&quot;,
         &quot;songHash&quot;: &quot;Battle Beast - Heros Quest&quot;
     },
     {
         &quot;title&quot;: &quot;I Want the World... And Everything in It&quot;,
         &quot;channelName&quot;: &quot;Battle Beast - Topic&quot;,
         &quot;channelId&quot;: &quot;UCXNUOxaWLAyz8z2snld0o9A&quot;,
-        &quot;id&quot;: &quot;7tfvZbGHPRE&quot;,
-        &quot;publishedAt&quot;: &quot;2024-11-13T08:11:24Z&quot;,
+        &quot;id&quot;: &quot;rdBVBh-ydY0&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T20:58:26Z&quot;,
         &quot;songHash&quot;: &quot;Battle Beast - I Want The World And Everything In It&quot;
     },
     {
@@ -629,40 +717,40 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;title&quot;: &quot;Push It to the Limit (Bonus)&quot;,
         &quot;channelName&quot;: &quot;Battle Beast - Topic&quot;,
         &quot;channelId&quot;: &quot;UCXNUOxaWLAyz8z2snld0o9A&quot;,
-        &quot;id&quot;: &quot;XOni6QSiY3E&quot;,
-        &quot;publishedAt&quot;: &quot;2024-11-13T08:11:24Z&quot;,
+        &quot;id&quot;: &quot;c00EOWHLjeo&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T20:58:29Z&quot;,
         &quot;songHash&quot;: &quot;Battle Beast - Push It To The Limit&quot;
     },
     {
         &quot;title&quot;: &quot;Sea of Dreams&quot;,
         &quot;channelName&quot;: &quot;Battle Beast - Topic&quot;,
         &quot;channelId&quot;: &quot;UCXNUOxaWLAyz8z2snld0o9A&quot;,
-        &quot;id&quot;: &quot;Dim6IR2i2TU&quot;,
-        &quot;publishedAt&quot;: &quot;2024-11-17T05:48:02Z&quot;,
+        &quot;id&quot;: &quot;tQcKHohtiq4&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T20:58:31Z&quot;,
         &quot;songHash&quot;: &quot;Battle Beast - Sea Of Dreams&quot;
     },
     {
         &quot;title&quot;: &quot;Speed and Danger&quot;,
         &quot;channelName&quot;: &quot;Battle Beast - Topic&quot;,
         &quot;channelId&quot;: &quot;UCXNUOxaWLAyz8z2snld0o9A&quot;,
-        &quot;id&quot;: &quot;D8zbXu-qNXU&quot;,
-        &quot;publishedAt&quot;: &quot;2024-11-17T05:48:12Z&quot;,
+        &quot;id&quot;: &quot;mfg-SeTTPPk&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T20:58:34Z&quot;,
         &quot;songHash&quot;: &quot;Battle Beast - Speed And Danger&quot;
     },
     {
         &quot;title&quot;: &quot;Touch in the Night&quot;,
         &quot;channelName&quot;: &quot;Battle Beast - Topic&quot;,
         &quot;channelId&quot;: &quot;UCXNUOxaWLAyz8z2snld0o9A&quot;,
-        &quot;id&quot;: &quot;quIFUU-3wOg&quot;,
-        &quot;publishedAt&quot;: &quot;2024-11-13T08:11:24Z&quot;,
+        &quot;id&quot;: &quot;5ykUCeGBDhM&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T20:58:37Z&quot;,
         &quot;songHash&quot;: &quot;Battle Beast - Touch In The Night&quot;
     },
     {
         &quot;title&quot;: &quot;Unholy Savior&quot;,
         &quot;channelName&quot;: &quot;Battle Beast - Topic&quot;,
         &quot;channelId&quot;: &quot;UCXNUOxaWLAyz8z2snld0o9A&quot;,
-        &quot;id&quot;: &quot;ZENPk2ol1nw&quot;,
-        &quot;publishedAt&quot;: &quot;2024-11-13T08:11:24Z&quot;,
+        &quot;id&quot;: &quot;dxTubidigVE&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T20:58:40Z&quot;,
         &quot;songHash&quot;: &quot;Battle Beast - Unholy Savior&quot;
     },
     {
@@ -1346,6 +1434,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Creedence Clearwater Revival - Have You Ever Seen The Rain&quot;
     },
     {
+        &quot;title&quot;: &quot;Everything&quot;,
+        &quot;channelName&quot;: &quot;Crematory - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCpmOKsh237p0DJ85CWUpSXQ&quot;,
+        &quot;id&quot;: &quot;aUR7IDKNoWY&quot;,
+        &quot;publishedAt&quot;: &quot;2025-09-28T02:07:27Z&quot;,
+        &quot;songHash&quot;: &quot;Crematory - Everything&quot;
+    },
+    {
         &quot;title&quot;: &quot;[I Just] Died In Your Arms&quot;,
         &quot;channelName&quot;: &quot;Cutting Crew - Topic&quot;,
         &quot;channelId&quot;: &quot;UC7CYIif6lYnbE9ouq9XNFRQ&quot;,
@@ -1368,6 +1464,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;0Nl_-d1YA9U&quot;,
         &quot;publishedAt&quot;: &quot;2025-06-03T21:15:59Z&quot;,
         &quot;songHash&quot;: &quot;Dark Moor - Alea Jacta&quot;
+    },
+    {
+        &quot;title&quot;: &quot;The Emperor&quot;,
+        &quot;channelName&quot;: &quot;Dark Moor - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCuQSIVgxWjA-AdqHfJ-LHlw&quot;,
+        &quot;id&quot;: &quot;rYK2ibUpZNU&quot;,
+        &quot;publishedAt&quot;: &quot;2025-11-09T02:21:54Z&quot;,
+        &quot;songHash&quot;: &quot;Dark Moor - The Emperor&quot;
     },
     {
         &quot;title&quot;: &quot;The Star&quot;,
@@ -1416,6 +1520,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;Xt9W_tf32dQ&quot;,
         &quot;publishedAt&quot;: &quot;2024-11-15T01:42:49Z&quot;,
         &quot;songHash&quot;: &quot;Deep Purple - Space Truckin&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Love Bites (Remastered 2017)&quot;,
+        &quot;channelName&quot;: &quot;Def Leppard - Topic&quot;,
+        &quot;channelId&quot;: &quot;UChn30LXbAZKSIQqPJ2iezng&quot;,
+        &quot;id&quot;: &quot;im70eF8x14U&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-06T14:21:05Z&quot;,
+        &quot;songHash&quot;: &quot;Def Leppard - Love Bites&quot;
     },
     {
         &quot;title&quot;: &quot;Silent Hope&quot;,
@@ -1786,6 +1898,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Dragonforce - Give Me The Night&quot;
     },
     {
+        &quot;title&quot;: &quot;Heart Demolition&quot;,
+        &quot;channelName&quot;: &quot;Dragonforce - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCDademfIkaXZGd2Ww-S60Tw&quot;,
+        &quot;id&quot;: &quot;J85wtgKwxCg&quot;,
+        &quot;publishedAt&quot;: &quot;2025-11-22T16:15:24Z&quot;,
+        &quot;songHash&quot;: &quot;Dragonforce - Heart Demolition&quot;
+    },
+    {
         &quot;title&quot;: &quot;DragonForce - Heart Of A Dragon&quot;,
         &quot;channelName&quot;: &quot;DarkNinjaSushi&quot;,
         &quot;channelId&quot;: &quot;UC_s5t-SxobEM5BAiDsYg1Hw&quot;,
@@ -1848,6 +1968,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;g62oYe0OabA&quot;,
         &quot;publishedAt&quot;: &quot;2024-11-13T08:11:24Z&quot;,
         &quot;songHash&quot;: &quot;Dragonforce - Revolution Deathsquad&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Ring of Fire&quot;,
+        &quot;channelName&quot;: &quot;Dragonforce - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCDademfIkaXZGd2Ww-S60Tw&quot;,
+        &quot;id&quot;: &quot;DyWtaT0Y9_I&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-12T02:13:58Z&quot;,
+        &quot;songHash&quot;: &quot;Dragonforce - Ring Of Fire&quot;
     },
     {
         &quot;title&quot;: &quot;Soldiers Of The Wastelands&quot;,
@@ -1917,8 +2045,8 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;title&quot;: &quot;Johnny, I Hardly Knew Ya&quot;,
         &quot;channelName&quot;: &quot;Dropkick Murphys - Topic&quot;,
         &quot;channelId&quot;: &quot;UCcqMWHRrsVuUZ30mqaVv-fA&quot;,
-        &quot;id&quot;: &quot;srG9hIY6Edg&quot;,
-        &quot;publishedAt&quot;: &quot;2024-11-21T09:58:53Z&quot;,
+        &quot;id&quot;: &quot;i0CDIwPtgrg&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T20:58:43Z&quot;,
         &quot;songHash&quot;: &quot;Dropkick Murphys - Johnny I Hardly Knew Ya&quot;
     },
     {
@@ -2194,6 +2322,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Exit Eden - Frozen&quot;
     },
     {
+        &quot;title&quot;: &quot;Impossible&quot;,
+        &quot;channelName&quot;: &quot;Exit Eden - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCHwyXpbJGCEX70GH4HDBLEw&quot;,
+        &quot;id&quot;: &quot;5tLIYUuxSho&quot;,
+        &quot;publishedAt&quot;: &quot;2025-11-02T05:41:28Z&quot;,
+        &quot;songHash&quot;: &quot;Exit Eden - Impossible&quot;
+    },
+    {
         &quot;title&quot;: &quot;Incomplete&quot;,
         &quot;channelName&quot;: &quot;Exit Eden - Topic&quot;,
         &quot;channelId&quot;: &quot;UCHwyXpbJGCEX70GH4HDBLEw&quot;,
@@ -2418,6 +2554,22 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Frozen Crown - Fail No More&quot;
     },
     {
+        &quot;title&quot;: &quot;Neverending&quot;,
+        &quot;channelName&quot;: &quot;Frozen Crown - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCGjaitth3Yy5Hd1bVq35gYw&quot;,
+        &quot;id&quot;: &quot;mw2jw2yL4bI&quot;,
+        &quot;publishedAt&quot;: &quot;2025-11-01T20:46:03Z&quot;,
+        &quot;songHash&quot;: &quot;Frozen Crown - Neverending&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Steel And Gold&quot;,
+        &quot;channelName&quot;: &quot;Frozen Crown - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCGjaitth3Yy5Hd1bVq35gYw&quot;,
+        &quot;id&quot;: &quot;RWEJVYeaHI0&quot;,
+        &quot;publishedAt&quot;: &quot;2025-12-01T16:21:03Z&quot;,
+        &quot;songHash&quot;: &quot;Frozen Crown - Steel And Gold&quot;
+    },
+    {
         &quot;title&quot;: &quot;I Will Return&quot;,
         &quot;channelName&quot;: &quot;Gamma Ray - Topic&quot;,
         &quot;channelId&quot;: &quot;UC34yDJRgqZZFJ25BjEvvCQQ&quot;,
@@ -2472,6 +2624,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;4t-g615PEtg&quot;,
         &quot;publishedAt&quot;: &quot;2024-11-17T04:21:40Z&quot;,
         &quot;songHash&quot;: &quot;Ghost - It S A Sin Hd 1080P&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Jesus He Knows Me&quot;,
+        &quot;channelName&quot;: &quot;Ghost - Topic&quot;,
+        &quot;channelId&quot;: &quot;UC08qAR-kyTJb8Xjwbo6C7ZQ&quot;,
+        &quot;id&quot;: &quot;5ISlf2o4nj0&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-22T10:58:41Z&quot;,
+        &quot;songHash&quot;: &quot;Ghost - Jesus He Knows Me&quot;
     },
     {
         &quot;title&quot;: &quot;Rats&quot;,
@@ -2536,6 +2696,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;7p8U6APuxCc&quot;,
         &quot;publishedAt&quot;: &quot;2025-04-15T00:27:31Z&quot;,
         &quot;songHash&quot;: &quot;Grave Digger - Goodbye&quot;
+    },
+    {
+        &quot;title&quot;: &quot;A Real Life&quot;,
+        &quot;channelName&quot;: &quot;Greek Fire - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCnqjOVDOA9tRj9txJA-oJvQ&quot;,
+        &quot;id&quot;: &quot;Vp1mZlmwneY&quot;,
+        &quot;publishedAt&quot;: &quot;2025-11-28T03:35:19Z&quot;,
+        &quot;songHash&quot;: &quot;Greek Fire - A Real Life&quot;
     },
     {
         &quot;title&quot;: &quot;21 Guns&quot;,
@@ -2720,6 +2888,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;90oZtyvavSk&quot;,
         &quot;publishedAt&quot;: &quot;2024-11-17T04:22:32Z&quot;,
         &quot;songHash&quot;: &quot;Hammerfall - Dreams Come True&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Never, Ever&quot;,
+        &quot;channelName&quot;: &quot;HammerFall - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCOspMA8k5GDzhPH7EsZ_IwQ&quot;,
+        &quot;id&quot;: &quot;KyoCvSCc0lk&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-04T23:09:52Z&quot;,
+        &quot;songHash&quot;: &quot;Hammerfall - Never Ever&quot;
     },
     {
         &quot;title&quot;: &quot;A Handful of Pain&quot;,
@@ -3138,6 +3314,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Hoobastank - The Reason&quot;
     },
     {
+        &quot;title&quot;: &quot;Melancholy (Holy Martyr)&quot;,
+        &quot;channelName&quot;: &quot;Iced Earth - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCUzz0RO4MPiOw0LOvBUAW_A&quot;,
+        &quot;id&quot;: &quot;VqIx4fpE8uc&quot;,
+        &quot;publishedAt&quot;: &quot;2025-09-27T18:27:46Z&quot;,
+        &quot;songHash&quot;: &quot;Iced Earth - Melancholy&quot;
+    },
+    {
         &quot;title&quot;: &quot;Demons&quot;,
         &quot;channelName&quot;: &quot;Imagine Dragons - Topic&quot;,
         &quot;channelId&quot;: &quot;UC0aXrjVxG5pZr99v77wZdPQ&quot;,
@@ -3152,6 +3336,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;FrVNEgY4JSw&quot;,
         &quot;publishedAt&quot;: &quot;2024-11-17T04:24:34Z&quot;,
         &quot;songHash&quot;: &quot;Insania - Gift Of Life&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Valley Of Sunlight&quot;,
+        &quot;channelName&quot;: &quot;Insania - Topic&quot;,
+        &quot;channelId&quot;: &quot;UC1pzcpjEVxsVe0YvWUyOThA&quot;,
+        &quot;id&quot;: &quot;KI4l9pIepT4&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-20T12:39:41Z&quot;,
+        &quot;songHash&quot;: &quot;Insania - Valley Of Sunlight&quot;
     },
     {
         &quot;title&quot;: &quot;Heavenly Hell&quot;,
@@ -3304,6 +3496,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;bf0XwX0Bc-0&quot;,
         &quot;publishedAt&quot;: &quot;2024-11-15T02:39:46Z&quot;,
         &quot;songHash&quot;: &quot;Iron Maiden - Wasting Love&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Doctor Faust&quot;,
+        &quot;channelName&quot;: &quot;Iron Mask - Topic&quot;,
+        &quot;channelId&quot;: &quot;UC0LBdPoQstD2StHE8YZn0cA&quot;,
+        &quot;id&quot;: &quot;kMuiEc7_Ch8&quot;,
+        &quot;publishedAt&quot;: &quot;2025-09-07T02:17:51Z&quot;,
+        &quot;songHash&quot;: &quot;Iron Mask - Doctor Faust&quot;
     },
     {
         &quot;title&quot;: &quot;Goodbye My Lover&quot;,
@@ -3514,12 +3714,44 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Kansas - Dust In The Wind&quot;
     },
     {
+        &quot;title&quot;: &quot;The Ghost of Icarus&quot;,
+        &quot;channelName&quot;: &quot;Keldian - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCav8oAn7JQsJrGTTuLIFzJw&quot;,
+        &quot;id&quot;: &quot;G-7H-yBFaQw&quot;,
+        &quot;publishedAt&quot;: &quot;2025-09-07T01:11:12Z&quot;,
+        &quot;songHash&quot;: &quot;Keldian - The Ghost Of Icarus&quot;
+    },
+    {
         &quot;title&quot;: &quot;City of Heroes&quot;,
         &quot;channelName&quot;: &quot;Kiske/Somerville - Topic&quot;,
         &quot;channelId&quot;: &quot;UCT-bEMse5q9SiMWu08p64Ig&quot;,
         &quot;id&quot;: &quot;hHMnd7OwV6w&quot;,
         &quot;publishedAt&quot;: &quot;2024-11-15T15:23:38Z&quot;,
         &quot;songHash&quot;: &quot;Kiske Somerville - City Of Heroes&quot;
+    },
+    {
+        &quot;title&quot;: &quot;End Of The Road&quot;,
+        &quot;channelName&quot;: &quot;Kiske/Somerville - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCT-bEMse5q9SiMWu08p64Ig&quot;,
+        &quot;id&quot;: &quot;-b2eG2Vf4cc&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-15T18:25:49Z&quot;,
+        &quot;songHash&quot;: &quot;Kiske Somerville - End Of The Road&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Nothing Left To Say&quot;,
+        &quot;channelName&quot;: &quot;Kiske/Somerville - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCT-bEMse5q9SiMWu08p64Ig&quot;,
+        &quot;id&quot;: &quot;YtYhD1nKm3w&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-05T10:46:34Z&quot;,
+        &quot;songHash&quot;: &quot;Kiske Somerville - Nothing Left To Say&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Silence&quot;,
+        &quot;channelName&quot;: &quot;Kiske/Somerville - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCT-bEMse5q9SiMWu08p64Ig&quot;,
+        &quot;id&quot;: &quot;TFsgTt0OKuo&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-05T10:46:28Z&quot;,
+        &quot;songHash&quot;: &quot;Kiske Somerville - Silence&quot;
     },
     {
         &quot;title&quot;: &quot;Anything For My Baby&quot;,
@@ -3568,6 +3800,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;lFGLcsrwT6o&quot;,
         &quot;publishedAt&quot;: &quot;2024-11-16T03:54:07Z&quot;,
         &quot;songHash&quot;: &quot;Kiss - Shout It Out Loud&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Strutter&quot;,
+        &quot;channelName&quot;: &quot;KISS - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCL0dlEc0rXV1CIawUKeme4g&quot;,
+        &quot;id&quot;: &quot;1DDus_S-Tr4&quot;,
+        &quot;publishedAt&quot;: &quot;2025-08-29T08:43:59Z&quot;,
+        &quot;songHash&quot;: &quot;Kiss - Strutter&quot;
     },
     {
         &quot;title&quot;: &quot;Free Your Hate&quot;,
@@ -4093,8 +4333,8 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;title&quot;: &quot;Hero Of The Day&quot;,
         &quot;channelName&quot;: &quot;Metallica - Topic&quot;,
         &quot;channelId&quot;: &quot;UCGexNm_Kw4rdQjLxmpb2EKw&quot;,
-        &quot;id&quot;: &quot;SA8iahOAcmI&quot;,
-        &quot;publishedAt&quot;: &quot;2024-11-13T08:11:24Z&quot;,
+        &quot;id&quot;: &quot;d9GIvrO10ys&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T20:58:46Z&quot;,
         &quot;songHash&quot;: &quot;Metallica - Hero Of The Day&quot;
     },
     {
@@ -4114,11 +4354,11 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Metallica - Low Mans Lyric&quot;
     },
     {
-        &quot;title&quot;: &quot;Mama Said&quot;,
+        &quot;title&quot;: &quot;Mama Said (Remastered)&quot;,
         &quot;channelName&quot;: &quot;Metallica - Topic&quot;,
         &quot;channelId&quot;: &quot;UCGexNm_Kw4rdQjLxmpb2EKw&quot;,
-        &quot;id&quot;: &quot;RjPM3CCjrKE&quot;,
-        &quot;publishedAt&quot;: &quot;2024-11-13T08:11:24Z&quot;,
+        &quot;id&quot;: &quot;KVMTMoLsweI&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T20:58:48Z&quot;,
         &quot;songHash&quot;: &quot;Metallica - Mama Said&quot;
     },
     {
@@ -4266,11 +4506,11 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Metallica - The Memory Remains&quot;
     },
     {
-        &quot;title&quot;: &quot;The Outlaw Torn&quot;,
+        &quot;title&quot;: &quot;The Outlaw Torn (Remastered)&quot;,
         &quot;channelName&quot;: &quot;Metallica - Topic&quot;,
         &quot;channelId&quot;: &quot;UCGexNm_Kw4rdQjLxmpb2EKw&quot;,
-        &quot;id&quot;: &quot;w7DrZ2plOVo&quot;,
-        &quot;publishedAt&quot;: &quot;2024-11-16T04:29:15Z&quot;,
+        &quot;id&quot;: &quot;qo5iUD2WOF4&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T20:58:51Z&quot;,
         &quot;songHash&quot;: &quot;Metallica - The Outlaw Torn&quot;
     },
     {
@@ -4322,11 +4562,11 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Metallica - Turn The Page&quot;
     },
     {
-        &quot;title&quot;: &quot;Until It Sleeps&quot;,
+        &quot;title&quot;: &quot;Until It Sleeps (Remastered)&quot;,
         &quot;channelName&quot;: &quot;Metallica - Topic&quot;,
         &quot;channelId&quot;: &quot;UCGexNm_Kw4rdQjLxmpb2EKw&quot;,
-        &quot;id&quot;: &quot;dtHuqY679io&quot;,
-        &quot;publishedAt&quot;: &quot;2024-11-13T08:11:24Z&quot;,
+        &quot;id&quot;: &quot;U1S1AShYXLg&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T20:58:54Z&quot;,
         &quot;songHash&quot;: &quot;Metallica - Until It Sleeps&quot;
     },
     {
@@ -4474,6 +4714,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Motorhead - Ace Of Spades&quot;
     },
     {
+        &quot;title&quot;: &quot;Bomber&quot;,
+        &quot;channelName&quot;: &quot;Motörhead - Topic&quot;,
+        &quot;channelId&quot;: &quot;UC29TwdZt2GUC-AqbhFs_uSA&quot;,
+        &quot;id&quot;: &quot;la850TGNT-E&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-13T00:51:29Z&quot;,
+        &quot;songHash&quot;: &quot;Motorhead - Bomber&quot;
+    },
+    {
         &quot;title&quot;: &quot;Born To Raise Hell&quot;,
         &quot;channelName&quot;: &quot;Motörhead - Topic&quot;,
         &quot;channelId&quot;: &quot;UC29TwdZt2GUC-AqbhFs_uSA&quot;,
@@ -4490,12 +4738,28 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Motorhead - God Was Never On Your Side&quot;
     },
     {
+        &quot;title&quot;: &quot;I Am The Sword&quot;,
+        &quot;channelName&quot;: &quot;Motörhead - Topic&quot;,
+        &quot;channelId&quot;: &quot;UC29TwdZt2GUC-AqbhFs_uSA&quot;,
+        &quot;id&quot;: &quot;4OqQhnj6dhg&quot;,
+        &quot;publishedAt&quot;: &quot;2025-09-20T06:10:50Z&quot;,
+        &quot;songHash&quot;: &quot;Motorhead - I Am The Sword&quot;
+    },
+    {
         &quot;title&quot;: &quot;Overkill&quot;,
         &quot;channelName&quot;: &quot;Motörhead - Topic&quot;,
         &quot;channelId&quot;: &quot;UC29TwdZt2GUC-AqbhFs_uSA&quot;,
         &quot;id&quot;: &quot;e-Fd1Cg5Nx4&quot;,
         &quot;publishedAt&quot;: &quot;2024-11-16T04:39:18Z&quot;,
         &quot;songHash&quot;: &quot;Motorhead - Overkill&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Please Don&apos;t Touch&quot;,
+        &quot;channelName&quot;: &quot;Motörhead - Topic&quot;,
+        &quot;channelId&quot;: &quot;UC29TwdZt2GUC-AqbhFs_uSA&quot;,
+        &quot;id&quot;: &quot;bgigLRewMsc&quot;,
+        &quot;publishedAt&quot;: &quot;2025-12-13T13:50:40Z&quot;,
+        &quot;songHash&quot;: &quot;Motorhead - Please Dont Touch&quot;
     },
     {
         &quot;title&quot;: &quot;Too Late Too Late&quot;,
@@ -4608,6 +4872,38 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;hKMvmGU6U10&quot;,
         &quot;publishedAt&quot;: &quot;2024-11-16T04:46:37Z&quot;,
         &quot;songHash&quot;: &quot;My Chemical Romance - Zero Percent&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Come Undone&quot;,
+        &quot;channelName&quot;: &quot;My Darkest Days - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCE9L8h3LgZRSudpWLahhGuQ&quot;,
+        &quot;id&quot;: &quot;5gF2F51GAj0&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-22T15:19:57Z&quot;,
+        &quot;songHash&quot;: &quot;My Darkest Days - Come Undone&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Save Me&quot;,
+        &quot;channelName&quot;: &quot;My Darkest Days - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCE9L8h3LgZRSudpWLahhGuQ&quot;,
+        &quot;id&quot;: &quot;g2QXtHxYR48&quot;,
+        &quot;publishedAt&quot;: &quot;2025-11-24T21:03:05Z&quot;,
+        &quot;songHash&quot;: &quot;My Darkest Days - Save Me&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Save Yourself&quot;,
+        &quot;channelName&quot;: &quot;My Darkest Days - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCE9L8h3LgZRSudpWLahhGuQ&quot;,
+        &quot;id&quot;: &quot;ftN5oP1M3Ro&quot;,
+        &quot;publishedAt&quot;: &quot;2025-11-26T10:13:50Z&quot;,
+        &quot;songHash&quot;: &quot;My Darkest Days - Save Yourself&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Still Worth Fighting For&quot;,
+        &quot;channelName&quot;: &quot;My Darkest Days - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCE9L8h3LgZRSudpWLahhGuQ&quot;,
+        &quot;id&quot;: &quot;wVc3ZFgDQ4o&quot;,
+        &quot;publishedAt&quot;: &quot;2025-11-24T21:10:07Z&quot;,
+        &quot;songHash&quot;: &quot;My Darkest Days - Still Worth Fighting For&quot;
     },
     {
         &quot;title&quot;: &quot;Norwegian Reggaeton (feat. Charly Glamour &amp; Gigatron)&quot;,
@@ -4850,6 +5146,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Nightwish - Wishmaster&quot;
     },
     {
+        &quot;title&quot;: &quot;New Evil&quot;,
+        &quot;channelName&quot;: &quot;Nocturna - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCq_ver6G-eAO9dooRhCpliA&quot;,
+        &quot;id&quot;: &quot;8pz5yXsFXp0&quot;,
+        &quot;publishedAt&quot;: &quot;2025-11-24T21:01:58Z&quot;,
+        &quot;songHash&quot;: &quot;Nocturna - New Evil&quot;
+    },
+    {
         &quot;title&quot;: &quot;Hold On to the Flame&quot;,
         &quot;channelName&quot;: &quot;Nocturnal Rites - Topic&quot;,
         &quot;channelId&quot;: &quot;UC9mSKsy3mVrGpDseXGKVtew&quot;,
@@ -4904,6 +5208,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;o0RE230PlX4&quot;,
         &quot;publishedAt&quot;: &quot;2024-12-03T08:30:41Z&quot;,
         &quot;songHash&quot;: &quot;Ozzy Osbourne - Mr Crowley&quot;
+    },
+    {
+        &quot;title&quot;: &quot;One Last Ale&quot;,
+        &quot;channelName&quot;: &quot;Paddy and the Rats - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCTSobBs9tdk3reXwBO5QHjA&quot;,
+        &quot;id&quot;: &quot;4KqDDwk6IEA&quot;,
+        &quot;publishedAt&quot;: &quot;2025-11-11T03:33:28Z&quot;,
+        &quot;songHash&quot;: &quot;Paddy And The Rats - One Last Ale&quot;
     },
     {
         &quot;title&quot;: &quot;Party in My Head&quot;,
@@ -4973,56 +5285,56 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;title&quot;: &quot;Comfortably Numb&quot;,
         &quot;channelName&quot;: &quot;Pink Floyd - Topic&quot;,
         &quot;channelId&quot;: &quot;UCO6LS_5W7vqG9mALDNzSFug&quot;,
-        &quot;id&quot;: &quot;x-xTttimcNk&quot;,
-        &quot;publishedAt&quot;: &quot;2024-11-13T08:11:24Z&quot;,
+        &quot;id&quot;: &quot;4FLjT5V5Hog&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T20:58:57Z&quot;,
         &quot;songHash&quot;: &quot;Pink Floyd - Comfortably Numb&quot;
     },
     {
         &quot;title&quot;: &quot;Hey You&quot;,
         &quot;channelName&quot;: &quot;Pink Floyd - Topic&quot;,
         &quot;channelId&quot;: &quot;UCO6LS_5W7vqG9mALDNzSFug&quot;,
-        &quot;id&quot;: &quot;soL8JK6kALc&quot;,
-        &quot;publishedAt&quot;: &quot;2024-11-13T08:11:24Z&quot;,
+        &quot;id&quot;: &quot;pPrte-OhUh4&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T20:59:00Z&quot;,
         &quot;songHash&quot;: &quot;Pink Floyd - Hey You&quot;
     },
     {
-        &quot;title&quot;: &quot;Learning To Fly&quot;,
+        &quot;title&quot;: &quot;Learning to Fly&quot;,
         &quot;channelName&quot;: &quot;Pink Floyd - Topic&quot;,
         &quot;channelId&quot;: &quot;UCO6LS_5W7vqG9mALDNzSFug&quot;,
-        &quot;id&quot;: &quot;vcFXq5-XFeE&quot;,
-        &quot;publishedAt&quot;: &quot;2024-11-16T04:52:34Z&quot;,
+        &quot;id&quot;: &quot;Orrvnf7aPrA&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T20:59:03Z&quot;,
         &quot;songHash&quot;: &quot;Pink Floyd - Learning To Fly&quot;
     },
     {
-        &quot;title&quot;: &quot;On The Turning Away&quot;,
+        &quot;title&quot;: &quot;On the Turning Away&quot;,
         &quot;channelName&quot;: &quot;Pink Floyd - Topic&quot;,
         &quot;channelId&quot;: &quot;UCO6LS_5W7vqG9mALDNzSFug&quot;,
-        &quot;id&quot;: &quot;KjGXnSdVwCY&quot;,
-        &quot;publishedAt&quot;: &quot;2024-11-16T04:54:36Z&quot;,
+        &quot;id&quot;: &quot;EWWqnYLo-XM&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T20:59:05Z&quot;,
         &quot;songHash&quot;: &quot;Pink Floyd - On The Turning Away&quot;
     },
     {
         &quot;title&quot;: &quot;Run Like Hell&quot;,
         &quot;channelName&quot;: &quot;Pink Floyd - Topic&quot;,
         &quot;channelId&quot;: &quot;UCO6LS_5W7vqG9mALDNzSFug&quot;,
-        &quot;id&quot;: &quot;j2s8yGMEbSs&quot;,
-        &quot;publishedAt&quot;: &quot;2024-11-16T04:54:54Z&quot;,
+        &quot;id&quot;: &quot;y_Ol8avCkXg&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T20:59:08Z&quot;,
         &quot;songHash&quot;: &quot;Pink Floyd - Run Like Hell&quot;
     },
     {
         &quot;title&quot;: &quot;Time&quot;,
         &quot;channelName&quot;: &quot;Pink Floyd - Topic&quot;,
         &quot;channelId&quot;: &quot;UCO6LS_5W7vqG9mALDNzSFug&quot;,
-        &quot;id&quot;: &quot;pgXozIma-Oc&quot;,
-        &quot;publishedAt&quot;: &quot;2024-11-16T04:53:35Z&quot;,
+        &quot;id&quot;: &quot;80LhtHY_fHw&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T20:59:11Z&quot;,
         &quot;songHash&quot;: &quot;Pink Floyd - Time&quot;
     },
     {
         &quot;title&quot;: &quot;Wish You Were Here&quot;,
         &quot;channelName&quot;: &quot;Pink Floyd - Topic&quot;,
         &quot;channelId&quot;: &quot;UCO6LS_5W7vqG9mALDNzSFug&quot;,
-        &quot;id&quot;: &quot;hjpF8ukSrvk&quot;,
-        &quot;publishedAt&quot;: &quot;2024-11-13T08:11:24Z&quot;,
+        &quot;id&quot;: &quot;4K6cvc27_CE&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T20:59:14Z&quot;,
         &quot;songHash&quot;: &quot;Pink Floyd - Wish You Were Here&quot;
     },
     {
@@ -5746,6 +6058,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Rem - Losing My Religion&quot;
     },
     {
+        &quot;title&quot;: &quot;Remember The Name (Official Video) - Fort Minor [4K]&quot;,
+        &quot;channelName&quot;: &quot;Fort Minor&quot;,
+        &quot;channelId&quot;: &quot;UChDt9wwsqoUkwJasyThkltA&quot;,
+        &quot;id&quot;: &quot;VDvr08sCPOc&quot;,
+        &quot;publishedAt&quot;: &quot;2025-11-05T21:35:27Z&quot;,
+        &quot;songHash&quot;: &quot;Remember The Name - Fort Minor&quot;
+    },
+    {
         &quot;title&quot;: &quot;Reptilian - Change your Heart&quot;,
         &quot;channelName&quot;: &quot;Ragnarnedo Rioxa&quot;,
         &quot;channelId&quot;: &quot;UC2X0sejxYhakA0spzcvv-mQ&quot;,
@@ -5880,6 +6200,22 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;9Mi91EsPzYg&quot;,
         &quot;publishedAt&quot;: &quot;2025-06-25T16:45:30Z&quot;,
         &quot;songHash&quot;: &quot;Rob Rock - The Hour Of Dawn&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Rob Zombie - Dragula (Hot Rod Herman Remix) (The Matrix Soundtrack)&quot;,
+        &quot;channelName&quot;: &quot;Future Life Sounds&quot;,
+        &quot;channelId&quot;: &quot;UCyXLzX1f6za2ZqH_BhLS8ww&quot;,
+        &quot;id&quot;: &quot;tcfIkKcWaSg&quot;,
+        &quot;publishedAt&quot;: &quot;2025-09-03T07:14:25Z&quot;,
+        &quot;songHash&quot;: &quot;Rob Zombie - Dragula&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Din Don Dan&quot;,
+        &quot;channelName&quot;: &quot;Ryu☆ - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCw8gKZWU0eWkuAsocApnIUQ&quot;,
+        &quot;id&quot;: &quot;cnmBtGUKxI4&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-22T11:38:47Z&quot;,
+        &quot;songHash&quot;: &quot;Ryu - Din Don Dan&quot;
     },
     {
         &quot;title&quot;: &quot;1 6 4 8 (English Version)&quot;,
@@ -6826,6 +7162,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Skillet - Not Gonna Die&quot;
     },
     {
+        &quot;title&quot;: &quot;Psycho In My Head&quot;,
+        &quot;channelName&quot;: &quot;Skillet - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCUHYrf3BF5yI9QdRw09__BA&quot;,
+        &quot;id&quot;: &quot;e7H0sC41T04&quot;,
+        &quot;publishedAt&quot;: &quot;2025-12-05T01:16:36Z&quot;,
+        &quot;songHash&quot;: &quot;Skillet - Psycho In My Head&quot;
+    },
+    {
         &quot;title&quot;: &quot;Sick of It&quot;,
         &quot;channelName&quot;: &quot;Skillet - Topic&quot;,
         &quot;channelId&quot;: &quot;UCUHYrf3BF5yI9QdRw09__BA&quot;,
@@ -6856,6 +7200,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;chrPjWPG-nk&quot;,
         &quot;publishedAt&quot;: &quot;2024-11-13T08:11:24Z&quot;,
         &quot;songHash&quot;: &quot;Skillet - Whispers In The Dark&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Skyfall (Adele Cover)&quot;,
+        &quot;channelName&quot;: &quot;Evanescence &amp; Within Temptation Channel&quot;,
+        &quot;channelId&quot;: &quot;UC3a0lzV590EuG3MHWnmGQLw&quot;,
+        &quot;id&quot;: &quot;dhPJCEDmE1A&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-31T09:12:43Z&quot;,
+        &quot;songHash&quot;: &quot;Skyfall&quot;
     },
     {
         &quot;title&quot;: &quot;Anastasia&quot;,
@@ -6906,6 +7258,22 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Sonata Arctica - Fullmoon&quot;
     },
     {
+        &quot;title&quot;: &quot;Last Drop Falls&quot;,
+        &quot;channelName&quot;: &quot;Sonata Arctica - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCyGTmzFc3YzefTe8mOQ-QgA&quot;,
+        &quot;id&quot;: &quot;sgO6y4MhOQw&quot;,
+        &quot;publishedAt&quot;: &quot;2025-12-23T13:15:07Z&quot;,
+        &quot;songHash&quot;: &quot;Sonata Arctica - Last Drop Falls&quot;
+    },
+    {
+        &quot;title&quot;: &quot;My Selene&quot;,
+        &quot;channelName&quot;: &quot;Sonata Arctica - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCyGTmzFc3YzefTe8mOQ-QgA&quot;,
+        &quot;id&quot;: &quot;VbCB_mF4cxs&quot;,
+        &quot;publishedAt&quot;: &quot;2025-09-07T01:15:57Z&quot;,
+        &quot;songHash&quot;: &quot;Sonata Arctica - My Selene&quot;
+    },
+    {
         &quot;title&quot;: &quot;Replica&quot;,
         &quot;channelName&quot;: &quot;Sonata Arctica - Topic&quot;,
         &quot;channelId&quot;: &quot;UCyGTmzFc3YzefTe8mOQ-QgA&quot;,
@@ -6928,6 +7296,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;BsCBGsKSW4g&quot;,
         &quot;publishedAt&quot;: &quot;2025-01-17T15:31:38Z&quot;,
         &quot;songHash&quot;: &quot;Starship - We Built This City&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Steve Lee (Gotthard) - Eternally&quot;,
+        &quot;channelName&quot;: &quot;Alejandro Magro&quot;,
+        &quot;channelId&quot;: &quot;UC35VM1v_7dNGjx3eaDWK8cg&quot;,
+        &quot;id&quot;: &quot;fBlXUSfkfbM&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-02T08:56:11Z&quot;,
+        &quot;songHash&quot;: &quot;Steve Lee - Eternally&quot;
     },
     {
         &quot;title&quot;: &quot;Steve Ouimette - The Devil Went Down to Georgia&quot;,
@@ -7378,6 +7754,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Sum 41 - With Me&quot;
     },
     {
+        &quot;title&quot;: &quot;Red Sun&quot;,
+        &quot;channelName&quot;: &quot;Sündenrausch - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCgjDdtf0KetgYnC2_YDRGpw&quot;,
+        &quot;id&quot;: &quot;y-PA3yxepjE&quot;,
+        &quot;publishedAt&quot;: &quot;2025-11-14T18:27:01Z&quot;,
+        &quot;songHash&quot;: &quot;Sundenrausch - Red Sun&quot;
+    },
+    {
         &quot;title&quot;: &quot;Burning Heart (From \&quot;Rocky IV\&quot; Soundtrack)&quot;,
         &quot;channelName&quot;: &quot;Survivor - Topic&quot;,
         &quot;channelId&quot;: &quot;UC52srG5obKLJ16vRsTqZyZQ&quot;,
@@ -7432,6 +7816,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;mWt-0hViBxE&quot;,
         &quot;publishedAt&quot;: &quot;2024-11-21T10:13:16Z&quot;,
         &quot;songHash&quot;: &quot;Tatu - All About Us&quot;
+    },
+    {
+        &quot;title&quot;: &quot;All The Things She Said&quot;,
+        &quot;channelName&quot;: &quot;t.A.T.u. - Topic&quot;,
+        &quot;channelId&quot;: &quot;UChTBSId6VeDfiIEuRvqTO6A&quot;,
+        &quot;id&quot;: &quot;t0KnuIGOb9I&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-07T21:35:30Z&quot;,
+        &quot;songHash&quot;: &quot;Tatu - All The Things She Said&quot;
     },
     {
         &quot;title&quot;: &quot;Teminite &amp; Panda Eyes - Highscore&quot;,
@@ -7672,14 +8064,6 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;hnno3h-ZW_8&quot;,
         &quot;publishedAt&quot;: &quot;2024-11-13T08:11:24Z&quot;,
         &quot;songHash&quot;: &quot;The Offspring - Want You Bad&quot;
-    },
-    {
-        &quot;title&quot;: &quot;The Offspring - \&quot;What Happened To You\&quot; (Full Album Stream)&quot;,
-        &quot;channelName&quot;: &quot;Epitaph Records&quot;,
-        &quot;channelId&quot;: &quot;UCDE5Ezmxq1bNVak4lmkpCMw&quot;,
-        &quot;id&quot;: &quot;zPa0ewqwpSY&quot;,
-        &quot;publishedAt&quot;: &quot;2024-11-17T03:29:47Z&quot;,
-        &quot;songHash&quot;: &quot;The Offspring - What Happened To You&quot;
     },
     {
         &quot;title&quot;: &quot;Why Don&apos;t You Get A Job&quot;,
@@ -8506,6 +8890,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Train - Hey Soul Sister&quot;
     },
     {
+        &quot;title&quot;: &quot;For Your Love&quot;,
+        &quot;channelName&quot;: &quot;Trance - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCCB-qWyAQMAmhNLQ65GxIFw&quot;,
+        &quot;id&quot;: &quot;iO6W_ceqGH0&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-02T08:37:53Z&quot;,
+        &quot;songHash&quot;: &quot;Trance - For Your Love&quot;
+    },
+    {
         &quot;title&quot;: &quot;Till It&apos;s Over&quot;,
         &quot;channelName&quot;: &quot;Tristam - Topic&quot;,
         &quot;channelId&quot;: &quot;UC6-sFcfjoaYuUHshVD8gLCg&quot;,
@@ -8730,6 +9122,22 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Wasp - Godless Run&quot;
     },
     {
+        &quot;title&quot;: &quot;Golgotha&quot;,
+        &quot;channelName&quot;: &quot;W.A.S.P. - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCctxEm07OfzGTFp9DftBeyg&quot;,
+        &quot;id&quot;: &quot;_UEud3irrDc&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-23T07:30:14Z&quot;,
+        &quot;songHash&quot;: &quot;Wasp - Golgotha&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Miss You&quot;,
+        &quot;channelName&quot;: &quot;W.A.S.P. - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCctxEm07OfzGTFp9DftBeyg&quot;,
+        &quot;id&quot;: &quot;nICMmFxpjak&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-06T12:32:32Z&quot;,
+        &quot;songHash&quot;: &quot;Wasp - Miss You&quot;
+    },
+    {
         &quot;title&quot;: &quot;Diggy Diggy Hole&quot;,
         &quot;channelName&quot;: &quot;Wind Rose - Topic&quot;,
         &quot;channelId&quot;: &quot;UCdAggYOsJb6fRlADpIinxlQ&quot;,
@@ -8760,6 +9168,22 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;Yv1Tjc4rDnI&quot;,
         &quot;publishedAt&quot;: &quot;2024-11-13T08:11:24Z&quot;,
         &quot;songHash&quot;: &quot;Within Temptation - Angels&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Behind Blue Eyes&quot;,
+        &quot;channelName&quot;: &quot;Within Temptation - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCeWkbf3RIeKRs8THlxPlUUA&quot;,
+        &quot;id&quot;: &quot;o8MMR7X16aE&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-31T09:46:57Z&quot;,
+        &quot;songHash&quot;: &quot;Within Temptation - Behind Blue Eyes&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Dirty Dancer&quot;,
+        &quot;channelName&quot;: &quot;Within Temptation - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCeWkbf3RIeKRs8THlxPlUUA&quot;,
+        &quot;id&quot;: &quot;iFzRN_vOAh8&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-31T09:38:04Z&quot;,
+        &quot;songHash&quot;: &quot;Within Temptation - Dirty Dancer&quot;
     },
     {
         &quot;title&quot;: &quot;Faster&quot;,
@@ -8874,12 +9298,28 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Within Temptation - Stairway To The Skies&quot;
     },
     {
+        &quot;title&quot;: &quot;Summertime Sadness&quot;,
+        &quot;channelName&quot;: &quot;Within Temptation - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCeWkbf3RIeKRs8THlxPlUUA&quot;,
+        &quot;id&quot;: &quot;2r3feGig6MU&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-31T10:08:19Z&quot;,
+        &quot;songHash&quot;: &quot;Within Temptation - Summertime Sadness&quot;
+    },
+    {
         &quot;title&quot;: &quot;The Last Dance&quot;,
         &quot;channelName&quot;: &quot;Within Temptation - Topic&quot;,
         &quot;channelId&quot;: &quot;UCeWkbf3RIeKRs8THlxPlUUA&quot;,
         &quot;id&quot;: &quot;EHelWvxK84E&quot;,
         &quot;publishedAt&quot;: &quot;2024-11-17T06:01:44Z&quot;,
         &quot;songHash&quot;: &quot;Within Temptation - The Last Dance&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Titanium&quot;,
+        &quot;channelName&quot;: &quot;Within Temptation - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCeWkbf3RIeKRs8THlxPlUUA&quot;,
+        &quot;id&quot;: &quot;PADG1VzCeF8&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-31T09:42:07Z&quot;,
+        &quot;songHash&quot;: &quot;Within Temptation - Titanium&quot;
     },
     {
         &quot;title&quot;: &quot;Utopia (feat. Chris Jones)&quot;,
@@ -8936,6 +9376,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;Btd0skPZqp8&quot;,
         &quot;publishedAt&quot;: &quot;2024-11-13T08:11:24Z&quot;,
         &quot;songHash&quot;: &quot;Xandria - Nightfall&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Save My Life&quot;,
+        &quot;channelName&quot;: &quot;Xandria - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCIhbtL1WkYSBCPpV8taCIXA&quot;,
+        &quot;id&quot;: &quot;V0zyJnyOszo&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-06T12:55:39Z&quot;,
+        &quot;songHash&quot;: &quot;Xandria - Save My Life&quot;
     },
     {
         &quot;title&quot;: &quot;The Wonders Still Awaiting&quot;,
@@ -9013,6 +9461,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;DDdCoRrFrvg&quot;,
         &quot;publishedAt&quot;: &quot;2025-07-05T07:26:16Z&quot;,
         &quot;songHash&quot;: &quot;Black Seed - Wings Of Renaissance Atmospheric Black Metal&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Caladan Brood - Echoes of Battle (Full Album + bonus)&quot;,
+        &quot;channelName&quot;: &quot;Black Metal Promotion&quot;,
+        &quot;channelId&quot;: &quot;UCzCWehBejA23yEz3zp7jlcg&quot;,
+        &quot;id&quot;: &quot;c6wzijeiClA&quot;,
+        &quot;publishedAt&quot;: &quot;2025-08-23T05:04:13Z&quot;,
+        &quot;songHash&quot;: &quot;Caladan Brood - Echoes Of Battle&quot;
     },
     {
         &quot;title&quot;: &quot;Distant Dream - End Of The World We Know (Full Album)&quot;,
@@ -9119,14 +9575,6 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Fractal Gates - The Light That Shines&quot;
     },
     {
-        &quot;title&quot;: &quot;Gregorian  - Masters of Chant Chapter V - 2006&quot;,
-        &quot;channelName&quot;: &quot;Antonio García Álvarez&quot;,
-        &quot;channelId&quot;: &quot;UCscptqp53XTW2uFuuS4he2g&quot;,
-        &quot;id&quot;: &quot;gDwceapnIas&quot;,
-        &quot;publishedAt&quot;: &quot;2025-07-25T09:23:28Z&quot;,
-        &quot;songHash&quot;: &quot;Gregorian - Masters Of Chant Chapter V - 2006&quot;
-    },
-    {
         &quot;title&quot;: &quot;Gregorian - Masters Of Chant II (Full Album Visualizer)&quot;,
         &quot;channelName&quot;: &quot;Gregorian&quot;,
         &quot;channelId&quot;: &quot;UCJ4QqIX81S13I8uYKBK-chw&quot;,
@@ -9157,6 +9605,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;0NSbanIVCvE&quot;,
         &quot;publishedAt&quot;: &quot;2025-07-25T09:20:55Z&quot;,
         &quot;songHash&quot;: &quot;Gregorian - Masters Of Chant Ix&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Gregorian - Masters Of Chant V (Album Visualizer)&quot;,
+        &quot;channelName&quot;: &quot;Gregorian&quot;,
+        &quot;channelId&quot;: &quot;UCJ4QqIX81S13I8uYKBK-chw&quot;,
+        &quot;id&quot;: &quot;w8YoUFPL2WA&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T17:45:37Z&quot;,
+        &quot;songHash&quot;: &quot;Gregorian - Masters Of Chant V&quot;
     },
     {
         &quot;title&quot;: &quot;Gregorian - Masters Of Chant VI (Full Album Visualizer)&quot;,
@@ -9380,6 +9836,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
 
 <YtPlaylist :videos="[
     {
+        &quot;title&quot;: &quot;Here Without You&quot;,
+        &quot;channelName&quot;: &quot;3 Doors Down - Topic&quot;,
+        &quot;channelId&quot;: &quot;UC9eiPNoDEg2Ji4ESvq3IPXA&quot;,
+        &quot;id&quot;: &quot;NxBl_q_NDas&quot;,
+        &quot;publishedAt&quot;: &quot;2025-11-30T11:32:13Z&quot;,
+        &quot;songHash&quot;: &quot;3 Doors Down - Here Without You&quot;
+    },
+    {
         &quot;title&quot;: &quot;Someone Like You&quot;,
         &quot;channelName&quot;: &quot;Adele - Topic&quot;,
         &quot;channelId&quot;: &quot;UCRw0x9_EfawqmgDI2IgQLLg&quot;,
@@ -9548,6 +10012,54 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Avenged Sevenfold - Warmness On The Soul&quot;
     },
     {
+        &quot;title&quot;: &quot;All the Rest of My Life&quot;,
+        &quot;channelName&quot;: &quot;Axel Rudi Pell - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCYab1O8verk4Jp_9lWj1H1w&quot;,
+        &quot;id&quot;: &quot;UQQdrKzrQNE&quot;,
+        &quot;publishedAt&quot;: &quot;2025-11-30T07:10:14Z&quot;,
+        &quot;songHash&quot;: &quot;Axel Rudi Pell - All The Rest Of My Life&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Dreams of Passion&quot;,
+        &quot;channelName&quot;: &quot;Axel Rudi Pell - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCYab1O8verk4Jp_9lWj1H1w&quot;,
+        &quot;id&quot;: &quot;F1wnxvfW-sw&quot;,
+        &quot;publishedAt&quot;: &quot;2025-09-07T01:29:42Z&quot;,
+        &quot;songHash&quot;: &quot;Axel Rudi Pell - Dreams Of Passion&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Forever Young&quot;,
+        &quot;channelName&quot;: &quot;Axel Rudi Pell - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCYab1O8verk4Jp_9lWj1H1w&quot;,
+        &quot;id&quot;: &quot;7z-TZYlY1IA&quot;,
+        &quot;publishedAt&quot;: &quot;2025-09-07T02:17:19Z&quot;,
+        &quot;songHash&quot;: &quot;Axel Rudi Pell - Forever Young&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Gone with the Wind&quot;,
+        &quot;channelName&quot;: &quot;Axel Rudi Pell - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCYab1O8verk4Jp_9lWj1H1w&quot;,
+        &quot;id&quot;: &quot;e8CouMn45ks&quot;,
+        &quot;publishedAt&quot;: &quot;2025-12-04T12:27:54Z&quot;,
+        &quot;songHash&quot;: &quot;Axel Rudi Pell - Gone With The Wind&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Silent Angel (Guitar Version)&quot;,
+        &quot;channelName&quot;: &quot;Axel Rudi Pell - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCYab1O8verk4Jp_9lWj1H1w&quot;,
+        &quot;id&quot;: &quot;bHdFdToCM1U&quot;,
+        &quot;publishedAt&quot;: &quot;2025-09-17T06:48:38Z&quot;,
+        &quot;songHash&quot;: &quot;Axel Rudi Pell - Silent Angel&quot;
+    },
+    {
+        &quot;title&quot;: &quot;The Curse of the Damned&quot;,
+        &quot;channelName&quot;: &quot;Axel Rudi Pell - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCYab1O8verk4Jp_9lWj1H1w&quot;,
+        &quot;id&quot;: &quot;4fHpeO0uC5E&quot;,
+        &quot;publishedAt&quot;: &quot;2025-12-03T09:16:38Z&quot;,
+        &quot;songHash&quot;: &quot;Axel Rudi Pell - The Curse Of The Damned&quot;
+    },
+    {
         &quot;title&quot;: &quot;My Heart Will Go On&quot;,
         &quot;channelName&quot;: &quot;Axxis - Topic&quot;,
         &quot;channelId&quot;: &quot;UCNeVqUKwDIlBF7Wv646zphg&quot;,
@@ -9559,8 +10071,8 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;title&quot;: &quot;Sea of Dreams&quot;,
         &quot;channelName&quot;: &quot;Battle Beast - Topic&quot;,
         &quot;channelId&quot;: &quot;UCXNUOxaWLAyz8z2snld0o9A&quot;,
-        &quot;id&quot;: &quot;Dim6IR2i2TU&quot;,
-        &quot;publishedAt&quot;: &quot;2024-12-08T19:58:56Z&quot;,
+        &quot;id&quot;: &quot;tQcKHohtiq4&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T21:01:58Z&quot;,
         &quot;songHash&quot;: &quot;Battle Beast - Sea Of Dreams&quot;
     },
     {
@@ -10140,6 +10652,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Hammerfall - Dreams Come True&quot;
     },
     {
+        &quot;title&quot;: &quot;Never, Ever&quot;,
+        &quot;channelName&quot;: &quot;HammerFall - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCOspMA8k5GDzhPH7EsZ_IwQ&quot;,
+        &quot;id&quot;: &quot;KyoCvSCc0lk&quot;,
+        &quot;publishedAt&quot;: &quot;2025-11-30T11:34:21Z&quot;,
+        &quot;songHash&quot;: &quot;Hammerfall - Never Ever&quot;
+    },
+    {
         &quot;title&quot;: &quot;Forever and One (Neverland)&quot;,
         &quot;channelName&quot;: &quot;Helloween - Topic&quot;,
         &quot;channelId&quot;: &quot;UCTxnbvh5hLYx9L1Qcy3TCsw&quot;,
@@ -10322,6 +10842,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;hHMnd7OwV6w&quot;,
         &quot;publishedAt&quot;: &quot;2024-12-08T20:26:44Z&quot;,
         &quot;songHash&quot;: &quot;Kiske Somerville - City Of Heroes&quot;
+    },
+    {
+        &quot;title&quot;: &quot;End Of The Road&quot;,
+        &quot;channelName&quot;: &quot;Kiske/Somerville - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCT-bEMse5q9SiMWu08p64Ig&quot;,
+        &quot;id&quot;: &quot;-b2eG2Vf4cc&quot;,
+        &quot;publishedAt&quot;: &quot;2025-11-30T11:31:59Z&quot;,
+        &quot;songHash&quot;: &quot;Kiske Somerville - End Of The Road&quot;
     },
     {
         &quot;title&quot;: &quot;Stairway to Heaven (Remaster)&quot;,
@@ -10535,8 +11063,8 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;title&quot;: &quot;Hero Of The Day&quot;,
         &quot;channelName&quot;: &quot;Metallica - Topic&quot;,
         &quot;channelId&quot;: &quot;UCGexNm_Kw4rdQjLxmpb2EKw&quot;,
-        &quot;id&quot;: &quot;SA8iahOAcmI&quot;,
-        &quot;publishedAt&quot;: &quot;2024-12-08T20:32:00Z&quot;,
+        &quot;id&quot;: &quot;d9GIvrO10ys&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T21:02:01Z&quot;,
         &quot;songHash&quot;: &quot;Metallica - Hero Of The Day&quot;
     },
     {
@@ -10548,11 +11076,11 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Metallica - Low Mans Lyric&quot;
     },
     {
-        &quot;title&quot;: &quot;Mama Said&quot;,
+        &quot;title&quot;: &quot;Mama Said (Remastered)&quot;,
         &quot;channelName&quot;: &quot;Metallica - Topic&quot;,
         &quot;channelId&quot;: &quot;UCGexNm_Kw4rdQjLxmpb2EKw&quot;,
-        &quot;id&quot;: &quot;RjPM3CCjrKE&quot;,
-        &quot;publishedAt&quot;: &quot;2024-12-08T20:32:10Z&quot;,
+        &quot;id&quot;: &quot;KVMTMoLsweI&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T21:02:03Z&quot;,
         &quot;songHash&quot;: &quot;Metallica - Mama Said&quot;
     },
     {
@@ -10596,11 +11124,11 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Metallica - The Day That Never Comes&quot;
     },
     {
-        &quot;title&quot;: &quot;The Outlaw Torn&quot;,
+        &quot;title&quot;: &quot;The Outlaw Torn (Remastered)&quot;,
         &quot;channelName&quot;: &quot;Metallica - Topic&quot;,
         &quot;channelId&quot;: &quot;UCGexNm_Kw4rdQjLxmpb2EKw&quot;,
-        &quot;id&quot;: &quot;w7DrZ2plOVo&quot;,
-        &quot;publishedAt&quot;: &quot;2024-12-08T20:33:26Z&quot;,
+        &quot;id&quot;: &quot;qo5iUD2WOF4&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T21:02:06Z&quot;,
         &quot;songHash&quot;: &quot;Metallica - The Outlaw Torn&quot;
     },
     {
@@ -10652,11 +11180,11 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;songHash&quot;: &quot;Metallica - Turn The Page&quot;
     },
     {
-        &quot;title&quot;: &quot;Until It Sleeps&quot;,
+        &quot;title&quot;: &quot;Until It Sleeps (Remastered)&quot;,
         &quot;channelName&quot;: &quot;Metallica - Topic&quot;,
         &quot;channelId&quot;: &quot;UCGexNm_Kw4rdQjLxmpb2EKw&quot;,
-        &quot;id&quot;: &quot;dtHuqY679io&quot;,
-        &quot;publishedAt&quot;: &quot;2024-12-08T20:35:03Z&quot;,
+        &quot;id&quot;: &quot;U1S1AShYXLg&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T21:02:09Z&quot;,
         &quot;songHash&quot;: &quot;Metallica - Until It Sleeps&quot;
     },
     {
@@ -10839,40 +11367,40 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;title&quot;: &quot;Comfortably Numb&quot;,
         &quot;channelName&quot;: &quot;Pink Floyd - Topic&quot;,
         &quot;channelId&quot;: &quot;UCO6LS_5W7vqG9mALDNzSFug&quot;,
-        &quot;id&quot;: &quot;x-xTttimcNk&quot;,
-        &quot;publishedAt&quot;: &quot;2024-12-08T20:39:45Z&quot;,
+        &quot;id&quot;: &quot;4FLjT5V5Hog&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T21:02:12Z&quot;,
         &quot;songHash&quot;: &quot;Pink Floyd - Comfortably Numb&quot;
     },
     {
         &quot;title&quot;: &quot;Hey You&quot;,
         &quot;channelName&quot;: &quot;Pink Floyd - Topic&quot;,
         &quot;channelId&quot;: &quot;UCO6LS_5W7vqG9mALDNzSFug&quot;,
-        &quot;id&quot;: &quot;soL8JK6kALc&quot;,
-        &quot;publishedAt&quot;: &quot;2024-12-08T20:39:50Z&quot;,
+        &quot;id&quot;: &quot;pPrte-OhUh4&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T21:02:14Z&quot;,
         &quot;songHash&quot;: &quot;Pink Floyd - Hey You&quot;
     },
     {
-        &quot;title&quot;: &quot;On The Turning Away&quot;,
+        &quot;title&quot;: &quot;On the Turning Away&quot;,
         &quot;channelName&quot;: &quot;Pink Floyd - Topic&quot;,
         &quot;channelId&quot;: &quot;UCO6LS_5W7vqG9mALDNzSFug&quot;,
-        &quot;id&quot;: &quot;KjGXnSdVwCY&quot;,
-        &quot;publishedAt&quot;: &quot;2024-12-08T20:40:01Z&quot;,
+        &quot;id&quot;: &quot;EWWqnYLo-XM&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T21:02:17Z&quot;,
         &quot;songHash&quot;: &quot;Pink Floyd - On The Turning Away&quot;
     },
     {
         &quot;title&quot;: &quot;Time&quot;,
         &quot;channelName&quot;: &quot;Pink Floyd - Topic&quot;,
         &quot;channelId&quot;: &quot;UCO6LS_5W7vqG9mALDNzSFug&quot;,
-        &quot;id&quot;: &quot;pgXozIma-Oc&quot;,
-        &quot;publishedAt&quot;: &quot;2024-12-08T20:40:06Z&quot;,
+        &quot;id&quot;: &quot;80LhtHY_fHw&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T21:02:20Z&quot;,
         &quot;songHash&quot;: &quot;Pink Floyd - Time&quot;
     },
     {
         &quot;title&quot;: &quot;Wish You Were Here&quot;,
         &quot;channelName&quot;: &quot;Pink Floyd - Topic&quot;,
         &quot;channelId&quot;: &quot;UCO6LS_5W7vqG9mALDNzSFug&quot;,
-        &quot;id&quot;: &quot;hjpF8ukSrvk&quot;,
-        &quot;publishedAt&quot;: &quot;2024-12-08T20:40:11Z&quot;,
+        &quot;id&quot;: &quot;4K6cvc27_CE&quot;,
+        &quot;publishedAt&quot;: &quot;2026-01-11T21:02:23Z&quot;,
         &quot;songHash&quot;: &quot;Pink Floyd - Wish You Were Here&quot;
     },
     {
@@ -11202,6 +11730,14 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;kymmZXYhovU&quot;,
         &quot;publishedAt&quot;: &quot;2024-12-08T20:53:08Z&quot;,
         &quot;songHash&quot;: &quot;Sonata Arctica - Fullmoon&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Steve Lee (Gotthard) - Eternally&quot;,
+        &quot;channelName&quot;: &quot;Alejandro Magro&quot;,
+        &quot;channelId&quot;: &quot;UC35VM1v_7dNGjx3eaDWK8cg&quot;,
+        &quot;id&quot;: &quot;fBlXUSfkfbM&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-02T19:57:56Z&quot;,
+        &quot;songHash&quot;: &quot;Steve Lee - Eternally&quot;
     },
     {
         &quot;title&quot;: &quot;For the Love of God&quot;,
@@ -12047,6 +12583,22 @@ See https://github.com/Zezombye/backup-scripts/blob/master/backup.py for my play
         &quot;id&quot;: &quot;XvHgs4mBz9w&quot;,
         &quot;publishedAt&quot;: &quot;2024-12-08T14:52:23Z&quot;,
         &quot;songHash&quot;: &quot;Steve Vai - For The Love Of God&quot;
+    },
+    {
+        &quot;title&quot;: &quot;Steve Lee (Gotthard) - Eternally&quot;,
+        &quot;channelName&quot;: &quot;Alejandro Magro&quot;,
+        &quot;channelId&quot;: &quot;UC35VM1v_7dNGjx3eaDWK8cg&quot;,
+        &quot;id&quot;: &quot;fBlXUSfkfbM&quot;,
+        &quot;publishedAt&quot;: &quot;2025-10-02T19:57:58Z&quot;,
+        &quot;songHash&quot;: &quot;Steve Lee - Eternally&quot;
+    },
+    {
+        &quot;title&quot;: &quot;All the Rest of My Life&quot;,
+        &quot;channelName&quot;: &quot;Axel Rudi Pell - Topic&quot;,
+        &quot;channelId&quot;: &quot;UCYab1O8verk4Jp_9lWj1H1w&quot;,
+        &quot;id&quot;: &quot;UQQdrKzrQNE&quot;,
+        &quot;publishedAt&quot;: &quot;2025-11-30T07:10:15Z&quot;,
+        &quot;songHash&quot;: &quot;Axel Rudi Pell - All The Rest Of My Life&quot;
     }
 ]"/>
 
