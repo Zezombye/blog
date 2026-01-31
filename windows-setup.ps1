@@ -591,12 +591,19 @@ if ($isWindows11) {
     applyRegEdits "Remove 'Cast to Device' from Explorer context menu" @(
         @("SetProperty", "HKCU:/Software/Microsoft/Windows/CurrentVersion/Shell Extensions/Blocked/", "{7AD84985-87B4-4a16-BE58-8B72A5B390F7}", "Cast to Device", @{explorerRestart=$true})
     )
+    applyRegEdits "Remove 'Open in Terminal' from Explorer context menu" @(
+        @("SetProperty", "HKCU:/Software/Microsoft/Windows/CurrentVersion/Shell Extensions/Blocked/", "{9F156763-7844-4DC4-B2B1-901F640F5155}", "Open in Terminal", @{explorerRestart=$true})
+    )
 
     applyRegEdits "Set start menu layout to 'More Recommendations'" @(
         @("SetProperty", "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "Start_Layout", 0x02)
     )
     applyRegEdits "Set taskbar to be left aligned" @(
         @("SetProperty", "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarAl", 0x00)
+    )
+
+    applyRegEdits "Enable clock in notification center" @(
+        @("SetProperty", "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowClockInNotificationCenter", 0x01)
     )
     
     # Removes Widgets from the Taskbar
@@ -660,6 +667,7 @@ if ($isWindows11) {
         "newTabPosition": "afterCurrentTab",
         "profiles": {
             "defaults": {
+                "antialiasingMode": "cleartype",
                 "colorScheme": "zez.dev",
                 "font": {
                     "cellHeight": "1.1",
@@ -672,30 +680,28 @@ if ($isWindows11) {
                 "useAcrylic": false
             },
             "list": [{
-                "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
-                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
-                "hidden": false,
-                "name": "Windows PowerShell"
-            },{
                 "commandline": "%SystemRoot%\\System32\\cmd.exe",
                 "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
                 "hidden": false,
                 "name": "Invite de commandes"
             },{
-                "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+                "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "hidden": false,
-                "name": "Azure Cloud Shell",
-                "source": "Windows.Terminal.Azure"
+                "name": "Windows PowerShell"
             },{
-                "guid": "{d667c8f4-340a-5a02-83e8-de231666da94}",
+                "altGrAliasing": true,
+                "closeOnExit": "automatic",
+                "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                "cursorShape": "bar",
+                "elevate": true,
+                "guid": "{819393ca-c8de-443c-95c0-f50b6ceb0fe4}",
                 "hidden": false,
-                "name": "Developer Command Prompt for VS 2022",
-                "source": "Windows.Terminal.VisualStudio"
-            },{
-                "guid": "{405e1125-8357-5c2f-a026-d3f69f4efbb2}",
-                "hidden": false,
-                "name": "Developer PowerShell for VS 2022",
-                "source": "Windows.Terminal.VisualStudio"
+                "historySize": 9001,
+                "icon": "ms-appx:///ProfileIcons/{61c54bbd-c2c6-5271-96e7-009a87ff44bf}.png",
+                "name": "Windows PowerShell (Admin)",
+                "snapOnInput": true,
+                "startingDirectory": "%USERPROFILE%"
             }]
         },
         "schemes": [{
@@ -769,6 +775,13 @@ applyRegEdits "Set Explorer to display path for libraries" @(
     #Videos
     @("RemoveProperty", "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{35286a68-3c57-41a1-bbb1-0eae73d76c95}", "ParsingName")
 )
+
+if (Test-Path "HKCU:\Software\Microsoft\Office\16.0\Common") {
+    applyRegEdits "Disable smooth cursor in Office apps" @(
+        @("NewKey", "HKCU:\Software\Microsoft\Office\16.0\Common\Graphics"),
+        @("SetProperty", "HKCU:\Software\Microsoft\Office\16.0\Common\Graphics", "DisableAnimations", 1)
+    )
+}
 
 #Feels too weird
 #echo "Setting drive letters to be before labels"
