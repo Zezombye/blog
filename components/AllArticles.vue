@@ -30,27 +30,6 @@ console.log("currentPagePath:", currentPagePath.value);
 
 let featuredArticles = [
     {
-        title: "OverPy",
-        details: "Creating a programming language to make the Overwatch Workshop usable",
-        link: "/overpy",
-        icon: {
-            src: "/overpy-hero.svg"
-        }
-    }, {
-        title: "OverWordle",
-        details: "Pushing the Overwatch Workshop to its limits by making a multiplayer Wordle",
-        link: "/overwordle",
-        icon: {
-            src: "/overwordle-hero.png"
-        }
-    }, {
-        title: "Workshop shenanigans",
-        details: "Exploiting the Overwatch Workshop with Unicode tricks to bypass sanitization",
-        link: "/workshopshenanigans",
-        icon: {
-            src: "/workshopshenanigans-hero.png"
-        }
-    }, {
         title: "Why the purpose of life is happiness",
         details: "A philosophical essay and a tutorial on introspection",
         link: "/purpose",
@@ -71,7 +50,28 @@ let featuredArticles = [
         icon: {
             src: "/relationships-hero.jpg"
         }
-    }
+    }, {
+        title: "OverPy",
+        details: "Creating a programming language to make the Overwatch Workshop usable",
+        link: "/overpy",
+        icon: {
+            src: "/overpy-hero.svg"
+        }
+    }, {
+        title: "OverWordle",
+        details: "Pushing the Overwatch Workshop to its limits by making a multiplayer Wordle",
+        link: "/overwordle",
+        icon: {
+            src: "/overwordle-hero.png"
+        }
+    }, {
+        title: "Workshop shenanigans",
+        details: "Exploiting the Overwatch Workshop with Unicode tricks to bypass sanitization",
+        link: "/workshopshenanigans",
+        icon: {
+            src: "/workshopshenanigans-hero.png"
+        }
+    },
 ];
 
 //If width >= 1280px, articles must be shown 3 per row, but the rows must be kept (first row is overwatch, second row is self-improvement).
@@ -140,10 +140,10 @@ h2 {
         max-width: 1104px;
     }
     @media (min-width: 960px) {
-        border-top: 1px solid var(--vp-c-divider); 
+        border-top: 1px solid var(--vp-c-divider);
         margin-top: 44px;
     }
-    padding-top: 44px; 
+    padding-top: 44px;
     width: 100%;
     text-align: center;
     font-size: 32px;
@@ -169,14 +169,14 @@ h2 {
 }
 
 .other-articles-container {
-    display: flex; 
-    row-gap: 20px; 
-    column-gap: 40px; 
-    justify-content: center; 
-    flex-wrap: wrap; 
-    border-top: 1px solid var(--vp-c-divider); 
-    padding-top: 44px; 
-    margin-top: 44px; 
+    display: flex;
+    row-gap: 20px;
+    column-gap: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--vp-c-divider);
+    padding-top: 44px;
+    margin-top: 44px;
     width:100%;
     margin-left: 2px;
     margin-right: 2px;
