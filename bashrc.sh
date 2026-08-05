@@ -19,6 +19,7 @@ shopt -s checkwinsize # check the window size after each command and, if necessa
 shopt -s globstar #allow ** in glob
 shopt -s extglob #allow extended glob matching such as ?(pattern), *(pattern), etc
 shopt -s dotglob #allow globbing to match hidden files (files starting with a dot)
+set +H #disable "!" expanding to history
 
 #Avoid .* matching . and ..
 GLOBIGNORE=".:.."

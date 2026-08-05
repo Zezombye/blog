@@ -5,8 +5,14 @@ aside: false
 # Useful websites
 
 - **Articles**
+  - [&lt;/&gt; htmx ~ Yes, and...](https://htmx.org/essays/yes-and/) [htmx.org]
   - [Almost anything you give sustained attention to will begin to loop on itself and bloom](https://www.henrikkarlsson.xyz/p/attention) [henrikkarlsson.xyz]
   - [Conflict Vs. Mistake](https://slatestarcodex.com/2018/01/24/conflict-vs-mistake/) [slatestarcodex.com]
+  - [Fast and flexible observability with canonical log lines](https://stripe.com/blog/canonical-log-lines) [stripe.com]
+  - [Growing Neural Cellular Automata](https://distill.pub/2020/growing-ca/) [distill.pub]
+  - [How&apos;s Linear so fast? A technical breakdown](https://performance.dev/how-is-linear-so-fast-a-technical-breakdown) [performance.dev]
+  - [Logging Sucks](https://loggingsucks.com/) [loggingsucks.com]
+  - [The Practical Guide to Superbabies](https://www.lesswrong.com/editPost?postId=aDCsdrhQcE8hu3R2j&amp;key=3046c07c0603f695f6befd9fb5dbca) [lesswrong.com]
   - [Why I Ditched Spotify, and How I Set Up My Own Music Stack](https://leshicodes.github.io/blog/spotify-migration/#high-level-overview) [leshicodes.github.io]
 - **Religion**
   - [Bible Chronology](https://biblechronology.net/index.html) [biblechronology.net]
@@ -43,6 +49,7 @@ aside: false
   - [https://testfol.io/](https://testfol.io/?d=eJxdj8FOwzAMht%2FF50xKuwIiZ8QNiWlcEJoqk7htIEtW13RCVd%2BdbBUa7Jb8n%2FP5zwRtSO8YnpFxP4CZYBBkqR0KgYFSF%2FcrfbsqKlBA0V3ysjrndzlfXowYwBQK0H3UPjYBxacIRviLFFgcuiakI5gbrS%2FXumHqs%2B4pRenCd3ZxCsHHtj766E7jRTkrOCSWJgWfcsG3CSLuTx3ytI8jDfLgR%2B9yueF3G1P%2BEUZLj4v%2BlZDPdvH2k3ixLOdMN32f0YHYUhQw62pWf%2BhLf4XX%2F%2FDWdu4K7xQ4xhaMnnfzD2FZc94%3D) [testfol.io]
   - [IPO Calendar](https://www.iposcoop.com/ipo-calendar/) [iposcoop.com]
   - [Leveraged ETFs: The Hidden Costs of Volatility Drag](https://aptuscapitaladvisors.com/leveraged-etfs-the-hidden-costs-of-volatility-drag/) [aptuscapitaladvisors.com]
+  - [Long Call Calculator](https://www.optionsprofitcalculator.com/calculator/long-call.html) [optionsprofitcalculator.com]
   - [Margin call calculator](https://www.desmos.com/calculator/o7yjcrc4wo?lang=fr) [desmos.com]
   - [Option Theta \(Time Decay\)](https://www.projectfinance.com/theta/) [projectfinance.com]
   - [S&amp;P 500 Map](https://finviz.com/map.ashx) [finviz.com]
@@ -68,6 +75,7 @@ aside: false
   - [Invisible Character Viewer](https://invisiblecharacterviewer.com/) [invisiblecharacterviewer.com]
   - [Mathematical Alphanumeric Symbols](https://en.wikipedia.org/wiki/Mathematical\_Alphanumeric\_Symbols) [en.wikipedia.org]
   - [Normalization Charts](https://www.unicode.org/charts/normalization/) [unicode.org]
+  - [Unicode letters with more than 1 alphabetic latin character?](https://stackoverflow.com/questions/49079499/unicode-letters-with-more-than-1-alphabetic-latin-character) [stackoverflow.com]
   - [Unicode spaces](https://jkorpela.fi/chars/spaces.html) [jkorpela.fi]
 - **Voiture**
   - [Immatriculation-Auto.info](https://immatriculation-auto.info/) [immatriculation-auto.info]
@@ -76,9 +84,12 @@ aside: false
 - **Webdev**
   - [brabadu/awesome-fonts: Curated list of fonts and everything](https://github.com/brabadu/awesome-fonts) [github.com]
   - [GoldenLayout- a multi-window javascript layout manager for webapps](https://golden-layout.com/) [golden-layout.com]
+  - [Huetone](https://huetone.ardov.me/) [huetone.ardov.me]
   - [MathJax basic tutorial and quick reference](https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference) [math.meta.stackexchange.com]
+  - [OKLCH Color Picker &amp; Converter](https://oklch.com/) [oklch.com]
   - [Programming Fonts](https://www.programmingfonts.org/) [programmingfonts.org]
   - [Quasar styles demonstrator](https://quasar-styles.pages.dev/#/) [quasar-styles.pages.dev]
+  - [Refero Styles](https://styles.refero.design/) [styles.refero.design]
   - [Typefaces « Optimo](https://optimo.ch/typefaces) [optimo.ch]
   - [Use tailwind in quasar](https://www.reddit.com/r/vuejs/comments/161xjo7/quasar\_and\_tailwind/) [reddit.com]
 - **Windows**
