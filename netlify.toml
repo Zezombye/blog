@@ -1,0 +1,8 @@
+# overpy.zez.dev (a domain alias of this site) proxies the OverPy IDE, hosted on Cloudflare Workers.
+# The header tells the IDE the origin seen by the browser, for its sign-in redirects.
+[[redirects]]
+  from = "https://overpy.zez.dev/*"
+  to = "https://overpy-webide.zezombye.workers.dev/:splat"
+  status = 200
+  force = true
+  headers = { X-Public-Origin = "https://overpy.zez.dev" }
