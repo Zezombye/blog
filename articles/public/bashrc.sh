@@ -1,5 +1,4 @@
-#!/bin/bash
-# .bashrc version 2026-10-27
+# .bashrc version ###DATE###
 # curl zez.dev -Lo .bashrc
 # wget zez.dev -O .bashrc
 
@@ -129,19 +128,13 @@ export PYTHONDONTWRITEBYTECODE=1
 
 #Automatically display column names in sqlite cli and add color to prompt
 #Unfortunately max sqlite prompt length is 18 chars (including escape chars) so we can only have 5 chars max displayed
-if [[ -f "$HOME/.sqliterc" ]] && [[ $(stat -c %Y "$HOME/.sqliterc") -ge 1793083095 ]]; then
-    : # Already up to date
-elif ! command -v 'sqlite3' >/dev/null; then
-    : # sqlite3 is not installed
-else
-    mkdir -p "$(dirname "$HOME/.sqliterc")"
-    echo 'LS1Ob3RlOiB0aGlzIGlzIGF1dG9tYXRpY2FsbHkgZ2VuZXJhdGVkIGFuZCBvdmVyd3JpdHRlbiBieSAuYmFzaHJjCi5oZWFkZXJzIE9OCi5tb2RlIGNvbHVtbnMKLm51bGx2YWx1ZSA8TlVMTD4KLnByb21wdCAiARtbOTJtAnNxbAEbWzBtAj4gIiAiARtbMzZtAi4uLgEbWzBtAj4gIgo=' | base64 -d > "$HOME/.sqliterc"
-    echo '[.bashrc] Added .sqliterc'
-fi
-
-#Add color to mysql prompt: "mysql user:database> "
-#\001 and \002 delimit non-printing characters, so that readline/editline computes the prompt length correctly
-export MYSQL_PS1=$'\001\e[01;35m\002mysql\001\e[0m\002 \001\e[01;32m\002\\u\001\e[0m\002:\001\e[01;34m\002\\d\001\e[0m\002> '
+cat << EOF > ~/.sqliterc
+--Note: this is automatically generated and overwritten by .bashrc
+.headers ON
+.mode columns
+.nullvalue <NULL>
+.prompt "[92msql[0m> " "[36m...[0m> "
+EOF
 
 #Add color to mongodb prompt. Disabled as I don't use mongodb cli
 #cat << EOF > ~/.mongorc.js
@@ -149,10 +142,88 @@ export MYSQL_PS1=$'\001\e[01;35m\002mysql\001\e[0m\002 \001\e[01;32m\002\\u\001\
 #prompt = () => "\u001b[92m"+db.getName()+"\u001b[0m>";
 #EOF
 
-if [[ -f "$HOME/.vimrc" ]] && [[ $(stat -c %Y "$HOME/.vimrc") -ge 1793084032 ]]; then
-    : # Already up to date
-else
-    mkdir -p "$(dirname "$HOME/.vimrc")"
-    echo 'Ik5vdGU6IHRoaXMgaXMgYXV0b21hdGljYWxseSBnZW5lcmF0ZWQgYW5kIG92ZXJ3cml0dGVuIGJ5IC5iYXNocmMKCiIgUmVvcGVuIHRoZSBsYXN0IGVkaXRlZCBwb3NpdGlvbiBpbiBmaWxlcwphdSBCdWZSZWFkUG9zdCAqIGlmIGxpbmUoIidcIiIpID4gMSAmJiBsaW5lKCInXCIiKSA8PSBsaW5lKCIkIikgfCBleGUgIm5vcm1hbCEgZydcIiIgfCBlbmRpZgoiU3ludGF4IGNvbG9yYXRpb24Kc3ludGF4IG9uCiJMb2FkIHBsdWdpbnMgYmFzZWQgb24gZmlsZSB0eXBlCmZpbGV0eXBlIG9uCiJEaXNwbGF5IGxpbmUgbnVtYmVycy4gVG9kbzogdG9vIGRpc3RyYWN0aW5nLgoic2V0IG51bWJlcgoiSW5zZXJ0cyBzcGFjZXMgd2hlbiBwcmVzc2luZyB0aGUgdGFiIGtleQpzZXQgZXhwYW5kdGFiCiJTZXQgdGFiIHdpZHRoIHRvIDQgc3BhY2VzCnNldCB0YWJzdG9wPTQKc2V0IHNvZnR0YWJzdG9wPTQKc2V0IHNoaWZ0d2lkdGg9NAoKIkRvIG5vdCBjb250aW51ZSBjb21tZW50IHdoZW4gcHJlc3NpbmcgRW50ZXIKYXV0b2NtZCBGaWxlVHlwZSAqIHNldCBmb3JtYXRvcHRpb25zLT1jcm8KCiJEaXNhYmxlIGF1dG9pbmRlbnQsIGFzIGl0IG1lc3NlcyB1cCBwYXN0aW5nCmZpbGV0eXBlIGluZGVudCBvZmYKc2V0IG5vYXV0b2luZGVudApzZXQgbm9jaW5kZW50CnNldCBub3NtYXJ0aW5kZW50CnNldCBpbmRlbnRleHByJgoKIkhpZ2hsaWdodCBtYXRjaGluZyBicmFja2V0cwpzZXQgc2hvd21hdGNoCgoiQ2FzZSBpbnNlbnNpdGl2ZSBtYXRjaGluZyBpbiBzZWFyY2gKc2V0IGlnbm9yZWNhc2UKc2V0IHNtYXJ0Y2FzZQoiSGlnaGxpZ2h0IHNlYXJjaCBtYXRjaGVzCnNldCBobHNlYXJjaAoKIkFsbG93IHNlbGVjdGluZyB3aXRoIHRoZSBtb3VzZQpzZXQgbW91c2U9YQoKIlRoZSBmb2xsb3dpbmcgaXMgbm9ybWFsbHkgaW4gZGViaWFuLnZpbSBidXQgaXQgZG9lcyBub3QgZ2V0IHNvdXJjZWQgaWYgdmltcmMgZXhpc3RzCgpzZXQgbm9jb21wYXRpYmxlCSIgVXNlIFZpbSBkZWZhdWx0cyBpbnN0ZWFkIG9mIDEwMCUgdmkgY29tcGF0aWJpbGl0eQpzZXQgYmFja3NwYWNlPWluZGVudCxlb2wsc3RhcnQJIiBtb3JlIHBvd2VyZnVsIGJhY2tzcGFjaW5nCnNldCBoaXN0b3J5PTUwCQkiIGtlZXAgNTAgbGluZXMgb2YgY29tbWFuZCBsaW5lIGhpc3RvcnkKc2V0IHJ1bGVyCQkiIHNob3cgdGhlIGN1cnNvciBwb3NpdGlvbiBhbGwgdGhlIHRpbWUKc2V0IG5vbW9kZWxpbmUKIiBTdWZmaXhlcyB0aGF0IGdldCBsb3dlciBwcmlvcml0eSB3aGVuIGRvaW5nIHRhYiBjb21wbGV0aW9uIGZvciBmaWxlbmFtZXMuCiIgVGhlc2UgYXJlIGZpbGVzIHdlIGFyZSBub3QgbGlrZWx5IHRvIHdhbnQgdG8gZWRpdCBvciByZWFkLgpzZXQgc3VmZml4ZXM9LmJhayx+LC5zd3AsLm8sLmluZm8sLmF1eCwubG9nLC5kdmksLmJibCwuYmxnLC5icmYsLmNiLC5pbmQsLmlkeCwuaWxnLC5pbngsLm91dCwudG9jCgoiIFdlIGtub3cgeHRlcm0tZGViaWFuIGlzIGEgY29sb3IgdGVybWluYWwKaWYgJnRlcm0gPX4gInh0ZXJtLWRlYmlhbiIgfHwgJnRlcm0gPX4gInh0ZXJtLXhmcmVlODYiCiAgc2V0IHRfQ289MTYKICBzZXQgdF9TZj0bWzMlZG0KICBzZXQgdF9TYj0bWzQlZG0KZW5kaWYKCiIgU29tZSBEZWJpYW4tc3BlY2lmaWMgdGhpbmdzCmlmIGhhcygnZ3VpJykKICAiIE11c3QgZGVmaW5lIHRoaXMgd2l0aGluIHRoZSA6aWYgc28gaXQgZG9lcyBub3QgY2F1c2UgcHJvYmxlbXMgd2l0aAogICIgdmltLXRpbnkgKHdoaWNoIGRvZXMgbm90IGhhdmUgK2V2YWwpCiAgZnVuY3Rpb24hIDxTSUQ+TWFwRXhpc3RzKG5hbWUsIG1vZGVzKQogICAgZm9yIG1vZGUgaW4gc3BsaXQoYTptb2RlcywgJ1x6cycpCiAgICAgIGlmICFlbXB0eShtYXBhcmcoYTpuYW1lLCBtb2RlKSkKICAgICAgICByZXR1cm4gMQogICAgICBlbmRpZgogICAgZW5kZm9yCiAgICByZXR1cm4gMAogIGVuZGZ1bmN0aW9uCgogICIgTWFrZSBzaGlmdC1pbnNlcnQgd29yayBsaWtlIGluIFh0ZXJtCiAgYXV0b2NtZCBHVUlFbnRlciAqIGlmICE8U0lEPk1hcEV4aXN0cygiPFMtSW5zZXJ0PiIsICJudnNvIikgfCBleGVjdXRlICJtYXAgPFMtSW5zZXJ0PiA8TWlkZGxlTW91c2U+IiB8IGVuZGlmCiAgYXV0b2NtZCBHVUlFbnRlciAqIGlmICE8U0lEPk1hcEV4aXN0cygiPFMtSW5zZXJ0PiIsICJpYyIpIHwgZXhlY3V0ZSAibWFwISA8Uy1JbnNlcnQ+IDxNaWRkbGVNb3VzZT4iIHwgZW5kaWYKZW5kaWYKCiIgU2V0IHBhcGVyIHNpemUgZnJvbSAvZXRjL3BhcGVyc2l6ZSBpZiBhdmFpbGFibGUgKERlYmlhbi1zcGVjaWZpYykKaWYgZmlsZXJlYWRhYmxlKCIvZXRjL3BhcGVyc2l6ZSIpCiAgbGV0IHM6cGFwZXJzaXplID0gbWF0Y2hzdHIocmVhZGZpbGUoJy9ldGMvcGFwZXJzaXplJywgJycsIDEpLCAnXHAqJykKICBpZiBzdHJsZW4oczpwYXBlcnNpemUpCiAgICBleGUgInNldCBwcmludG9wdGlvbnMrPXBhcGVyOiIgLiBzOnBhcGVyc2l6ZQogIGVuZGlmCmVuZGlmCg==' | base64 -d > "$HOME/.vimrc"
-    echo '[.bashrc] Added .vimrc'
-fi
+
+cat << EOF > ~/.vimrc
+"Note: this is automatically generated and overwritten by .bashrc
+
+" Reopen the last edited position in files
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+"Syntax coloration
+syntax on
+"Load plugins based on file type
+filetype on
+"Display line numbers. Todo: too distracting.
+"set number
+"Inserts spaces when pressing the tab key
+set expandtab
+"Set tab width to 4 spaces
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+
+"Do not continue comment when pressing Enter
+autocmd FileType * set formatoptions-=cro
+
+"Disable autoindent, as it messes up pasting
+filetype indent off
+set noautoindent
+set nocindent
+set nosmartindent
+set indentexpr&
+
+"Highlight matching brackets
+set showmatch
+
+"Case insensitive matching in search
+set ignorecase
+set smartcase
+"Highlight search matches
+set hlsearch
+
+"Allow selecting with the mouse
+set mouse=a
+
+"The following is normally in debian.vim but it does not get sourced if vimrc exists
+
+set nocompatible	" Use Vim defaults instead of 100% vi compatibility
+set backspace=indent,eol,start	" more powerful backspacing
+set history=50		" keep 50 lines of command line history
+set ruler		" show the cursor position all the time
+set nomodeline
+" Suffixes that get lower priority when doing tab completion for filenames.
+" These are files we are not likely to want to edit or read.
+set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
+
+" We know xterm-debian is a color terminal
+if &term =~ "xterm-debian" || &term =~ "xterm-xfree86"
+  set t_Co=16
+  set t_Sf=[3%dm
+  set t_Sb=[4%dm
+endif
+
+" Some Debian-specific things
+if has('gui')
+  " Must define this within the :if so it does not cause problems with
+  " vim-tiny (which does not have +eval)
+  function! <SID>MapExists(name, modes)
+    for mode in split(a:modes, '\zs')
+      if !empty(maparg(a:name, mode))
+        return 1
+      endif
+    endfor
+    return 0
+  endfunction
+
+  " Make shift-insert work like in Xterm
+  autocmd GUIEnter * if !<SID>MapExists("<S-Insert>", "nvso") | execute "map <S-Insert> <MiddleMouse>" | endif
+  autocmd GUIEnter * if !<SID>MapExists("<S-Insert>", "ic") | execute "map! <S-Insert> <MiddleMouse>" | endif
+endif
+
+" Set paper size from /etc/papersize if available (Debian-specific)
+if filereadable("/etc/papersize")
+  let s:papersize = matchstr(readfile('/etc/papersize', '', 1), '\p*')
+  if strlen(s:papersize)
+    exe "set printoptions+=paper:" . s:papersize
+  endif
+endif
+EOF
