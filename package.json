@@ -9,8 +9,8 @@
   "type": "module",
   "scripts": {
     "dev": "vitepress dev",
-    "build": "node prebuild.mjs && vitepress build",
-    "preview": "node prebuild.mjs && vitepress build && vitepress preview"
+    "build": "vitepress build",
+    "preview": "vitepress build && vitepress preview"
   },
   "dependencies": {
     "@netlify/edge-functions": "^2.14.5",

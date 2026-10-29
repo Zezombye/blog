@@ -23,3 +23,13 @@ violet 167 139 250
 128 190 223
 215 119 177
 227 182 94
+
+## my colors
+
+
+.article-square.red, .article-square.red .btn { border-color: #dc3545 }
+.article-square.orange, .article-square.orange .btn { border-color: #fd7e14 }
+.article-square.green, .article-square.green .btn { border-color: #28a745 }
+.article-square.purple, .article-square.purple .btn { border-color: #310082 }
+.article-square.blue, .article-square.blue .btn { border-color: #007bff }
+.article-square.cyan, .article-square.cyan .btn { border-color: #008fa6 }

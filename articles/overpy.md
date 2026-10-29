@@ -580,9 +580,9 @@ The problem is that the cast to string has to be done client-side. This is the c
 
 This code is evaluated server-side, and the language will be the same for everyone, defeating the whole point of translations. This forces the whole language calculation to be repeated at every string. But is there really no way to get the language from a client and store it in a variable?
 
-It turns out, there is. The `Player.startFacing()` function defines a facing direction, which can be reevaluated; this reevaluation has to be done client-side to not lag (e.g. if facing towards an enemy). Since it is done client-side, we can simply set the player to face 0° to the left if using English, 20° if using French, and 0° otherwise.
+It turns out, there is. The `Player.startFacing()` function defines a facing direction, which can be reevaluated; this reevaluation has to be done client-side to not lag (e.g. if facing towards an enemy). Since it is done client-side, we can simply set the player to face 0° to the left if using English, 10° if using French, and 0° otherwise.
 
-Then, we simply use the `Player.getHorizontalFacingAngle()` function to get the facing angle, which we divide by 20 to get the language index.
+Then, we simply use the `Player.getHorizontalFacingAngle()` function to get the facing angle, which we divide by 10 to get the language index.
 
 All this process is complicated, which is where OverPy shines. Translated strings are prefixed with the `t` string modifier, or the `_` function if context is needed. OverPy automatically translates the strings using the formulas specified above, and .po files are parsed and generated automatically at each compilation.
 
